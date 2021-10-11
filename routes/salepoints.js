@@ -2,13 +2,8 @@ var express = require('express');
 var router = express.Router();
 const Salepoint = require('../models/salepoint');
 
-/* get salepointes */
-router.get('/', () => {
-
-}),
-
-/* get salepoint ID */
-router.get('/:id', function(req, res, next) {
+/* GET all salepoints (sorted by name ASC) */
+router.get('/', (req, res, next) => {
   Salepoint.find().sort('name').exec((err, salepoints) => {
     if (err) {
       return next(err);
@@ -16,7 +11,12 @@ router.get('/:id', function(req, res, next) {
 
     res.send(salepoints);
   })
-  });
+});
+
+/* get salepoint ID. */
+router.get('/:id', (req, res, next) => {
+  res.send('Get salepoint ' + req.params.id);
+});
 
 /* post salepoint*/
 router.post('/', (req, res, next) => {
