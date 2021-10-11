@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 // Define a schema
-const salpointSchema= new Schema({
+const salepointSchema= new Schema({
   address: {
     type:String,
     required: true,
@@ -38,4 +38,4 @@ function validateGeoJsonCoordinates(value) {
   
 
 // Export model
-module.exports = mongoose.model('Item', itemSchema)
+module.exports = mongoose.model('Salepoint', salepointSchema)
