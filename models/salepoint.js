@@ -14,7 +14,6 @@ const salepointSchema= new Schema({
       required: true,
       enum: [ 'Point' ]
     },
-    picture:String,
     name: {
       type:String,
       required: true,
