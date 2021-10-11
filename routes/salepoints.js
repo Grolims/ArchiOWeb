@@ -20,7 +20,7 @@ router.get('/:id', (req, res, next) => {
 
 /* post salepoint*/
 router.post('/', (req, res, next) => {
-  const newSalepoint = new Item(req.body);
+  const newSalepoint = new Salepoint(req.body);
 
   newSalepoint.save( (err, savedSalepoint) => {
     if (err) {
