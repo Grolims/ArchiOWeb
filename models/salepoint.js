@@ -37,5 +37,5 @@ function validateGeoJsonCoordinates(value) {
 
   
 
-//create model
-mongoose.model('Item', itemSchema)
+// Export model
+module.exports = mongoose.model('Item', itemSchema)

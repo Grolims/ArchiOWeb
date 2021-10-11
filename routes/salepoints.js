@@ -3,6 +3,9 @@ var router = express.Router();
 const Salepoint = require('../models/salepoint');
 
 /* get salepointes */
+router.get('/', () => {
+
+}),
 
 /* get salepoint ID */
 router.get('/:id', function(req, res, next) {

@@ -40,5 +40,5 @@ function validateUserUniqueness(value) {
     });
   }
 
-//create model
+// Export model
 module.exports = mongoose.model('User', userSchema)
