@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
-/* get salpoint ID. */
-router.get('/salepoint/:id', function(req, res) {
+/* get salepointes */
+
+/* get salepoint ID */
+router.get('/salepoints/:id', function(req, res) {
     res.send('Get item ' + req.params.id);
   });
 

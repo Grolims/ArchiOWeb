@@ -39,7 +39,7 @@ const itemSchema= new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     default: null,
-    required: true,
+    required: false,
  /*validate: {
       // Validate that the directorId is a valid ObjectId
       // and references an existing person
@@ -50,5 +50,5 @@ const itemSchema= new Schema({
 
 });
 
-//create model
-mongoose.model('Item', itemSchema)
+// Export model
+module.exports = mongoose.model('Item', itemSchema);

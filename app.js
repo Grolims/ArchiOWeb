@@ -8,12 +8,12 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/archioweb');
 
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var itemsRouter = require('./routes/items');
-var salepointsRouter = require('./routes/salepoints');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const itemsRouter = require('./routes/items');
+const salepointsRouter = require('./routes/salepoints');
 
-var app = express();
+const app = express();
 
 
 
