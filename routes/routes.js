@@ -4,8 +4,7 @@ GET /user/:registrationDate
 GET /user/:username
 GET /user/:mail
 
-GET /item
-GET /item/:id
+GET /item/
 POST /item/
 DELETE /item/:id
 PUT /item/:id
