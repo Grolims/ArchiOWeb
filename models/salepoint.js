@@ -14,6 +14,18 @@ const salepointSchema= new Schema({
       required: true,
       enum: [ 'Point' ]
     },
+    picture:String,
+    name: {
+      type:String,
+      required: true,
+      minlength: 3,
+      maxlength: 30,
+    },
+    rating: {
+      type: Number,
+      min: 0,
+      max: 10
+    },
     coordinates: {
       type: [ Number ],
       required: true,

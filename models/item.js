@@ -29,11 +29,6 @@ const itemSchema= new Schema({
       type:String,
       enum:['Bio','Vegan']
   },
-  rating: {
-    type: Number,
-    min: 0,
-    max: 10
-  },
   lastModified: { type: Date, default: Date.now  },
   userid: {
     type: Schema.Types.ObjectId,
