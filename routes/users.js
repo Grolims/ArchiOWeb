@@ -4,7 +4,7 @@ var router = express.Router();
 const User = require('../models/user');
 const secretKey = process.env.SECRET_KEY || 'changeme';
 const jwt = require('jsonwebtoken');
-//const {authenticate} = require('./auth');
+const {authenticate} = require('./auth');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {

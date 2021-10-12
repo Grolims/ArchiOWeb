@@ -3,15 +3,16 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/archioweb');
 
 
+const config = require('./config');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const itemsRouter = require('./routes/items');
 const salepointsRouter = require('./routes/salepoints');
+
+mongoose.connect(config.databaseUrl);
 
 const app = express();
 

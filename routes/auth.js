@@ -1,6 +1,5 @@
-const User = require('../models/user');
 const jwt = require('jsonwebtoken');
-const secretKey = process.env.SECRET_KEY || 'changeme';
+const config = require('../config');
 
 exports.authenticate = function authenticate(req, res, next) {
   // Ensure the header is present.
@@ -15,7 +14,7 @@ exports.authenticate = function authenticate(req, res, next) {
   }
   // Extract and verify the JWT.
   const token = match[1];
-  jwt.verify(token, secretKey, function(err, payload) {
+  jwt.verify(token, config.secretKey, function(err, payload) {
     if (err) {
       return res.status(401).send('Your token is invalid or has expired');
     } else {
