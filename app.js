@@ -16,7 +16,8 @@ mongoose.connect(config.databaseUrl);
 
 const app = express();
 
-
+// Serve the apiDoc documentation.
+app.use('/apidoc', express.static(path.join(__dirname, 'docs')));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
