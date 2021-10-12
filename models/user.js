@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+
+// 
+
 // Define a schema
 const userSchema = new Schema({
     username: {
@@ -26,6 +29,10 @@ const userSchema = new Schema({
       type: Date,
       default: Date.now
     },
+
+    password:String,
+
+
     
   });
 
