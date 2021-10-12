@@ -36,6 +36,23 @@ const userSchema = new Schema({
     
   });
 
+  userSchema.set('toJSON', {
+    transform: transformJsonUser
+ });
+ 
+
+ /**
+  * 
+  * @param {*} doc 
+  * @param {*} json 
+  * @param {*} options 
+  * @returns 
+  */
+ function transformJsonUser(doc, json, options) {
+  // Remove the hashed password from the generated JSON.
+  delete json.password;
+  return json;
+}
 
   /**
  * Given a name, calls the callback function with true if no person exists with that name

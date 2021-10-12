@@ -3,11 +3,12 @@ const bcrypt = require('bcrypt');
 var router = express.Router();
 const User = require('../models/user');
 const secretKey = process.env.SECRET_KEY || 'changeme';
+const jwt = require('jsonwebtoken');
 //const {authenticate} = require('./auth');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  User.find().sort('name').exec(function(err, users) {
+  User.find().sort('username').exec(function(err, users) {
     if (err) {
       return next(err);
     }
@@ -19,6 +20,7 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
 
   const plainPassword = req.body.password;
+  console.log(plainPassword)
   const costFactor = 10;
 
   bcrypt.hash(plainPassword, costFactor, function(err, hashedPassword) {
@@ -39,7 +41,8 @@ router.post('/', function(req, res, next) {
   });
 });
 
-//login
+//login/*
+/*
 router.post('/login', function(req, res, next) {
   User.findOne({ name: req.body.name }).exec(function(err, user) {
     if (err) {
@@ -62,6 +65,31 @@ router.post('/login', function(req, res, next) {
       });
       // Login is valid...
       res.send(`Welcome ${user.name}!`);
+    });
+  })
+});*/
+router.post('/login', function(req, res, next) {
+  User.findOne({ username: req.body.username }).exec(function(err, user) {
+    if (err) {
+      return next(err);
+    } else if (!user) {
+      return res.sendStatus(401);
+    }
+    bcrypt.compare(req.body.password, user.password, function(err, valid) {
+      if (err) {
+        return next(err);
+      } else if (!valid) {
+        return res.sendStatus(401);
+      }
+      // generate JWT 7 days
+      const exp = Math.floor(Date.now() / 1000) + 7 * 24 * 3600;
+      const payload = { sub: user._id.toString(), exp: exp };
+      jwt.sign(payload, secretKey, function(err, token) {
+        if (err) { return next(err); }
+        res.send({ token: token }); // Send the token to the client.
+      });
+      // Login is valid...
+      res.send(`Welcome ${user.username}!`);
     });
   })
 });
