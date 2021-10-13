@@ -1,7 +1,9 @@
 var express = require('express');
 const bcrypt = require('bcrypt');
 var router = express.Router();
+const mongoose = require('mongoose');
 const User = require('../models/user');
+const ObjectId = mongoose.Types.ObjectId;
 const secretKey = process.env.SECRET_KEY || 'changeme';
 const jwt = require('jsonwebtoken');
 const {authenticate} = require('./auth');
@@ -16,6 +18,21 @@ router.get('/', function(req, res, next) {
   });
 });
 
+/**
+ * update user
+ */
+ router.patch('/:id', loadUserFromParamsMiddleware, function(req, res, next) {
+ 
+  req.user.username = req.body.username;
+  
+  req.user.save(function(err, savedUser) {
+    if (err) {
+      return next(err) ;
+    }
+
+    res.send(savedUser)
+  });
+});
 /* POST new user */
 router.post('/', function(req, res, next) {
 
@@ -93,5 +110,30 @@ router.post('/login', function(req, res, next) {
     });
   })
 });
+
+
+function loadUserFromParamsMiddleware(req, res, next) {
+
+  const userId = req.params.id;
+  if (!ObjectId.isValid(userId)) {
+    return userNotFound(res, userId);
+  }
+
+  User.findById(req.params.id, function(err, user) {
+    if (err) {
+      return next(err);
+    } else if (!user) {
+      return userNotFound(res, userId);
+    }
+
+    req.user = user;
+    next();
+  });
+}
+
+function userNotFound(res, userId) {
+  return res.status(404).type('text').send(`No person found with ID ${userId}`);
+}
+
 
 module.exports = router;
