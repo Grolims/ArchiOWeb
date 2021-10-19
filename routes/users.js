@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 var router = express.Router();
 const mongoose = require('mongoose');
 const User = require('../models/user');
+const Item = require('../models/item');
 const ObjectId = mongoose.Types.ObjectId;
 const secretKey = process.env.SECRET_KEY || 'changeme';
 const jwt = require('jsonwebtoken');
@@ -18,6 +19,34 @@ router.get('/', function (req, res, next) {
     }
     res.send(users);
   });
+});
+
+/**
+ * @api {delete} /api/movies/:id Delete a user
+ * @apiName DeleteUser
+ * @apiGroup User
+ * @apiVersion 1.0.0
+ * @apiDescription Permanently deletes a user
+ */
+ router.delete('/:id', loadUserFromParamsMiddleware, function (req, res, next) {
+  
+
+
+  Item.remove({userId: req.user._id}, function(err){
+    if (err) {
+      return next(err);
+    }
+    req.user.remove(function (err) {
+      if (err) {
+        return next(err);
+      }
+      
+      res.sendStatus(204).type('text').send(`Delete user :  ${req.user.username}`)
+    });
+   
+  });
+
+
 });
 
 /**
