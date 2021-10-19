@@ -1,4 +1,9 @@
- 
+try {
+    require('dotenv').config();
+  } catch (err) {
+    console.log('No .env file loaded');
+  }
+  
  // Database connection URL
  exports.databaseUrl = process.env.DATABASE_URL || 'mongodb://localhost/archioweb';
 
