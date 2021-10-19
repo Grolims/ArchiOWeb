@@ -44,6 +44,18 @@ const salepointSchema = new Schema({
     type: String,
     enum: ['Card', 'Cash', 'Twint']
   },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
+    required: true,
+    validate: {
+      // Validate that the directorId is a valid ObjectId
+      // and references an existing user
+      validator: validateUser,
+      message: props => props.reason.message
+    }
+  },
   items: {
     type: [Schema.Types.ObjectId],
     ref: 'Item',
@@ -67,6 +79,24 @@ const salepointSchema = new Schema({
   }
 });
 
+/**
+ * Given a user ID, ensures that it references an existing user.
+ *
+ * If it's not the case or the ID is missing or not a valid object ID,
+ * the "userId" property is invalidated.
+ */
+function validateUser(value) {
+  if (!ObjectId.isValid(value)) {
+    throw new Error('User not found');
+  }
+}
+
+/**
+ * Given a item ID, ensures that it references an existing item.
+ *
+ * If it's not the case or the ID is missing or not a valid object ID,
+ * the "itemId" property is invalidated.
+ */
 function validateItem(value) {
   if (!ObjectId.isValid(value)) {
     throw new Error('User not found');

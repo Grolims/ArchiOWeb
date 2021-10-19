@@ -6,11 +6,13 @@ const User = require('../models/user');
 const ObjectId = mongoose.Types.ObjectId;
 const secretKey = process.env.SECRET_KEY || 'changeme';
 const jwt = require('jsonwebtoken');
-const {authenticate} = require('./auth');
+const {
+  authenticate
+} = require('./auth');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  User.find().sort('username').exec(function(err, users) {
+router.get('/', function (req, res, next) {
+  User.find().sort('username').exec(function (err, users) {
     if (err) {
       return next(err);
     }
@@ -21,40 +23,40 @@ router.get('/', function(req, res, next) {
 /**
  * update user
  */
- router.patch('/:id', loadUserFromParamsMiddleware, function(req, res, next) {
- 
+router.patch('/:id', loadUserFromParamsMiddleware, function (req, res, next) {
+
   req.user.username = req.body.username;
-  
-  req.user.save(function(err, savedUser) {
+
+  req.user.save(function (err, savedUser) {
     if (err) {
-      return next(err) ;
+      return next(err);
     }
 
     res.send(savedUser)
   });
 });
 /* POST new user */
-router.post('/', function(req, res, next) {
+router.post('/', function (req, res, next) {
 
   const plainPassword = req.body.password;
   console.log(plainPassword)
   const costFactor = 10;
 
-  bcrypt.hash(plainPassword, costFactor, function(err, hashedPassword) {
+  bcrypt.hash(plainPassword, costFactor, function (err, hashedPassword) {
     if (err) {
       return next(err);
     }
-  // Create a new document from the JSON in the request body
-  const newUser = new User(req.body);
-  newUser.password = hashedPassword;
-  // Save that document
-  newUser.save(function(err, savedUser) {
-    if (err) {
-      return next(err);
-    }
-    // Send the saved document in the response
-    res.send(savedUser);
-  });
+    // Create a new document from the JSON in the request body
+    const newUser = new User(req.body);
+    newUser.password = hashedPassword;
+    // Save that document
+    newUser.save(function (err, savedUser) {
+      if (err) {
+        return next(err);
+      }
+      // Send the saved document in the response
+      res.send(savedUser);
+    });
   });
 });
 
@@ -85,14 +87,16 @@ router.post('/login', function(req, res, next) {
     });
   })
 });*/
-router.post('/login', function(req, res, next) {
-  User.findOne({ username: req.body.username }).exec(function(err, user) {
+router.post('/login', function (req, res, next) {
+  User.findOne({
+    username: req.body.username
+  }).exec(function (err, user) {
     if (err) {
       return next(err);
     } else if (!user) {
       return res.sendStatus(401);
     }
-    bcrypt.compare(req.body.password, user.password, function(err, valid) {
+    bcrypt.compare(req.body.password, user.password, function (err, valid) {
       if (err) {
         return next(err);
       } else if (!valid) {
@@ -100,10 +104,17 @@ router.post('/login', function(req, res, next) {
       }
       // generate JWT 7 days
       const exp = Math.floor(Date.now() / 1000) + 7 * 24 * 3600;
-      const payload = { sub: user._id.toString(), exp: exp };
-      jwt.sign(payload, secretKey, function(err, token) {
-        if (err) { return next(err); }
-        res.send({ token: token }); // Send the token to the client.
+      const payload = {
+        sub: user._id.toString(),
+        exp: exp
+      };
+      jwt.sign(payload, secretKey, function (err, token) {
+        if (err) {
+          return next(err);
+        }
+        res.send({
+          token: token
+        }); // Send the token to the client.
       });
       // Login is valid...
       res.send(`Welcome ${user.username}!`);
@@ -119,7 +130,7 @@ function loadUserFromParamsMiddleware(req, res, next) {
     return userNotFound(res, userId);
   }
 
-  User.findById(req.params.id, function(err, user) {
+  User.findById(req.params.id, function (err, user) {
     if (err) {
       return next(err);
     } else if (!user) {
