@@ -35,7 +35,7 @@ const itemSchema = new Schema({
     type: String,
     enum: ['Bio', 'Vegan']
   },
-  userid: {
+  userId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     default: null,
