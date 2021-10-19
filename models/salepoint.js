@@ -8,34 +8,34 @@ const salepointSchema = new Schema({
     type: String,
     required: true,
     minlength: 3,
-    maxlength: 30,
+    maxlength: 300,
   },
-  location: {
-    type: {
-      type: String,
-      required: true,
-      enum: ['Point']
-    },
-    name: {
-      type: String,
-      required: true,
-      minlength: 3,
-      maxlength: 30,
-    },
-    rating: {
-      type: Number,
-      min: 0,
-      max: 10
-    },
-    coordinates: {
-      type: [Number],
-      required: true,
-      validate: {
-        validator: validateGeoJsonCoordinates,
-        message: '{VALUE} is not a valid longitude/latitude(/altitude) coordinates array'
-      }
-    }
-  },
+  // location: {
+  //   type: {
+  //     type: String,
+  //     required: true,
+  //     enum: ['Point']
+  //   },
+  //   name: {
+  //     type: String,
+  //     required: true,
+  //     minlength: 3,
+  //     maxlength: 30,
+  //   },
+  //   rating: {
+  //     type: Number,
+  //     min: 0,
+  //     max: 10
+  //   },
+  //   coordinates: {
+  //     type: [Number],
+  //     required: true,
+  //     validate: {
+  //       validator: validateGeoJsonCoordinates,
+  //       message: '{VALUE} is not a valid longitude/latitude(/altitude) coordinates array'
+  //     }
+  //   }
+  // },
   picture: {
     type: String,
     required: false
@@ -45,7 +45,7 @@ const salepointSchema = new Schema({
     enum: ['Card', 'Cash', 'Twint']
   },
   items: {
-    type: Schema.Types.ObjectId,
+    type: [Schema.Types.ObjectId],
     ref: 'Item',
     default: null,
     required: false,
