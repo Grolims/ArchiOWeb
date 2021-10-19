@@ -5,6 +5,8 @@
  // Database port
  exports.port = process.env.PORT || '3000';
 
+ exports.nodeEnv = process.env.NODE_ENV || 'test';
+
  // bcrypt Cost Factor number
  exports.bcryptCostFactor = 10;
 
