@@ -21,6 +21,22 @@ router.get('/', function (req, res, next) {
   });
 });
 
+
+router.get('/:id', loadUserFromParamsMiddleware, function (req, res, next) {
+ countItemsByUser(req.user, function(err,itemsCreate)
+  {
+    if (err) {
+      return next(err);
+    }
+
+  res.send({
+    ...req.user.toJSON(),
+    itemsCreate
+    });
+  });
+});
+
+
 /**
  * @api {delete} /api/movies/:id Delete a user
  * @apiName DeleteUser
@@ -173,6 +189,13 @@ function loadUserFromParamsMiddleware(req, res, next) {
 
 function userNotFound(res, userId) {
   return res.status(404).type('text').send(`No person found with ID ${userId}`);
+}
+
+/**
+ * numbre of item create by user
+ */
+ function countItemsByUser(user, callback) {
+  Item.countDocuments().where('userId', user._id).exec(callback);
 }
 
 
