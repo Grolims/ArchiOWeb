@@ -11,13 +11,37 @@ const {
   authenticate
 } = require('./auth');
 
-/* GET users listing. */
-router.get('/', function (req, res, next) {
-  User.find().sort('username').exec(function (err, users) {
+/* GET users listing  paginned. */
+router.get('/',  function (req, res, next) {
+  User.find().sort('username').exec(function (err, total) {
     if (err) {
       return next(err);
+    };
+
+    let query =  User.find();
+
+    let page = parseInt(req.query.page, 10);
+    if (isNaN(page) || page < 1) {
+      page = 1;
     }
-    res.send(users);
+    // Parse the "pageSize" param (default to 100 if invalid)
+    let pageSize = parseInt(req.query.pageSize, 10);
+    if (isNaN(pageSize) || pageSize < 0 || pageSize > 100) {
+      pageSize = 100;
+    }
+    // Apply skip and limit to select the correct page of elements
+    query = query.skip((page - 1) * pageSize).limit(pageSize);
+
+    query.exec(function(err, users) {
+      if (err) { return next(err); }
+      res.send({
+        page: page,
+        pageSize: pageSize,
+        total: total,
+        data: users
+      });
+    });
+
   });
 });
 
@@ -198,5 +222,26 @@ function userNotFound(res, userId) {
   Item.countDocuments().where('userId', user._id).exec(callback);
 }
 
+function paginatedUsers() {
+  return async (req, res, next) => {
+    
+    const page = parseInt(req.query.page);
+    const limit = parseInt(req.query.limit);
+    const skipIndex = (page - 1) * limit;
+    const results = {};
+
+    try {
+      results.results = await User.find()
+        .sort({ _id: 1 })
+        .limit(limit)
+        .skip(skipIndex)
+        .exec();
+      res.paginatedResults = results;
+      next();
+    } catch (e) {
+      res.status(500).json({ message: "Error Occured" });
+    }
+  };
+}
 
 module.exports = router;
