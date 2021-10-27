@@ -5,14 +5,15 @@ const mongoose = require('mongoose');
 const User = require('../models/user');
 const Item = require('../models/item');
 const ObjectId = mongoose.Types.ObjectId;
-const secretKey = process.env.SECRET_KEY || 'changeme';
+const secretKey = process.env.SECRET_KEY || 'MikkelBoss';
 const jwt = require('jsonwebtoken');
 const {
   authenticate
 } = require('./auth');
 
 /* GET users listing  paginned. */
-router.get('/',  function (req, res, next) {
+router.get('/', function (req, res, next) {
+  
   User.find().sort('username').exec(function (err, total) {
     if (err) {
       return next(err);
@@ -67,39 +68,72 @@ router.get('/:id', loadUserFromParamsMiddleware, function (req, res, next) {
  * @apiVersion 1.0.0
  * @apiDescription Permanently deletes a user
  */
- router.delete('/:id', loadUserFromParamsMiddleware,authenticate, function (req, res, next) {
-  
-  Item.remove({userId: req.user._id}, function(err){
-    if (err) {
-      return next(err);
-    }
-    req.user.remove(function (err) {
-      if (err) {
-        return next(err);
-      }
-      
-      res.sendStatus(204).type('text').send(`Delete user :  ${req.user.username}`)
-    });
-   
-  });
+ router.delete('/:id', authenticate,  loadUserFromParamsMiddleware, function (req, res, next) {
 
+      //get the user for  check if admin
+      User.findById( req.currentUserId).exec(function(err, admin) {
+        if (err) {
+          return next(err);
+        }
+        // The user is authorized to edit the thing only if he or she is
+    // the owner of the thing, or if he or she is an administrator.
+      const autho =
+      admin.admin === true ||
+      admin.id === req.user.id;
+
+      if (!autho) {
+        return res.status(403).send('You cannot delete  the user if you are not the owner or admin')
+      }
+      // do if correct
+      Item.remove({userId: req.user._id}, function(err){
+        if (err) {
+          return next(err);
+        }
+        req.user.remove(function (err) {
+          if (err) {
+            return next(err);
+          }
+          
+          res.sendStatus(204).type('text').send(`Delete user :  ${req.user.username}`)
+        });
+      });
+    });
 
 });
 
 /**
  * update user username
  */
-router.patch('/:id', loadUserFromParamsMiddleware, authenticate, function (req, res, next) {
+router.patch('/:id', authenticate, loadUserFromParamsMiddleware, function (req, res, next) {
 
-  req.user.username = req.body.username;
+ 
+      //get the user for  check if admin
+      User.findById(req.currentUserId).exec(function(err, admin) {
+        if (err) {
+          return next(err);
+        }
+         // The user is authorized to edit the thing only if he or she is
+    // the owner of the thing, or if he or she is an administrator.
+      const autho =
+      admin.admin === true ||
+      admin.id === req.user.id;
 
-  req.user.save(function (err, savedUser) {
-    if (err) {
-      return next(err);
-    }
+      if (!autho) {
+        return res.status(403).send('You cannot delete  the user if you are not the owner or admin')
+      }
+      // do if correct
 
-    res.send(savedUser)
-  });
+      req.user.username = req.body.username;
+
+      req.user.save(function (err, savedUser) {
+        if (err) {
+          return next(err);
+        }
+    
+        res.send(savedUser)
+      });
+    });
+ 
 });
 /* POST new user */
 router.post('/', function (req, res, next) {
@@ -154,36 +188,20 @@ router.post('/login', function(req, res, next) {
   })
 });*/
 router.post('/login', function (req, res, next) {
-  User.findOne({
-    username: req.body.username
-  }).exec(function (err, user) {
-    if (err) {
-      return next(err);
-    } else if (!user) {
-      return res.sendStatus(401);
-    }
-    bcrypt.compare(req.body.password, user.password, function (err, valid) {
-      if (err) {
-        return next(err);
-      } else if (!valid) {
-        return res.sendStatus(401);
-      }
-      // generate JWT 7 days
+  User.findOne({ username: req.body.username }).exec(function(err, user) {
+    if (err) { return next(err); }
+    else if (!user) { return res.sendStatus(401); }
+    // Validate the password.
+    bcrypt.compare(req.body.password, user.password, function(err, valid) {
+      if (err) { return next(err); }
+      else if (!valid) { return res.sendStatus(401); }
+      // Generate a valid JWT which expires in 7 days.
       const exp = Math.floor(Date.now() / 1000) + 7 * 24 * 3600;
-      const payload = {
-        sub: user._id.toString(),
-        exp: exp
-      };
-      jwt.sign(payload, secretKey, function (err, token) {
-        if (err) {
-          return next(err);
-        }
-        res.send({
-          token: token
-        }); // Send the token to the client.
+      const payload = { sub: user._id.toString(), exp: exp };
+      jwt.sign(payload, secretKey, function(err, token) {
+        if (err) { return next(err); }
+        res.send({ token: token }); // Send the token to the client.
       });
-      // Login is valid...
-      res.send(`Welcome ${user.username}!`);
     });
   })
 });
