@@ -101,6 +101,7 @@ router.get('/:id', loadUserFromParamsMiddleware, function (req, res, next) {
 
 });
 
+
 /**
  * update user username
  */
@@ -134,6 +135,51 @@ router.patch('/:id', authenticate, loadUserFromParamsMiddleware, function (req, 
       });
     });
  
+});
+
+//upadte password
+router.patch('/password/:id', authenticate, loadUserFromParamsMiddleware, function (req, res, next) {
+
+ 
+  //get the user for  check if admin
+  User.findById(req.currentUserId).exec(function(err, admin) {
+      if (err) {
+        return next(err);
+      }
+      // The user is authorized to edit the thing only if he or she is
+  // the owner of the thing, or if he or she is an administrator.
+    const autho =
+    admin.id === req.user.id;
+
+    if (!autho) {
+      return res.status(403).send('You cannot delete  the user if you are not the owner or admin')
+    }
+    // do if correct
+
+    const plainPassword = req.body.password;
+    const costFactor = 10;
+
+    bcrypt.hash(plainPassword, costFactor, function (err, hashedPassword) {
+      if (err) {
+        return next(err);
+      }
+    
+      req.user.password = hashedPassword;
+      // Save that document
+      req.user.save(function (err, savedUser) {
+      if (err) {
+        return next(err);
+      }
+
+      res.send(savedUser)
+    });
+    });
+
+
+
+ 
+  });
+
 });
 /* POST new user */
 router.post('/', function (req, res, next) {
