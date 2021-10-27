@@ -37,8 +37,7 @@ router.get('/',  function (req, res, next) {
       res.send({
         page: page,
         pageSize: pageSize,
-        total: total,
-        data: users
+        total: total
       });
     });
 
@@ -68,10 +67,8 @@ router.get('/:id', loadUserFromParamsMiddleware, function (req, res, next) {
  * @apiVersion 1.0.0
  * @apiDescription Permanently deletes a user
  */
- router.delete('/:id', loadUserFromParamsMiddleware, function (req, res, next) {
+ router.delete('/:id', loadUserFromParamsMiddleware,authenticate, function (req, res, next) {
   
-
-
   Item.remove({userId: req.user._id}, function(err){
     if (err) {
       return next(err);
@@ -90,9 +87,9 @@ router.get('/:id', loadUserFromParamsMiddleware, function (req, res, next) {
 });
 
 /**
- * update user
+ * update user username
  */
-router.patch('/:id', loadUserFromParamsMiddleware, function (req, res, next) {
+router.patch('/:id', loadUserFromParamsMiddleware, authenticate, function (req, res, next) {
 
   req.user.username = req.body.username;
 
