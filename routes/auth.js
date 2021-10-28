@@ -19,7 +19,25 @@ exports.authenticate = function authenticate(req, res, next) {
       return res.status(401).send('Your token is invalid or has expired');
     } else {
       req.currentUserId = payload.sub;
+
+      const scope = payload.scope;
+      req.currentUserPermissions = scope ? scope.split(' ') : [];
       next(); // Pass the ID of the authenticated user to the next middleware.
     }
   });
+}
+
+exports.authorize = function authorize (requiredPermission) {
+  return function authorizationMiddleware(req, res, next){
+    if (!req.currentUserPermissions) {
+      return res.sendStatus(403);
+    }
+
+    const authorized = req.currentUserPermissions.includes(requiredPermission);
+    if (!authorized) {
+      return res.sendStatus(403);
+    }
+
+    next();
+  };
 }
