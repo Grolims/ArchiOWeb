@@ -1,16 +1,37 @@
+const { ObjectId } = require('bson');
 var express = require('express');
 var router = express.Router();
 const Salepoint = require('../models/salepoint');
+const { authorize, authenticate } = require('./auth');
+
+
+router.post('/', authenticate, async function (req, res, next) {
+
+  async function addSalepoint() {
+    if (req.body.userId && !ObjectId.isValid(req.body.userId)) {
+      return res.send(`${req.body.userId} is not a valid User ID`)
+    }
+
+    await new Salepoint(req.body).save(function (err, savedSalepoint) {
+      if (err) {
+        return next(err);
+      }
+      res.send(savedSalepoint);
+    })
+  }
 
 
 
+  addSalepoint()
+    .catch(next);
+});
 
 /**
  * @api {get} /salepoint/ list salepoints 
  * @apiName RetrieveSalepoints
  * @apiGroup Salepoint
  * @apiVersion 1.0.0
- * @apiDescription Retrieves a paginated list of movies ordered by title (in alphabetical order).
+ * @apiDescription Retrieves a paginated list of salepoints ordered by title (in alphabetical order).
  *
  * @apiUse SalepointIdInUrlPath
  * @apiUse SalepointInResponseBody
@@ -67,14 +88,37 @@ const Salepoint = require('../models/salepoint');
  * 
  *   ]
  */
-router.get('/', (req, res, next) => {
-  Salepoint.find().sort('name').exec((err, salepoints) => {
-    if (err) {
-      return next(err);
-    }
+router.get('/', async function (req, res, next) {
 
-    res.send(salepoints);
-  })
+  async function getSalepoints() {
+    Salepoint.find().sort('address').exec(function (total) {
+      let query = Salepoint.find();
+
+      let page = parseInt(req.query.page, 10);
+      if (isNaN(page) || page < 1) {
+        page = 1;
+      }
+      // Parse the "pageSize" param (default to 100 if invalid)
+      let pageSize = parseInt(req.query.pageSize, 10);
+      if (isNaN(pageSize) || pageSize < 0 || pageSize > 100) {
+        pageSize = 100;
+      }
+      // Apply skip and limit to select the correct page of elements
+      query = query.skip((page - 1) * pageSize).limit(pageSize);
+
+      query.exec(function (err, salepoints) {
+        res.send({
+          page: page,
+          pageSize: pageSize,
+          total: total
+        });
+      });
+    })
+  }
+
+  getSalepoints()
+    .catch(next);
+
 });
 
 /**
@@ -108,15 +152,15 @@ router.get('/', (req, res, next) => {
  *       "paymentMethod": "Twint"
  *     }
  */
-router.get('/:id', (req, res, next) => {
-  res.send('Get salepoint ' + req.params.id);
+router.get('/:id', loadSalepointFromParamsMiddleware, async function (req, res, next) {
+  res.send(req.salepoint);
 });
 
 /* post salepoint*/
 router.post('/', (req, res, next) => {
   const newSalepoint = new Salepoint(req.body);
 
-  newSalepoint.save( (err, savedSalepoint) => {
+  newSalepoint.save((err, savedSalepoint) => {
     if (err) {
       return next(err);
     }
@@ -197,5 +241,48 @@ router.post('/', (req, res, next) => {
  *     }
  */
 
+function querySalepoints(req) {
+
+  let query = Salepoint.find();
+
+  if (ObjectId.isValid(req.query.userId)) {
+    query = query.where('userId').equals(req.query.userId);
+  }
+
+  if (Array.isArray(req.query.items)) {
+    const items = req.query.items(filter(ObjectId.isValid));
+    query = query.where('items').in(items);
+  } else if (ObjectId.isValid(req.query.items)) {
+    query = query.where('items').equals(req.query.items);
+  }
+
+  if (!isNaN(req.query.paymentMethod)) {
+    query = query.where('paymentMethod').equals(req.query.paymentMethod);
+  }
+
+  return query;
+}
+
+function loadSalepointFromParamsMiddleware(req, res, next) {
+  const salepointId = req.params.id;
+  if (!ObjectId.isValid(salepointId)) {
+    return salepointNotFound(res, salepointId)
+  }
+
+  Salepoint.findById(req.params.id, function (err, salepoint) {
+    if (err) {
+      return next(err);
+    } else if (!salepoint) {
+      return salepointNotFound(res, salepointId);
+    }
+
+    req.salepoint = salepoint;
+    next();
+  })
+}
+
+function salepointNotFound(res, salepointId) {
+  return res.status(404).type('text').send(`No salepoint found with ID ${salepointId}`)
+}
 
 module.exports = router;

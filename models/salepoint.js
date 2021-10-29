@@ -61,12 +61,14 @@ const salepointSchema = new Schema({
     ref: 'Item',
     default: null,
     required: false,
-    validate: {
-      // Validate that the itemsId is a valid ObjectId
-      // and references an existing user
-      validator: validateItem,
-      message: props => props.reason.message
-    }
+    strict: false,
+    // Tries to validate non existent items
+    // validate: {
+    //   // Validate that the itemsId is a valid ObjectId
+    //   // and references an existing item
+    //   validator: validateItem,
+    //   message: props => props.reason.message
+    // }
 
   },
   creationDate: {
@@ -99,7 +101,7 @@ function validateUser(value) {
  */
 function validateItem(value) {
   if (!ObjectId.isValid(value)) {
-    throw new Error('User not found');
+    throw new Error('Item not found');
   }
 }
 

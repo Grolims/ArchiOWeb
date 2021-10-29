@@ -11,11 +11,41 @@ const {
   authenticate, authorize
 } = require('./auth');
 
+/* POST new user */
+router.post('/', async function (req, res, next) {
+
+  async function addUser() {
+    const plainPassword = req.body.password;
+    const costFactor = 10;
+
+    bcrypt.hash(plainPassword, costFactor, function (err, hashedPassword) {
+      if (err) {
+        return next(err);
+      }
+      // Create a new document from the JSON in the request body
+      const newUser = new User(req.body);
+      newUser.password = hashedPassword;
+      // Save that document
+      newUser.save(function (err, savedUser) {
+        if (err) {
+          return next(err);
+        }
+        // Send the saved document in the response
+        res.send(savedUser);
+      });
+    });
+  }
+
+  addUser()
+    .catch(next)
+
+});
+
 /* GET users listing  paginned. */
 router.get('/', async function (req, res, next) {
 
   async function getUsers() {
-    await User.find().sort('username').exec(function (total) {
+    User.find().sort('username').exec(function (total) {
       let query = User.find();
 
       let page = parseInt(req.query.page, 10);
@@ -48,7 +78,7 @@ router.get('/', async function (req, res, next) {
 
 router.get('/:id', loadUserFromParamsMiddleware, async function (req, res, next) {
   async function getUser() {
-    await countItemsByUser(req.user, function (itemsCreate) {
+    countItemsByUser(req.user, function (itemsCreate) {
 
       res.send({
         ...req.user.toJSON(),
@@ -59,57 +89,6 @@ router.get('/:id', loadUserFromParamsMiddleware, async function (req, res, next)
 
   getUser()
     .catch(next);
-});
-
-router.get('/test/:id', authenticate, authorize('admin'), loadUserFromParamsMiddleware, function (req, res, next) {
-  async function getUser() {
-    await countItemsByUser(req.user, function (itemsCreate) {
-
-      res.send({
-        ...req.user.toJSON(),
-        itemsCreate
-      });
-    });
-  }
-
-  getUser()
-    .catch(next);
-});
-
-
-/**
- * @api {delete} /api/movies/:id Delete a user
- * @apiName DeleteUser
- * @apiGroup User
- * @apiVersion 1.0.0
- * @apiDescription Permanently deletes a user
- */
-router.delete('/:id', authenticate, loadUserFromParamsMiddleware, async function (req, res, next) {
-
-  async function deleteUser() {
-    //get the user for  check if admin
-    User.findById(req.currentUserId).exec(function (err, admin) {
-      // The user is authorized to edit the thing only if he or she is
-      // the owner of the thing, or if he or she is an administrator.
-      const autho =
-        admin.admin === true ||
-        admin.id === req.user.id;
-
-      if (!autho) {
-        return res.status(403).send('You cannot delete  the user if you are not the owner or admin')
-      }
-      // do if correct
-      Item.deleteOne({ userId: req.user._id }, function (err) {
-        req.user.remove(function (err) {
-          res.send(`Deleted user ${req.user.username}`)
-        });
-      });
-    });
-  }
-
-  deleteUser()
-    .catch(next);
-
 });
 
 
@@ -202,49 +181,53 @@ router.patch('/password/:id', authenticate, loadUserFromParamsMiddleware, functi
       });
     });
 
-
-
-
   });
 
 });
 
-/* POST new user */
-router.post('/', async function (req, res, next) {
 
-  async function addUser() {
-    const plainPassword = req.body.password;
-    const costFactor = 10;
+/**
+ * @api {delete} /api/movies/:id Delete a user
+ * @apiName DeleteUser
+ * @apiGroup User
+ * @apiVersion 1.0.0
+ * @apiDescription Permanently deletes a user
+ */
+router.delete('/:id', authenticate, loadUserFromParamsMiddleware, async function (req, res, next) {
 
-    bcrypt.hash(plainPassword, costFactor, function (err, hashedPassword) {
-      if (err) {
-        return next(err);
+  async function deleteUser() {
+    //get the user for  check if admin
+    User.findById(req.currentUserId).exec(function (err, admin) {
+      // The user is authorized to edit the thing only if he or she is
+      // the owner of the thing, or if he or she is an administrator.
+      const autho =
+        admin.admin === true ||
+        admin.id === req.user.id;
+
+      if (!autho) {
+        return res.status(403).send('You cannot delete  the user if you are not the owner or admin')
       }
-      // Create a new document from the JSON in the request body
-      const newUser = new User(req.body);
-      newUser.password = hashedPassword;
-      // Save that document
-      newUser.save(function (err, savedUser) {
-        if (err) {
-          return next(err);
-        }
-        // Send the saved document in the response
-        res.send(savedUser);
+      // do if correct
+      Item.deleteOne({ userId: req.user._id }, function (err) {
+        req.user.remove(function (err) {
+          res.send(`Deleted user ${req.user.username}`)
+        });
       });
     });
   }
 
-  addUser()
-    .catch(next)
+  deleteUser()
+    .catch(next);
 
 });
+
 
 
 /**
  * Login route
  */
 router.post('/login', async function (req, res, next) {
-  
+
   async function login() {
     User.findOne({ username: req.body.username }).exec(function (err, user) {
       if (err) { return next(err); }
@@ -257,8 +240,8 @@ router.post('/login', async function (req, res, next) {
         const exp = Math.floor(Date.now() / 1000) + 7 * 24 * 3600;
         const permission = user.admin ? 'admin' : 'user';
         const payload = { sub: user._id.toString(), exp: exp, scope: permission };
-  
-  
+
+
         jwt.sign(payload, secretKey, function (err, token) {
           if (err) { return next(err); }
           res.send({ token: token }); // Send the token to the client.
