@@ -41,7 +41,7 @@ router.get('/', async function (req, res, next) {
   }
 
   getUsers()
-    .catch(next)
+    .catch(next);
 
 });
 
@@ -58,7 +58,7 @@ router.get('/:id', loadUserFromParamsMiddleware, async function (req, res, next)
   }
 
   getUser()
-    .catch(next)
+    .catch(next);
 });
 
 router.get('/test/:id', authenticate, authorize('admin'), loadUserFromParamsMiddleware, function (req, res, next) {
@@ -73,7 +73,7 @@ router.get('/test/:id', authenticate, authorize('admin'), loadUserFromParamsMidd
   }
 
   getUser()
-    .catch(next)
+    .catch(next);
 });
 
 
@@ -84,36 +84,31 @@ router.get('/test/:id', authenticate, authorize('admin'), loadUserFromParamsMidd
  * @apiVersion 1.0.0
  * @apiDescription Permanently deletes a user
  */
-router.delete('/:id', authenticate, loadUserFromParamsMiddleware, function (req, res, next) {
+router.delete('/:id', authenticate, loadUserFromParamsMiddleware, async function (req, res, next) {
 
-  //get the user for  check if admin
-  User.findById(req.currentUserId).exec(function (err, admin) {
-    if (err) {
-      return next(err);
-    }
-    // The user is authorized to edit the thing only if he or she is
-    // the owner of the thing, or if he or she is an administrator.
-    const autho =
-      admin.admin === true ||
-      admin.id === req.user.id;
+  async function deleteUser() {
+    //get the user for  check if admin
+    User.findById(req.currentUserId).exec(function (err, admin) {
+      // The user is authorized to edit the thing only if he or she is
+      // the owner of the thing, or if he or she is an administrator.
+      const autho =
+        admin.admin === true ||
+        admin.id === req.user.id;
 
-    if (!autho) {
-      return res.status(403).send('You cannot delete  the user if you are not the owner or admin')
-    }
-    // do if correct
-    Item.remove({ userId: req.user._id }, function (err) {
-      if (err) {
-        return next(err);
+      if (!autho) {
+        return res.status(403).send('You cannot delete  the user if you are not the owner or admin')
       }
-      req.user.remove(function (err) {
-        if (err) {
-          return next(err);
-        }
-
-        res.sendStatus(204).type('text').send(`Delete user :  ${req.user.username}`)
+      // do if correct
+      Item.deleteOne({ userId: req.user._id }, function (err) {
+        req.user.remove(function (err) {
+          res.send(`Deleted user ${req.user.username}`)
+        });
       });
     });
-  });
+  }
+
+  deleteUser()
+    .catch(next);
 
 });
 
@@ -215,52 +210,66 @@ router.patch('/password/:id', authenticate, loadUserFromParamsMiddleware, functi
 });
 
 /* POST new user */
-router.post('/', function (req, res, next) {
+router.post('/', async function (req, res, next) {
 
-  const plainPassword = req.body.password;
-  const costFactor = 10;
+  async function addUser() {
+    const plainPassword = req.body.password;
+    const costFactor = 10;
 
-  bcrypt.hash(plainPassword, costFactor, function (err, hashedPassword) {
-    if (err) {
-      return next(err);
-    }
-    // Create a new document from the JSON in the request body
-    const newUser = new User(req.body);
-    newUser.password = hashedPassword;
-    // Save that document
-    newUser.save(function (err, savedUser) {
+    bcrypt.hash(plainPassword, costFactor, function (err, hashedPassword) {
       if (err) {
         return next(err);
       }
-      // Send the saved document in the response
-      res.send(savedUser);
+      // Create a new document from the JSON in the request body
+      const newUser = new User(req.body);
+      newUser.password = hashedPassword;
+      // Save that document
+      newUser.save(function (err, savedUser) {
+        if (err) {
+          return next(err);
+        }
+        // Send the saved document in the response
+        res.send(savedUser);
+      });
     });
-  });
+  }
+
+  addUser()
+    .catch(next)
+
 });
+
 
 /**
  * Login route
  */
-router.post('/login', function (req, res, next) {
-  User.findOne({ username: req.body.username }).exec(function (err, user) {
-    if (err) { return next(err); }
-    else if (!user) { return res.sendStatus(401); }
-    // Validate the password.
-    bcrypt.compare(req.body.password, user.password, function (err, valid) {
+router.post('/login', async function (req, res, next) {
+  
+  async function login() {
+    User.findOne({ username: req.body.username }).exec(function (err, user) {
       if (err) { return next(err); }
-      else if (!valid) { return res.sendStatus(401); }
-      // Generate a valid JWT which expires in 7 days.
-      const exp = Math.floor(Date.now() / 1000) + 7 * 24 * 3600;
-      const permission = user.admin ? 'admin' : 'user';
-      const payload = { sub: user._id.toString(), exp: exp, scope: permission };
-
-
-      jwt.sign(payload, secretKey, function (err, token) {
+      else if (!user) { return res.sendStatus(401); }
+      // Validate the password.
+      bcrypt.compare(req.body.password, user.password, function (err, valid) {
         if (err) { return next(err); }
-        res.send({ token: token }); // Send the token to the client.
+        else if (!valid) { return res.sendStatus(401); }
+        // Generate a valid JWT which expires in 7 days.
+        const exp = Math.floor(Date.now() / 1000) + 7 * 24 * 3600;
+        const permission = user.admin ? 'admin' : 'user';
+        const payload = { sub: user._id.toString(), exp: exp, scope: permission };
+  
+  
+        jwt.sign(payload, secretKey, function (err, token) {
+          if (err) { return next(err); }
+          res.send({ token: token }); // Send the token to the client.
+        });
       });
-    });
-  })
+    })
+  }
+
+  login()
+    .catch(next)
+
 });
 
 
