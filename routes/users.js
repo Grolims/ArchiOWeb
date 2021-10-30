@@ -1,4 +1,5 @@
 var express = require('express');
+const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
 var router = express.Router();
 const mongoose = require('mongoose');
@@ -12,84 +13,74 @@ const {
 } = require('./auth');
 
 /* POST new user */
-router.post('/', async function (req, res, next) {
+router.post('/', asyncHandler(async (req, res, next) => {
 
-  async function addUser() {
-    const plainPassword = req.body.password;
-    const costFactor = 10;
+  const plainPassword = req.body.password;
+  const costFactor = 10;
 
-    bcrypt.hash(plainPassword, costFactor, function (err, hashedPassword) {
-      if (err) {
-        return next(err);
-      }
-      // Create a new document from the JSON in the request body
-      const newUser = new User(req.body);
-      newUser.password = hashedPassword;
-      // Save that document
-      newUser.save(function (err, savedUser) {
-        if (err) {
-          return next(err);
-        }
-        // Send the saved document in the response
-        res.send(savedUser);
-      });
+  bcrypt.hash(plainPassword, costFactor, async function (err, hashedPassword) {
+    if (err) {
+      return next(err);
+    }
+    // Create a new document from the JSON in the request body
+    const newUser = new User(req.body);
+    newUser.password = hashedPassword;
+    // Save that document
+    await newUser.save(function (savedUser) {
+      // Send the saved document in the response
+      res.send(savedUser);
     });
-  }
 
-  addUser()
-    .catch(next)
+  });
 
-});
+})
+);
 
 /* GET users listing  paginned. */
-router.get('/', async function (req, res, next) {
+router.get('/', asyncHandler(async (req, res, next) => {
 
-  async function getUsers() {
-    User.find().sort('username').exec(function (total) {
-      let query = User.find();
+  await User.find().sort('username').exec(function (total) {
+    let query = User.find();
 
-      let page = parseInt(req.query.page, 10);
-      if (isNaN(page) || page < 1) {
-        page = 1;
-      }
-      // Parse the "pageSize" param (default to 100 if invalid)
-      let pageSize = parseInt(req.query.pageSize, 10);
-      if (isNaN(pageSize) || pageSize < 0 || pageSize > 100) {
-        pageSize = 100;
-      }
-      // Apply skip and limit to select the correct page of elements
-      query = query.skip((page - 1) * pageSize).limit(pageSize);
+    let page = parseInt(req.query.page, 10);
+    if (isNaN(page) || page < 1) {
+      page = 1;
+    }
+    // Parse the "pageSize" param (default to 100 if invalid)
+    let pageSize = parseInt(req.query.pageSize, 10);
+    if (isNaN(pageSize) || pageSize < 0 || pageSize > 100) {
+      pageSize = 100;
+    }
+    // Apply skip and limit to select the correct page of elements
+    query = query.skip((page - 1) * pageSize).limit(pageSize);
 
-      query.exec(function (err, users) {
-        res.send({
-          page: page,
-          pageSize: pageSize,
-          total: total
-        });
-      });
-    });
-  }
-
-  getUsers()
-    .catch(next);
-
-});
-
-
-router.get('/:id', loadUserFromParamsMiddleware, async function (req, res, next) {
-  async function getUser() {
-    countItemsByUser(req.user, function (itemsCreate) {
-
+    query.exec(function (err, users) {
+      if (err) { return next(err) }
       res.send({
-        ...req.user.toJSON(),
-        itemsCreate
+        page: page,
+        pageSize: pageSize,
+        total: total,
+        data: users
       });
     });
-  }
+  });
 
-  getUser()
-    .catch(next);
-});
+})
+);
+
+
+router.get('/:id', loadUserFromParamsMiddleware, asyncHandler(async (req, res, next) => {
+
+  await countItemsByUser(req.user, function (itemsCreate) {
+
+    res.send({
+      ...req.user.toJSON(),
+      itemsCreate
+    });
+  });
+
+})
+);
 
 
 /**
@@ -193,67 +184,72 @@ router.patch('/password/:id', authenticate, loadUserFromParamsMiddleware, functi
  * @apiVersion 1.0.0
  * @apiDescription Permanently deletes a user
  */
-router.delete('/:id', authenticate, loadUserFromParamsMiddleware, async function (req, res, next) {
+// router.delete('/:id', authenticate, loadUserFromParamsMiddleware, async function (req, res, next) {
 
-  async function deleteUser() {
-    //get the user for  check if admin
-    User.findById(req.currentUserId).exec(function (err, admin) {
-      // The user is authorized to edit the thing only if he or she is
-      // the owner of the thing, or if he or she is an administrator.
-      const autho =
-        admin.admin === true ||
-        admin.id === req.user.id;
+//   async function deleteUser() {
+//     //get the user for  check if admin
+//     await User.findById(req.currentUserId).exec(function (err, admin) {
+//       // The user is authorized to edit the thing only if he or she is
+//       // the owner of the thing, or if he or she is an administrator.
+//       const autho =
+//         admin.admin === true ||
+//         admin.id === req.user.id;
 
-      if (!autho) {
-        return res.status(403).send('You cannot delete  the user if you are not the owner or admin')
-      }
-      // do if correct
-      Item.deleteOne({ userId: req.user._id }, function (err) {
-        req.user.remove(function (err) {
-          res.send(`Deleted user ${req.user.username}`)
-        });
-      });
-    });
-  }
+//       if (!autho) {
+//         return res.status(403).send('You cannot delete  the user if you are not the owner or admin')
+//       }
+//       // do if correct
+//       await Item.deleteOne({ userId: req.user._id }, function (err) {
+//         req.user.remove(function (err) {
+//           res.send(`Deleted user ${req.user.username}`)
+//         });
+//       });
+//     });
+//   }
 
-  deleteUser()
-    .catch(next);
+//   deleteUser()
+//     .catch(next);
 
-});
+// });
 
+router.delete('/:id', authenticate, authorize('admin'), loadUserFromParamsMiddleware, asyncHandler( async (req, res, next) => {
+
+    await User.deleteOne({ _id: req.params.id });
+
+    res.send(`Deleted user ${req.user.username}`)
+
+
+  })
+);
 
 
 /**
  * Login route
  */
-router.post('/login', async function (req, res, next) {
+router.post('/login', asyncHandler(async (req, res, next) => {
 
-  async function login() {
-    User.findOne({ username: req.body.username }).exec(function (err, user) {
+  await User.findOne({ username: req.body.username }).exec(function (err, user) {
+    if (err) { return next(err); }
+    else if (!user) { return res.sendStatus(401); }
+    // Validate the password.
+    bcrypt.compare(req.body.password, user.password, function (err, valid) {
       if (err) { return next(err); }
-      else if (!user) { return res.sendStatus(401); }
-      // Validate the password.
-      bcrypt.compare(req.body.password, user.password, function (err, valid) {
+      else if (!valid) { return res.sendStatus(401); }
+      // Generate a valid JWT which expires in 7 days.
+      const exp = Math.floor(Date.now() / 1000) + 7 * 24 * 3600;
+      const permission = user.admin ? 'admin' : 'user';
+      const payload = { sub: user._id.toString(), exp: exp, scope: permission };
+
+
+      jwt.sign(payload, secretKey, function (err, token) {
         if (err) { return next(err); }
-        else if (!valid) { return res.sendStatus(401); }
-        // Generate a valid JWT which expires in 7 days.
-        const exp = Math.floor(Date.now() / 1000) + 7 * 24 * 3600;
-        const permission = user.admin ? 'admin' : 'user';
-        const payload = { sub: user._id.toString(), exp: exp, scope: permission };
-
-
-        jwt.sign(payload, secretKey, function (err, token) {
-          if (err) { return next(err); }
-          res.send({ token: token }); // Send the token to the client.
-        });
+        res.send({ token: token }); // Send the token to the client.
       });
-    })
-  }
+    });
+  });
 
-  login()
-    .catch(next)
-
-});
+  })
+);
 
 
 function loadUserFromParamsMiddleware(req, res, next) {
@@ -276,7 +272,7 @@ function loadUserFromParamsMiddleware(req, res, next) {
 }
 
 function userNotFound(res, userId) {
-  return res.status(404).type('text').send(`No person found with ID ${userId}`);
+  return res.status(404).type('text').send(`No user found with ID ${userId}`);
 }
 
 /**
