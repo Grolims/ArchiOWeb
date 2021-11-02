@@ -91,7 +91,7 @@ router.post('/', authenticate, async function (req, res, next) {
 router.get('/', async function (req, res, next) {
 
   async function getSalepoints() {
-    Salepoint.find().sort('address').exec(function (total) {
+    await Salepoint.find().sort('address').exec(function (total) {
       let query = Salepoint.find();
 
       let page = parseInt(req.query.page, 10);

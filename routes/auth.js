@@ -21,7 +21,7 @@ exports.authenticate = function authenticate(req, res, next) {
       req.currentUserId = payload.sub;
 
       const scope = payload.scope;
-      req.currentUserPermissions = scope ? scope.split(' ') : [];
+      req.currentUserPermissions = scope;
       next(); // Pass the ID of the authenticated user to the next middleware.
     }
   });

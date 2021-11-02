@@ -9,7 +9,8 @@ const ObjectId = mongoose.Types.ObjectId;
 const secretKey = process.env.SECRET_KEY || 'MikkelBoss';
 const jwt = require('jsonwebtoken');
 const {
-  authenticate, authorize
+  authenticate,
+  authorize
 } = require('./auth');
 
 /* POST new user */
@@ -18,29 +19,23 @@ router.post('/', asyncHandler(async (req, res, next) => {
   const plainPassword = req.body.password;
   const costFactor = 10;
 
-  bcrypt.hash(plainPassword, costFactor, async function (err, hashedPassword) {
-    if (err) {
-      return next(err);
-    }
-    // Create a new document from the JSON in the request body
-    const newUser = new User(req.body);
-    newUser.password = hashedPassword;
-    // Save that document
-    await newUser.save(function (savedUser) {
-      // Send the saved document in the response
-      res.send(savedUser);
-    });
+  const hashedPassword = await bcrypt.hash(plainPassword, costFactor)
+  const newUser = new User(req.body);
+  newUser.password = hashedPassword;
+  // Save that document
+  await newUser.save()
+  res.status(201).send(newUser);
 
-  });
+}));
 
-})
-);
 
-/* GET users listing  paginned. */
+/* GET users listing  paginated. */
 router.get('/', asyncHandler(async (req, res, next) => {
 
-  await User.find().sort('username').exec(function (total) {
-    let query = User.find();
+
+  const total = await User.count();
+  
+  let query = User.find();
 
     let page = parseInt(req.query.page, 10);
     if (isNaN(page) || page < 1) {
@@ -54,8 +49,10 @@ router.get('/', asyncHandler(async (req, res, next) => {
     // Apply skip and limit to select the correct page of elements
     query = query.skip((page - 1) * pageSize).limit(pageSize);
 
-    query.exec(function (err, users) {
-      if (err) { return next(err) }
+    await query.exec(function (err, users) {
+      if (err) {
+        return next(err)
+      }
       res.send({
         page: page,
         pageSize: pageSize,
@@ -63,15 +60,44 @@ router.get('/', asyncHandler(async (req, res, next) => {
         data: users
       });
     });
-  });
 
-})
+  })
 );
+ 
+  
+  // User.find().sort('username').exec(function (total) {
+  //   let query = User.find();
+
+  //   let page = parseInt(req.query.page, 10);
+  //   if (isNaN(page) || page < 1) {
+  //     page = 1;
+  //   }
+  //   // Parse the "pageSize" param (default to 100 if invalid)
+  //   let pageSize = parseInt(req.query.pageSize, 10);
+  //   if (isNaN(pageSize) || pageSize < 0 || pageSize > 100) {
+  //     pageSize = 100;
+  //   }
+  //   // Apply skip and limit to select the correct page of elements
+  //   query = query.skip((page - 1) * pageSize).limit(pageSize);
+
+  //   query.exec(function (err, users) {
+  //     if (err) {
+  //       return next(err)
+  //     }
+  //     res.send({
+  //       page: page,
+  //       pageSize: pageSize,
+  //       total: total,
+  //       data: users
+  //     });
+  //   });
+  // });
+
 
 
 router.get('/:id', loadUserFromParamsMiddleware, asyncHandler(async (req, res, next) => {
 
-  await countItemsByUser(req.user, function (itemsCreate) {
+  countItemsByUser(req.user, function (itemsCreate) {
 
     res.send({
       ...req.user.toJSON(),
@@ -79,15 +105,20 @@ router.get('/:id', loadUserFromParamsMiddleware, asyncHandler(async (req, res, n
     });
   });
 
-})
-);
+}));
 
 
 /**
  * update user username
  */
-router.patch('/:id', authenticate, authorize('admin'), loadUserFromParamsMiddleware, function (req, res, next) {
+router.patch('/:id', authenticate, loadUserFromParamsMiddleware, function (req, res, next) {
+  
+  if (!(req.currentUserPermissions === 'admin' || req.user.id === req.currentUserId)) {
+    console.log(req.currentUserPermissions);
+    return res.status(403).send(`is admin === ${req.currentUserPermissions} -> ` + (req.currentUserPermissions == 'admin') )
+  }
 
+  res.send('Valid')
 
   //   //get the user for  check if admin
   //   User.findById(req.currentUserId).exec(function(err, admin) {
@@ -116,21 +147,21 @@ router.patch('/:id', authenticate, authorize('admin'), loadUserFromParamsMiddlew
   //   });
   // });
 
-  if (req.body.username !== undefined) {
-    req.user.username = req.body.username;
-  }
+  // if (req.body.username !== undefined) {
+  //   req.user.username = req.body.username;
+  // }
 
-  if (req.body.admin !== undefined) {
-    req.user.admin = req.body.admin;
-  }
+  // if (req.body.admin !== undefined) {
+  //   req.user.admin = req.body.admin;
+  // }
 
-  req.user.save(function (err, savedUser) {
-    if (err) {
-      return next(err);
-    }
+  // req.user.save(function (err, savedUser) {
+  //   if (err) {
+  //     return next(err);
+  //   }
 
-    res.send(savedUser)
-  });
+  //   res.send(savedUser)
+  // });
 
 });
 
@@ -212,15 +243,16 @@ router.patch('/password/:id', authenticate, loadUserFromParamsMiddleware, functi
 
 // });
 
-router.delete('/:id', authenticate, authorize('admin'), loadUserFromParamsMiddleware, asyncHandler( async (req, res, next) => {
+router.delete('/:id', authenticate, authorize('admin'), loadUserFromParamsMiddleware, asyncHandler(async (req, res, next) => {
 
-    await User.deleteOne({ _id: req.params.id });
+  await User.deleteOne({
+    _id: req.params.id
+  });
 
-    res.send(`Deleted user ${req.user.username}`)
+  res.status(200).send(`Ressource : ${req.user.username} deleted`)
 
 
-  })
-);
+}));
 
 
 /**
@@ -228,28 +260,43 @@ router.delete('/:id', authenticate, authorize('admin'), loadUserFromParamsMiddle
  */
 router.post('/login', asyncHandler(async (req, res, next) => {
 
-  await User.findOne({ username: req.body.username }).exec(function (err, user) {
-    if (err) { return next(err); }
-    else if (!user) { return res.sendStatus(401); }
+  await User.findOne({
+    username: req.body.username
+  }).exec(function (err, user) {
+    if (err) {
+      return next(err);
+    } else if (!user) {
+      return userNotFound(res, req.body.username);
+    }
     // Validate the password.
     bcrypt.compare(req.body.password, user.password, function (err, valid) {
-      if (err) { return next(err); }
-      else if (!valid) { return res.sendStatus(401); }
+      if (err) {
+        return next(err);
+      } else if (!valid) {
+        return res.status(401).send("Bad password");
+      }
       // Generate a valid JWT which expires in 7 days.
       const exp = Math.floor(Date.now() / 1000) + 7 * 24 * 3600;
       const permission = user.admin ? 'admin' : 'user';
-      const payload = { sub: user._id.toString(), exp: exp, scope: permission };
+      const payload = {
+        sub: user._id.toString(),
+        exp: exp,
+        scope: permission
+      };
 
 
       jwt.sign(payload, secretKey, function (err, token) {
-        if (err) { return next(err); }
-        res.send({ token: token }); // Send the token to the client.
+        if (err) {
+          return next(err);
+        }
+        res.send({
+          token: token
+        }); // Send the token to the client.
       });
     });
   });
 
-  })
-);
+}));
 
 
 function loadUserFromParamsMiddleware(req, res, next) {
@@ -292,14 +339,18 @@ function paginatedUsers() {
 
     try {
       results.results = await User.find()
-        .sort({ _id: 1 })
+        .sort({
+          _id: 1
+        })
         .limit(limit)
         .skip(skipIndex)
         .exec();
       res.paginatedResults = results;
       next();
     } catch (e) {
-      res.status(500).json({ message: "Error Occured" });
+      res.status(500).json({
+        message: "Error Occured"
+      });
     }
   };
 }
