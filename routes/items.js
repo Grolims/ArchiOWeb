@@ -19,8 +19,30 @@ router.post('/', authenticate, asyncHandler(async (req, res, next) => {
 
 /* GET paginated items listing */
 router.get('/', asyncHandler(async (req, res, next) => {
+  
     const total = await Item.count();
     let query = Item.find();
+
+    if (Array.isArray(req.query.userId)) {
+      const user = req.query.userId.filter(ObjectId.isValid);
+      query = query.where('userId').in(users);
+    } else if (ObjectId.isValid(req.query.userId)) {
+      query = query.where('userId').equals(req.query.userId);
+    }
+  
+    if (!isNaN(req.query.price)) {
+      query = query.where('price').equals(req.query.price);
+    }
+  
+    if (!isNaN(req.query.priceHigh)) {
+      query = query.where('price').gte(req.query.priceHigh);
+    }
+  
+    if (!isNaN(req.query.priceLow)) {
+      query = query.where('price').lte(req.query.priceLow);
+    }
+  
+    //filter by 
 
     let page = parseInt(req.query.page, 10);
     if (isNaN(page) || page < 1) {
@@ -51,7 +73,7 @@ router.get('/:id', loadItemFromParamsMiddleware, asyncHandler(async (req, res, n
   })
 );
 
-/* PATCH salepoint by id */
+/* PATCH item by id */
 router.patch('/:id', authenticate, loadItemFromParamsMiddleware, checkOwnerOrAdmin, asyncHandler(async (req, res, next) => {
 
     if (!req.body.name !== undefined) {
@@ -116,12 +138,17 @@ function itemNotFound(res, itemId) {
 }
 
 function checkOwnerOrAdmin(req, res, next) {
+
   const autho = req.currentUserPermissions === 'admin' || req.item.userId === req.currentUserId;
   if (!autho) {
     return res.status(403).send('Insufficient permissions')
   }
+
+
   next();
 }
+
+
 
 
 module.exports = router;
