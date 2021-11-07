@@ -20,13 +20,13 @@ router.post('/', asyncHandler(async (req, res, next) => {
   const newUser = new User(req.body);
   newUser.password = hashedPassword;
   // Save that document
-  await newUser.save()
+  await newUser.save();
   res.status(201).send(newUser);
 
 }));
 
 
-/* GET users listing  paginated. */
+/* GET paginated users listing */
 router.get('/', asyncHandler(async (req, res, next) => {
   const total = await User.count();
 
@@ -73,13 +73,7 @@ router.get('/:id', loadUserFromParamsMiddleware, asyncHandler(async (req, res, n
 /**
  * Update a specific user
  */
-router.patch('/:id', authenticate, loadUserFromParamsMiddleware, asyncHandler(async (req, res, next) => {
-
-  const autho = req.currentUserPermissions === 'admin' || req.user.id === req.currentUserId;
-
-  if (!autho) {
-    return res.status(403).send('Insufficient permissions')
-  }
+router.patch('/:id', authenticate, loadUserFromParamsMiddleware, checkOwnerOrAdmin, asyncHandler(async (req, res, next) => {
 
   if (req.body.username !== undefined) {
     req.user.username = req.body.username;
@@ -98,7 +92,7 @@ router.patch('/:id', authenticate, loadUserFromParamsMiddleware, asyncHandler(as
   }
 
   await req.user.save();
-  res.status(200).send(`User ${req.user.username} has been sucessfully updated!`)
+  res.status(200).send(`User ${req.user.username} has been successfully updated!`)
 
 })
 );
@@ -111,14 +105,8 @@ router.patch('/:id', authenticate, loadUserFromParamsMiddleware, asyncHandler(as
  * @apiVersion 1.0.0
  * @apiDescription Permanently deletes a user
  */
-router.delete('/:id', authenticate, loadUserFromParamsMiddleware, asyncHandler(async (req, res, next) => {
-
-  const autho = req.currentUserPermissions === 'admin' || req.user.id === req.currentUserId;
-
-  if (!autho) {
-    return res.status(403).send('Insufficient permissions')
-  }
-
+router.delete('/:id', authenticate, loadUserFromParamsMiddleware, checkOwnerOrAdmin, asyncHandler(async (req, res, next) => {
+  
   await User.deleteOne({
     _id: req.params.id
   });
@@ -134,24 +122,24 @@ router.delete('/:id', authenticate, loadUserFromParamsMiddleware, asyncHandler(a
  */
 router.post('/login', asyncHandler(async (req, res, next) => {
 
-    const user = await User.findOne({ username: req.body.username});
-    if (!user) { return userNotFound(res, req.body.username) }
+  const user = await User.findOne({ username: req.body.username });
+  if (!user) { return userNotFound(res, req.body.username) }
 
-    const valid = await bcrypt.compare(req.body.password, user.password);
-    if (!valid) { return res.status(401).send("Wrong password") }
+  const valid = await bcrypt.compare(req.body.password, user.password);
+  if (!valid) { return res.status(401).send("Wrong password") }
 
-    // Generate a valid JWT which expires in 7 days.
-    const exp = Math.floor(Date.now() / 1000) + 7 * 24 * 3600;
-    const permission = user.admin ? 'admin' : 'user';
-    const payload = {
-      sub: user._id.toString(),
-      exp: exp,
-      scope: permission
-    };
+  // Generate a valid JWT which expires in 7 days.
+  const exp = Math.floor(Date.now() / 1000) + 7 * 24 * 3600;
+  const permission = user.admin ? 'admin' : 'user';
+  const payload = {
+    sub: user._id.toString(),
+    exp: exp,
+    scope: permission
+  };
 
-    const token = jwt.sign(payload, secretKey);
-    res.send({token: token});
-  })
+  const token = jwt.sign(payload, secretKey);
+  res.send({ token: token });
+})
 );
 
 
@@ -179,10 +167,22 @@ function userNotFound(res, userId) {
 }
 
 /**
- * numbre of item create by user
+ * Count the number of items related to a user
  */
 function countItemsByUser(user, callback) {
   Item.countDocuments().where('userId', user._id).exec(callback);
+}
+
+/**
+ * Checks if requesting user is either an Admin or owner of the ressource
+ */
+function checkOwnerOrAdmin(req, res, next) {
+  const autho = req.currentUserPermissions === 'admin' || req.user.id === req.currentUserId;
+  if (!autho) {
+    return res.status(403).send('Insufficient permissions')
+  }
+
+  next();
 }
 
 module.exports = router;

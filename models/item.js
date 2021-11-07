@@ -15,7 +15,7 @@ const itemSchema = new Schema({
   type: {
     type: String,
     required: true,
-    enum: ['Fruits', 'Viande', 'Légumes', 'Céréals', 'Boissons', 'Autre']
+    enum: ['Fruit', 'Viande', 'Légumes', 'Céréals', 'Boissons', 'Autre']
   },
   picture: {
     type: String,

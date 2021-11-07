@@ -100,8 +100,12 @@ function validateUser(value) {
  * the "itemId" property is invalidated.
  */
 function validateItem(value) {
-  if (!ObjectId.isValid(value)) {
-    throw new Error('Item not found');
+  if (Array.isArray(value)){
+    value.forEach(item => {
+      if (!ObjectId.isValid(item)) {
+        throw new Error(`Item with id ${item} is invalid`)
+      }
+    })
   }
 }
 
