@@ -115,22 +115,16 @@ router.delete('/:id', authenticate, loadItemFromParamsMiddleware, checkOwnerOrAd
   })
 );
 
-function loadItemFromParamsMiddleware(req, res, next) {
+async function loadItemFromParamsMiddleware(req, res, next) {
   const itemId = req.params.id;
   if (!ObjectId.isValid(itemId)) {
     return itemNotFound(res, itemId)
   }
 
-  Item.findById(req.params.id, function (err, item) {
-    if (err) {
-      return next(err)
-    } else if (!item) {
-      return itemNotFound(res, itemId)
-    }
-
-    req.item = item;
-    next();
-  })
+  const item = await Item.findById(req.params.id);
+  if (!item) { return itemNotFound(res, itemId) }
+  req.item = item;
+  next();
 }
 
 function itemNotFound(res, itemId) {

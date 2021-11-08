@@ -117,22 +117,17 @@ function querySalepoints(req) {
   return query;
 }
 
-function loadSalepointFromParamsMiddleware(req, res, next) {
+async function loadSalepointFromParamsMiddleware(req, res, next) {
   const salepointId = req.params.id;
   if (!ObjectId.isValid(salepointId)) {
     return salepointNotFound(res, salepointId)
   }
 
-  Salepoint.findById(req.params.id, function (err, salepoint) {
-    if (err) {
-      return next(err);
-    } else if (!salepoint) {
-      return salepointNotFound(res, salepointId);
-    }
+  const salepoint = await Salepoint.findById(req.params.id);
+  if (!salepoint) { return salepointNotFound(res, salepointId) }
 
-    req.salepoint = salepoint;
-    next();
-  })
+  req.salepoint = salepoint;
+  next();
 }
 
 function salepointNotFound(res, salepointId) {

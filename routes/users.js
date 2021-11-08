@@ -143,23 +143,18 @@ router.post('/login', asyncHandler(async (req, res, next) => {
 );
 
 
-function loadUserFromParamsMiddleware(req, res, next) {
+async function loadUserFromParamsMiddleware(req, res, next) {
 
   const userId = req.params.id;
   if (!ObjectId.isValid(userId)) {
     return userNotFound(res, userId);
   }
 
-  User.findById(req.params.id, function (err, user) {
-    if (err) {
-      return next(err);
-    } else if (!user) {
-      return userNotFound(res, userId);
-    }
+  const user = await User.findById(req.params.id);
+  if (!user) { return userNotFound(res, userId) }
 
-    req.user = user;
-    next();
-  });
+  req.user = user;
+  next()
 }
 
 function userNotFound(res, userId) {
