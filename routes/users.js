@@ -58,13 +58,58 @@ router.get('/', asyncHandler(async (req, res, next) => {
 
 /* GET user by id and associated items & salepoints */
 router.get('/:id', loadUserFromParamsMiddleware, asyncHandler(async (req, res, next) => {
+  console.log('aggregate')
+  User.aggregate([
+    {
+    $match:{
+      _id: ObjectId(req.params.id)
 
-  countItemsByUser(req.user, function (itemsCreate) {
-
-    res.send({
-      ...req.user.toJSON(),
-      itemsCreate
+    }
+    },
+    {
+      $lookup: {
+        from: 'items',
+        localField: '_id',
+        foreignField: 'userId',
+        as: 'itemAdd'
+      }
+    },
+    {
+      $unwind: {
+        path: '$itemAdd',
+        preserveNullAndEmptyArrays: true
+      }
+    },
+    {
+      $addFields: {
+       itemAdd: {
+          $cond: {
+            if: '$itemAdd',
+            then: 1,
+            else: 0
+          }
+        }
+      }
+    },
+    {
+      $group: {
+        _id: '$_id',
+        username: { $first: '$username' },
+        itemAdd: { $sum: '$itemAdd'},
+      }
+    }
+  ], (err, results) => {
+    if (err) {
+      return next(err);
+    }
+    
+    const aggregatedDocu = results.map(result => {
+      const user = new User(result);
+      const json = user.toJSON();
+      json.itemAdd = result.itemAdd;
+      return json;
     });
+    res.send(aggregatedDocu);
   });
 
 }));
