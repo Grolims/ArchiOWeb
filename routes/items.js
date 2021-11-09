@@ -1,13 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const { ObjectId } = require('bson');
+const User = require('../models/user');
 const Item = require('../models/item');
 const { authenticate } = require('./auth');
 const asyncHandler = require('express-async-handler');
 
 /* POST new item */
 router.post('/', authenticate, asyncHandler(async (req, res, next) => {
-    if (!req.body.userId || !ObjectId.isValid(req.body.userId)) {
+
+  const exists = await User.countDocuments({ _id: req.body.userId });
+
+  if (!exists) {
       return res.status(400).send('User ID missing or invalid')
     }
 
@@ -133,7 +137,7 @@ function itemNotFound(res, itemId) {
 
 function checkOwnerOrAdmin(req, res, next) {
 
-  const autho = req.currentUserPermissions === 'admin' || req.item.userId === req.currentUserId;
+  const autho = req.currentUserPermissions === 'admin' || req.item.userId.toString() === req.currentUserId;
   if (!autho) {
     return res.status(403).send('Insufficient permissions')
   }

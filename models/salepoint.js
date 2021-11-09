@@ -101,11 +101,11 @@ function validateUser(value) {
  */
 function validateItem(value) {
   if (Array.isArray(value)){
-    value.forEach(item => {
+    for (let item of value) {
       if (!ObjectId.isValid(item)) {
         throw new Error(`Item with id ${item} is invalid`)
       }
-    })
+    }
   }
 }
 

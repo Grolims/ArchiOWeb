@@ -217,7 +217,7 @@ function countItemsByUser(user, callback) {
  * Checks if requesting user is either an Admin or owner of the ressource
  */
 function checkOwnerOrAdmin(req, res, next) {
-  const autho = req.currentUserPermissions === 'admin' || req.user.id === req.currentUserId;
+  const autho = req.currentUserPermissions === 'admin' || req.user.id.toString() === req.currentUserId;
   if (!autho) {
     return res.status(403).send('Insufficient permissions')
   }
