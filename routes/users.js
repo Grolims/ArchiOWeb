@@ -206,7 +206,7 @@ router.patch('/:id', authenticate, loadUserFromParamsMiddleware, checkOwnerOrAdm
   }
 
   await req.user.save();
-  res.status(200).send(`User ${req.user.username} has been successfully updated!`)
+  res.status(200).send(req.user);
 
 })
 );

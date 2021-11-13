@@ -54,8 +54,10 @@ describe('POST /users', function() {
         expect(res.body.admin).to.be.a('boolean');
         expect(res.body.registrationdate).to.be.a('string');
         expect(res.body.username).to.equal('User14');
-      //  expect(res.body).to.have.all.keys('_id', 'username');
-      });
+        expect(res.body).to.have.all.keys('_id', 'username', 'admin','registrationdate', '__v' );
+      
+    
+    });
   });
  
   describe('GET /users', function() {
@@ -88,15 +90,15 @@ describe('POST /users', function() {
       expect(res.body.data[0].username).to.equal('laure dinateur');
       expect(res.body.data[0].admin).to.be.a('boolean');
       expect(res.body.data[0].registrationdate).to.be.a('string');
+      expect(res.body.data[0]).to.have.all.keys('_id', 'username', 'admin','registrationdate', '__v' );
+      
 
       expect(res.body.data[1]).to.be.an('object');
       expect(res.body.data[1]._id).to.be.a('string');
       expect(res.body.data[1].username).to.equal('alain terieur');
       expect(res.body.data[1].admin).to.be.a('boolean');
       expect(res.body.data[1].registrationdate).to.be.a('string');
-      // test tout 
-
-    //correct lenght
+      expect(res.body.data[1]).to.have.all.keys('_id', 'username', 'admin','registrationdate', '__v' );
 
       });
     });
@@ -106,52 +108,36 @@ describe('POST /users', function() {
     beforeEach(async function() {
       // Create 1 users before retrieving the list.
       const users = await Promise.all([
-        User.create({ username: 'Laure Dinateur', password: '123456789', admin :false}),
+        User.create({ username: 'Jhon doeuf', password: '123456789', admin :false}),
       ]);
       // Retrieve a user to authenticate as.
       user = users[0];
     });
+
     it('should  modifie a user', async function() {
-      const token = await generateValidJwt(user);
+     
+      const token = await generateValidJwt(user)
       const res = await supertest(app)
-      .post('/users')
-       .set('Authorization', `Bearer ${token}`)
-       .send({
-         username: 'Laure Doe',
-     })
-     console.log(res.body);
-     //check status and headers
-     //.expect(200)
-    // .expect('Content-Type', /json/);
-    // expect(res.body.data[0].username).to.be.a('Laure Doe');
-  //admin
-   //  expect(res.body).to.have.all.keys('_id', 'username');
+     
+        .patch('/users/'+user.id)
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          username: 'test123'
+      })
+         //check status and headers
+         .expect(200)
+
+         expect(res.body).to.be.an('object');
+         expect(res.body._id).to.be.a('string');
+         expect(res.body.admin).to.be.a('boolean');
+         expect(res.body.registrationdate).to.be.a('string');
+         expect(res.body.username).to.equal('test123');
+         expect(res.body).to.have.all.keys('_id', 'username', 'admin','registrationdate', '__v' );
+       
    });
+
   });
 
-/**
- * 
- */
-  describe('DELETE /users', function() {
-    it('should retrieve the list of users');
-  });
-  /*
+  after(mongoose.disconnect);
 
-  describe('GET /users', function() {
-    let user;
-    beforeEach(async function() {
-      // Create 2 users before retrieving the list.
-      const users = await Promise.all([
-        User.create({ name: 'John Doe' }),
-        User.create({ name: 'Jane Doe' })
-      ]);
-  
-      // Retrieve a user to authenticate as.
-      user = users[0];
-    });
-  
-    it('should retrieve the list of users', async function() {
-      // ...
-    });
-  });*/
   
