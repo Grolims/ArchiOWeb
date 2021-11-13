@@ -9,6 +9,8 @@ const ObjectId = mongoose.Types.ObjectId;
 const secretKey = process.env.SECRET_KEY || 'MikkelBoss';
 const jwt = require('jsonwebtoken');
 const { authenticate } = require('./auth');
+const { broadcastMessage } = require('../messaging');
+
 
 
 
@@ -124,6 +126,14 @@ router.get('/', asyncHandler(async (req, res, next) => {
 
 })
 );
+/**
+ * test websocket msg
+ */
+
+ router.post('/websocket', function(req, res, next) {
+  // Do stuff...
+  broadcastMessage({ hello: 'world' });
+});
 
 /* GET user by id and associated items & salepoints */
 router.get('/:id', loadUserFromParamsMiddleware, asyncHandler(async (req, res, next) => {
