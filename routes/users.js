@@ -224,8 +224,8 @@ router.delete('/:id', authenticate, loadUserFromParamsMiddleware, checkOwnerOrAd
   await User.deleteOne({
     _id: req.params.id
   });
-
-  res.status(200).send(`Ressource : ${req.user.username} deleted`)
+  let username =  req.user.username;
+  res.status(200).send({user: username , statut : 'deleted'})
 
 
 }));

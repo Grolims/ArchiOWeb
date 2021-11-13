@@ -109,6 +109,7 @@ describe('POST /users', function() {
       // Create 1 users before retrieving the list.
       const users = await Promise.all([
         User.create({ username: 'Jhon doeuf', password: '123456789', admin :false}),
+        User.create({ username: 'alain terieur', password: '123456789', admin:false})
       ]);
       // Retrieve a user to authenticate as.
       user = users[0];
@@ -125,6 +126,7 @@ describe('POST /users', function() {
           username: 'test123'
       })
          //check status and headers
+         .expect('Content-Type', /json/)
          .expect(200)
 
          expect(res.body).to.be.an('object');
@@ -137,6 +139,34 @@ describe('POST /users', function() {
    });
 
   });
+
+  // check if user can delete him not admin but owner
+  describe('DELLETE /users', function() {
+    let user;
+    beforeEach(async function() {
+      // Create 1 users before retrieving the list.
+      const users = await Promise.all([
+        User.create({ username: 'Jhon doeuf', password: '123456789', admin :false}),
+      ]);
+      // Retrieve a user to authenticate as.
+      user = users[0];
+    });
+
+    it('should  modifie a user', async function() {
+      const token = await generateValidJwt(user)
+      const res = await supertest(app)
+     
+      .delete('/users/'+user.id)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+
+     
+      expect(res.body.user).to.equal('Jhon doeuf');
+      expect(res.body.statut).to.equal('deleted');
+    });
+  });
+
+
 
   after(mongoose.disconnect);
 
