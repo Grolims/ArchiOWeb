@@ -14,7 +14,6 @@ exports.createWebSocketServer = function(httpServer) {
   // Handle new client connections.
   wss.on('connection', function(ws) {
     debug('New WebSocket client connected');
-    console.log("'New WebSocket client connected'");
 
 
 
