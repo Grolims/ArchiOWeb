@@ -5,6 +5,7 @@ const User = require('../models/user');
 const Item = require('../models/item');
 const { authenticate } = require('./auth');
 const asyncHandler = require('express-async-handler');
+const { broadcastMessage } = require('../messaging');
 
 /* POST new item */
 router.post('/', authenticate, asyncHandler(async (req, res, next) => {
@@ -18,6 +19,7 @@ router.post('/', authenticate, asyncHandler(async (req, res, next) => {
     const newItem = new Item(req.body);
     await newItem.save();
     res.status(201).send(newItem);
+    broadcastMessage({ item: newItem });
   })
 );
 

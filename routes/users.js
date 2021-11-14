@@ -117,6 +117,8 @@ router.get('/', asyncHandler(async (req, res, next) => {
 
   query = await query.exec();
 
+  broadcastMessage({ hello: 'world' });
+
   res.send({
     page: page,
     pageSize: pageSize,
