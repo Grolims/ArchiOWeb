@@ -148,7 +148,7 @@ router.get('/', asyncHandler(async (req, res, next) => {
 
 
 /**
- * @api {get} /api/users/:id GET user by id and associated items & salepoints
+ * @api {get} /api/users/:id GET user by id
  * @apiName RetrieveUser
  * @apiGroup User
  * @apiVersion 1.0.0
@@ -250,7 +250,7 @@ router.get('/:id', loadUserFromParamsMiddleware, asyncHandler(async (req, res, n
  *     Content-Type: application/json
  *
  *     {
- *       "username": "Mikvester"
+ *       "username": "Mikvester22"
  *     }
  *
  * @apiSuccessExample 200 OK
@@ -259,7 +259,7 @@ router.get('/:id', loadUserFromParamsMiddleware, asyncHandler(async (req, res, n
  *
  *     {
  *       "_id": "619126a15f69d38480a2a49f",
- *       "username": "Mikvester",
+ *       "username": "Mikvester22",
  *       "admin": true,
  *       "registrationdate": "2021-11-14T15:09:21.935Z",
  *       "__v": 0
@@ -396,7 +396,7 @@ function checkOwnerOrAdmin(req, res, next) {
  * @apiSuccess (Response body) {String} username The username of the User
  * @apiSuccess (Response body) {Boolean} admin Is an admin account or not
  * @apiSuccess (Response body) {String} id The unique identifier of the User
- * @apiSuccess (Response body) {String} registrationdate The registration date of the User
+ * @apiSuccess (Response body) {Date} registrationdate The registration date of the User
  */
 
 /**

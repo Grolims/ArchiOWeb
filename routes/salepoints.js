@@ -134,7 +134,7 @@ router.get('/', asyncHandler(async (req, res, next) => {
 
 /* GET salepoint by id and associated user & items */
 /**
- * @api {get} /api/salepoints/:id GET salepoint by id and associated items & salepoints
+ * @api {get} /api/salepoints/:id GET salepoint by id and associated users & items
  * @apiName RetrieveSalepoint
  * @apiGroup Salepoint
  * @apiVersion 1.0.0
@@ -317,24 +317,24 @@ function checkOwnerOrAdmin(req, res, next) {
 
 /**
  * @apiDefine SalepointInRequestBody
- * @apiParam (Request body) {String{3..30}} name The name of the Salepoint (must be unique)
- * @apiParam (Request body) {String{'Fruit', 'Viande', 'Légumes', 'Céréales', 'Boissons', 'Autre'}} type Type of the Salepoint
+ * @apiParam (Request body) {String{3..300}} address The address of the Salepoint 
  * @apiParam (Request body) {String} picture Picture of the Salepoint
- * @apiParam (Request body) {String} price Price of the Salepoint
- * @apiParam (Request body) {String{max 300}} description Description of the Salepoint
- * @apiParam (Request body) {String{'Fruit', 'Viande', 'Légumes'}} label Label of the Salepoint
+ * @apiParam (Request body) {String="Card", "Cash", "Twint"} paymentMethod Payment method of the salepoint
+ * @apiParam (Request body) {Schema.Types.ObjectId} userId The ID of the owner of the Salepoint
+ * @apiParam (Request body) {[Schema.Types.ObjectId]} items List of items in the Salepoint
  */
 
 /**
  * @apiDefine SalepointInResponseBody
  * @apiSuccess (Response body) {String} id The unique identifier of the Salepoint
- * @apiSuccess (Response body) {String{3..30}} name The name of the Salepoint (must be unique)
- * @apiSuccess (Response body) {String{'Fruit', 'Viande', 'Légumes', 'Céréales', 'Boissons', 'Autre'}} type Type of the Salepoint
- * @apiSuccess (Response body) {String} picture URL of the Salepoint's picture
- * @apiSuccess (Response body) {String} price Price of the Salepoint
- * @apiSuccess (Response body) {String{max 300}} description Description of the Salepoint
- * @apiSuccess (Response body) {String{'Fruit', 'Viande', 'Légumes'}} label Label of the Salepoint
- */
+ * @apiSuccess (Response body) {String} address The address of the Salepoint 
+ * @apiSuccess (Response body) {String} picture Picture of the Salepoint
+ * @apiSuccess (Response body) {String} paymentMethod Payment method of the salepoint
+ * @apiSuccess (Response body) {Schema.Types.ObjectId} userId The ID of the owner of the Salepoint
+ * @apiSuccess (Response body) {[Schema.Types.ObjectId]} items List of items in the Salepoint
+ * @apiSuccess (Response body) {Date} creationDate The creation's date of the salepoint
+ * @apiSuccess (Response body) {Date} lastModified The date of the last modification of the salepoint 
+*/
 
 /**
  * @apiDefine SalepointNotFoundError

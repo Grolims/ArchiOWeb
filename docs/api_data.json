@@ -20,7 +20,6 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "3..30",
             "optional": false,
             "field": "name",
             "description": "<p>The name of the item (must be unique)</p>"
@@ -28,7 +27,6 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes', 'Céréales', 'Boissons', 'Autre'",
             "optional": false,
             "field": "type",
             "description": "<p>Type of the item</p>"
@@ -50,7 +48,6 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "max 300",
             "optional": false,
             "field": "description",
             "description": "<p>Description of the item</p>"
@@ -58,10 +55,30 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes'",
             "optional": false,
             "field": "label",
             "description": "<p>Label of the item</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Schema.Types.ObjectId",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>The ID of the creator of the item</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Date",
+            "optional": false,
+            "field": "creationDate",
+            "description": "<p>The creation's date of the item</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Date",
+            "optional": false,
+            "field": "lastModified",
+            "description": "<p>The date of the last modification of the item</p>"
           }
         ]
       },
@@ -96,7 +113,14 @@
           {
             "group": "Request body",
             "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes', 'Céréales', 'Boissons', 'Autre'",
+            "allowedValues": [
+              "\"Fruit\"",
+              "\"Viande\"",
+              "\"Légumes\"",
+              "\"Céréales\"",
+              "\"Boissons\"",
+              "\"Autre\""
+            ],
             "optional": false,
             "field": "type",
             "description": "<p>Type of the item</p>"
@@ -126,10 +150,20 @@
           {
             "group": "Request body",
             "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes'",
+            "allowedValues": [
+              "\"Bio\"",
+              "\"Vegan\""
+            ],
             "optional": false,
             "field": "label",
             "description": "<p>Label of the item</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Schema.Types.ObjectId",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>The ID of the creator of the item</p>"
           }
         ]
       }
@@ -217,7 +251,6 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "3..30",
             "optional": false,
             "field": "name",
             "description": "<p>The name of the item (must be unique)</p>"
@@ -225,7 +258,6 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes', 'Céréales', 'Boissons', 'Autre'",
             "optional": false,
             "field": "type",
             "description": "<p>Type of the item</p>"
@@ -247,7 +279,6 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "max 300",
             "optional": false,
             "field": "description",
             "description": "<p>Description of the item</p>"
@@ -255,10 +286,30 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes'",
             "optional": false,
             "field": "label",
             "description": "<p>Label of the item</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Schema.Types.ObjectId",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>The ID of the creator of the item</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Date",
+            "optional": false,
+            "field": "creationDate",
+            "description": "<p>The creation's date of the item</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Date",
+            "optional": false,
+            "field": "lastModified",
+            "description": "<p>The date of the last modification of the item</p>"
           }
         ]
       }
@@ -288,7 +339,14 @@
           {
             "group": "Request body",
             "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes', 'Céréales', 'Boissons', 'Autre'",
+            "allowedValues": [
+              "\"Fruit\"",
+              "\"Viande\"",
+              "\"Légumes\"",
+              "\"Céréales\"",
+              "\"Boissons\"",
+              "\"Autre\""
+            ],
             "optional": false,
             "field": "type",
             "description": "<p>Type of the item</p>"
@@ -318,10 +376,20 @@
           {
             "group": "Request body",
             "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes'",
+            "allowedValues": [
+              "\"Bio\"",
+              "\"Vegan\""
+            ],
             "optional": false,
             "field": "label",
             "description": "<p>Label of the item</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Schema.Types.ObjectId",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>The ID of the creator of the item</p>"
           }
         ]
       }
@@ -407,7 +475,6 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "3..30",
             "optional": false,
             "field": "name",
             "description": "<p>The name of the item (must be unique)</p>"
@@ -415,7 +482,6 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes', 'Céréales', 'Boissons', 'Autre'",
             "optional": false,
             "field": "type",
             "description": "<p>Type of the item</p>"
@@ -437,7 +503,6 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "max 300",
             "optional": false,
             "field": "description",
             "description": "<p>Description of the item</p>"
@@ -445,10 +510,30 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes'",
             "optional": false,
             "field": "label",
             "description": "<p>Label of the item</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Schema.Types.ObjectId",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>The ID of the creator of the item</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Date",
+            "optional": false,
+            "field": "creationDate",
+            "description": "<p>The creation's date of the item</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Date",
+            "optional": false,
+            "field": "lastModified",
+            "description": "<p>The date of the last modification of the item</p>"
           }
         ]
       }
@@ -459,7 +544,7 @@
   {
     "type": "get",
     "url": "/api/items/:id",
-    "title": "GET item by id and associated items & salepoints",
+    "title": "GET itme by id and associated user",
     "name": "RetrieveItem",
     "group": "Item",
     "version": "1.0.0",
@@ -491,7 +576,6 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "3..30",
             "optional": false,
             "field": "name",
             "description": "<p>The name of the item (must be unique)</p>"
@@ -499,7 +583,6 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes', 'Céréales', 'Boissons', 'Autre'",
             "optional": false,
             "field": "type",
             "description": "<p>Type of the item</p>"
@@ -521,7 +604,6 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "max 300",
             "optional": false,
             "field": "description",
             "description": "<p>Description of the item</p>"
@@ -529,10 +611,30 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes'",
             "optional": false,
             "field": "label",
             "description": "<p>Label of the item</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Schema.Types.ObjectId",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>The ID of the creator of the item</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Date",
+            "optional": false,
+            "field": "creationDate",
+            "description": "<p>The creation's date of the item</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Date",
+            "optional": false,
+            "field": "lastModified",
+            "description": "<p>The date of the last modification of the item</p>"
           }
         ]
       }
@@ -594,48 +696,51 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "3..30",
             "optional": false,
-            "field": "name",
-            "description": "<p>The name of the Salepoint (must be unique)</p>"
-          },
-          {
-            "group": "Response body",
-            "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes', 'Céréales', 'Boissons', 'Autre'",
-            "optional": false,
-            "field": "type",
-            "description": "<p>Type of the Salepoint</p>"
+            "field": "address",
+            "description": "<p>The address of the Salepoint</p>"
           },
           {
             "group": "Response body",
             "type": "String",
             "optional": false,
             "field": "picture",
-            "description": "<p>URL of the Salepoint's picture</p>"
+            "description": "<p>Picture of the Salepoint</p>"
           },
           {
             "group": "Response body",
             "type": "String",
             "optional": false,
-            "field": "price",
-            "description": "<p>Price of the Salepoint</p>"
+            "field": "paymentMethod",
+            "description": "<p>Payment method of the salepoint</p>"
           },
           {
             "group": "Response body",
-            "type": "String",
-            "size": "max 300",
+            "type": "Schema.Types.ObjectId",
             "optional": false,
-            "field": "description",
-            "description": "<p>Description of the Salepoint</p>"
+            "field": "userId",
+            "description": "<p>The ID of the owner of the Salepoint</p>"
           },
           {
             "group": "Response body",
-            "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes'",
+            "type": "[Schema.Types.ObjectId]",
             "optional": false,
-            "field": "label",
-            "description": "<p>Label of the Salepoint</p>"
+            "field": "items",
+            "description": "<p>List of items in the Salepoint</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Date",
+            "optional": false,
+            "field": "creationDate",
+            "description": "<p>The creation's date of the salepoint</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Date",
+            "optional": false,
+            "field": "lastModified",
+            "description": "<p>The date of the last modification of the salepoint</p>"
           }
         ]
       },
@@ -662,18 +767,10 @@
           {
             "group": "Request body",
             "type": "String",
-            "size": "3..30",
+            "size": "3..300",
             "optional": false,
-            "field": "name",
-            "description": "<p>The name of the Salepoint (must be unique)</p>"
-          },
-          {
-            "group": "Request body",
-            "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes', 'Céréales', 'Boissons', 'Autre'",
-            "optional": false,
-            "field": "type",
-            "description": "<p>Type of the Salepoint</p>"
+            "field": "address",
+            "description": "<p>The address of the Salepoint</p>"
           },
           {
             "group": "Request body",
@@ -685,25 +782,28 @@
           {
             "group": "Request body",
             "type": "String",
+            "allowedValues": [
+              "\"Card\"",
+              "\"Cash\"",
+              "\"Twint\""
+            ],
             "optional": false,
-            "field": "price",
-            "description": "<p>Price of the Salepoint</p>"
+            "field": "paymentMethod",
+            "description": "<p>Payment method of the salepoint</p>"
           },
           {
             "group": "Request body",
-            "type": "String",
-            "size": "max 300",
+            "type": "Schema.Types.ObjectId",
             "optional": false,
-            "field": "description",
-            "description": "<p>Description of the Salepoint</p>"
+            "field": "userId",
+            "description": "<p>The ID of the owner of the Salepoint</p>"
           },
           {
             "group": "Request body",
-            "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes'",
+            "type": "[Schema.Types.ObjectId]",
             "optional": false,
-            "field": "label",
-            "description": "<p>Label of the Salepoint</p>"
+            "field": "items",
+            "description": "<p>List of items in the Salepoint</p>"
           }
         ]
       }
@@ -791,48 +891,51 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "3..30",
             "optional": false,
-            "field": "name",
-            "description": "<p>The name of the Salepoint (must be unique)</p>"
-          },
-          {
-            "group": "Response body",
-            "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes', 'Céréales', 'Boissons', 'Autre'",
-            "optional": false,
-            "field": "type",
-            "description": "<p>Type of the Salepoint</p>"
+            "field": "address",
+            "description": "<p>The address of the Salepoint</p>"
           },
           {
             "group": "Response body",
             "type": "String",
             "optional": false,
             "field": "picture",
-            "description": "<p>URL of the Salepoint's picture</p>"
+            "description": "<p>Picture of the Salepoint</p>"
           },
           {
             "group": "Response body",
             "type": "String",
             "optional": false,
-            "field": "price",
-            "description": "<p>Price of the Salepoint</p>"
+            "field": "paymentMethod",
+            "description": "<p>Payment method of the salepoint</p>"
           },
           {
             "group": "Response body",
-            "type": "String",
-            "size": "max 300",
+            "type": "Schema.Types.ObjectId",
             "optional": false,
-            "field": "description",
-            "description": "<p>Description of the Salepoint</p>"
+            "field": "userId",
+            "description": "<p>The ID of the owner of the Salepoint</p>"
           },
           {
             "group": "Response body",
-            "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes'",
+            "type": "[Schema.Types.ObjectId]",
             "optional": false,
-            "field": "label",
-            "description": "<p>Label of the Salepoint</p>"
+            "field": "items",
+            "description": "<p>List of items in the Salepoint</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Date",
+            "optional": false,
+            "field": "creationDate",
+            "description": "<p>The creation's date of the salepoint</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Date",
+            "optional": false,
+            "field": "lastModified",
+            "description": "<p>The date of the last modification of the salepoint</p>"
           }
         ]
       }
@@ -854,18 +957,10 @@
           {
             "group": "Request body",
             "type": "String",
-            "size": "3..30",
+            "size": "3..300",
             "optional": false,
-            "field": "name",
-            "description": "<p>The name of the Salepoint (must be unique)</p>"
-          },
-          {
-            "group": "Request body",
-            "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes', 'Céréales', 'Boissons', 'Autre'",
-            "optional": false,
-            "field": "type",
-            "description": "<p>Type of the Salepoint</p>"
+            "field": "address",
+            "description": "<p>The address of the Salepoint</p>"
           },
           {
             "group": "Request body",
@@ -877,25 +972,28 @@
           {
             "group": "Request body",
             "type": "String",
+            "allowedValues": [
+              "\"Card\"",
+              "\"Cash\"",
+              "\"Twint\""
+            ],
             "optional": false,
-            "field": "price",
-            "description": "<p>Price of the Salepoint</p>"
+            "field": "paymentMethod",
+            "description": "<p>Payment method of the salepoint</p>"
           },
           {
             "group": "Request body",
-            "type": "String",
-            "size": "max 300",
+            "type": "Schema.Types.ObjectId",
             "optional": false,
-            "field": "description",
-            "description": "<p>Description of the Salepoint</p>"
+            "field": "userId",
+            "description": "<p>The ID of the owner of the Salepoint</p>"
           },
           {
             "group": "Request body",
-            "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes'",
+            "type": "[Schema.Types.ObjectId]",
             "optional": false,
-            "field": "label",
-            "description": "<p>Label of the Salepoint</p>"
+            "field": "items",
+            "description": "<p>List of items in the Salepoint</p>"
           }
         ]
       }
@@ -981,48 +1079,51 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "3..30",
             "optional": false,
-            "field": "name",
-            "description": "<p>The name of the Salepoint (must be unique)</p>"
-          },
-          {
-            "group": "Response body",
-            "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes', 'Céréales', 'Boissons', 'Autre'",
-            "optional": false,
-            "field": "type",
-            "description": "<p>Type of the Salepoint</p>"
+            "field": "address",
+            "description": "<p>The address of the Salepoint</p>"
           },
           {
             "group": "Response body",
             "type": "String",
             "optional": false,
             "field": "picture",
-            "description": "<p>URL of the Salepoint's picture</p>"
+            "description": "<p>Picture of the Salepoint</p>"
           },
           {
             "group": "Response body",
             "type": "String",
             "optional": false,
-            "field": "price",
-            "description": "<p>Price of the Salepoint</p>"
+            "field": "paymentMethod",
+            "description": "<p>Payment method of the salepoint</p>"
           },
           {
             "group": "Response body",
-            "type": "String",
-            "size": "max 300",
+            "type": "Schema.Types.ObjectId",
             "optional": false,
-            "field": "description",
-            "description": "<p>Description of the Salepoint</p>"
+            "field": "userId",
+            "description": "<p>The ID of the owner of the Salepoint</p>"
           },
           {
             "group": "Response body",
-            "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes'",
+            "type": "[Schema.Types.ObjectId]",
             "optional": false,
-            "field": "label",
-            "description": "<p>Label of the Salepoint</p>"
+            "field": "items",
+            "description": "<p>List of items in the Salepoint</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Date",
+            "optional": false,
+            "field": "creationDate",
+            "description": "<p>The creation's date of the salepoint</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Date",
+            "optional": false,
+            "field": "lastModified",
+            "description": "<p>The date of the last modification of the salepoint</p>"
           }
         ]
       }
@@ -1033,7 +1134,7 @@
   {
     "type": "get",
     "url": "/api/salepoints/:id",
-    "title": "GET salepoint by id and associated items & salepoints",
+    "title": "GET salepoint by id and associated users & items",
     "name": "RetrieveSalepoint",
     "group": "Salepoint",
     "version": "1.0.0",
@@ -1065,48 +1166,51 @@
           {
             "group": "Response body",
             "type": "String",
-            "size": "3..30",
             "optional": false,
-            "field": "name",
-            "description": "<p>The name of the Salepoint (must be unique)</p>"
-          },
-          {
-            "group": "Response body",
-            "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes', 'Céréales', 'Boissons', 'Autre'",
-            "optional": false,
-            "field": "type",
-            "description": "<p>Type of the Salepoint</p>"
+            "field": "address",
+            "description": "<p>The address of the Salepoint</p>"
           },
           {
             "group": "Response body",
             "type": "String",
             "optional": false,
             "field": "picture",
-            "description": "<p>URL of the Salepoint's picture</p>"
+            "description": "<p>Picture of the Salepoint</p>"
           },
           {
             "group": "Response body",
             "type": "String",
             "optional": false,
-            "field": "price",
-            "description": "<p>Price of the Salepoint</p>"
+            "field": "paymentMethod",
+            "description": "<p>Payment method of the salepoint</p>"
           },
           {
             "group": "Response body",
-            "type": "String",
-            "size": "max 300",
+            "type": "Schema.Types.ObjectId",
             "optional": false,
-            "field": "description",
-            "description": "<p>Description of the Salepoint</p>"
+            "field": "userId",
+            "description": "<p>The ID of the owner of the Salepoint</p>"
           },
           {
             "group": "Response body",
-            "type": "String",
-            "size": "'Fruit', 'Viande', 'Légumes'",
+            "type": "[Schema.Types.ObjectId]",
             "optional": false,
-            "field": "label",
-            "description": "<p>Label of the Salepoint</p>"
+            "field": "items",
+            "description": "<p>List of items in the Salepoint</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Date",
+            "optional": false,
+            "field": "creationDate",
+            "description": "<p>The creation's date of the salepoint</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Date",
+            "optional": false,
+            "field": "lastModified",
+            "description": "<p>The date of the last modification of the salepoint</p>"
           }
         ]
       }
@@ -1181,7 +1285,7 @@
           },
           {
             "group": "Response body",
-            "type": "String",
+            "type": "Date",
             "optional": false,
             "field": "registrationdate",
             "description": "<p>The registration date of the User</p>"
@@ -1293,7 +1397,7 @@
     "examples": [
       {
         "title": "Example",
-        "content": "PATCH /api/users/58b2926f5e1def0123e97bc0 HTTP/1.1\nContent-Type: application/json\n\n{\n  \"username\": \"Mikvester\"\n}",
+        "content": "PATCH /api/users/58b2926f5e1def0123e97bc0 HTTP/1.1\nContent-Type: application/json\n\n{\n  \"username\": \"Mikvester22\"\n}",
         "type": "json"
       }
     ],
@@ -1301,7 +1405,7 @@
       "examples": [
         {
           "title": "200 OK",
-          "content": "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n  \"_id\": \"619126a15f69d38480a2a49f\",\n  \"username\": \"Mikvester\",\n  \"admin\": true,\n  \"registrationdate\": \"2021-11-14T15:09:21.935Z\",\n  \"__v\": 0\n}",
+          "content": "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n  \"_id\": \"619126a15f69d38480a2a49f\",\n  \"username\": \"Mikvester22\",\n  \"admin\": true,\n  \"registrationdate\": \"2021-11-14T15:09:21.935Z\",\n  \"__v\": 0\n}",
           "type": "json"
         }
       ],
@@ -1330,7 +1434,7 @@
           },
           {
             "group": "Response body",
-            "type": "String",
+            "type": "Date",
             "optional": false,
             "field": "registrationdate",
             "description": "<p>The registration date of the User</p>"
@@ -1472,7 +1576,7 @@
           },
           {
             "group": "Response body",
-            "type": "String",
+            "type": "Date",
             "optional": false,
             "field": "registrationdate",
             "description": "<p>The registration date of the User</p>"
@@ -1486,7 +1590,7 @@
   {
     "type": "get",
     "url": "/api/users/:id",
-    "title": "GET user by id and associated items & salepoints",
+    "title": "GET user by id",
     "name": "RetrieveUser",
     "group": "User",
     "version": "1.0.0",
@@ -1531,7 +1635,7 @@
           },
           {
             "group": "Response body",
-            "type": "String",
+            "type": "Date",
             "optional": false,
             "field": "registrationdate",
             "description": "<p>The registration date of the User</p>"

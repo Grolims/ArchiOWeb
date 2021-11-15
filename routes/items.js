@@ -151,7 +151,7 @@ router.get('/', asyncHandler(async (req, res, next) => {
 
 
 /**
- * @api {get} /api/items/:id GET item by id and associated items & salepoints
+ * @api {get} /api/items/:id GET itme by id and associated user
  * @apiName RetrieveItem
  * @apiGroup Item
  * @apiVersion 1.0.0
@@ -308,22 +308,26 @@ function checkOwnerOrAdmin(req, res, next) {
 /**
  * @apiDefine ItemInRequestBody
  * @apiParam (Request body) {String{3..30}} name The name of the item (must be unique)
- * @apiParam (Request body) {String{'Fruit', 'Viande', 'Légumes', 'Céréales', 'Boissons', 'Autre'}} type Type of the item
+ * @apiParam (Request body) {String="Fruit", "Viande", "Légumes", "Céréales", "Boissons", "Autre"} type Type of the item
  * @apiParam (Request body) {String} picture Picture of the item
  * @apiParam (Request body) {String} price Price of the item
  * @apiParam (Request body) {String{max 300}} description Description of the item
- * @apiParam (Request body) {String{'Fruit', 'Viande', 'Légumes'}} label Label of the item
+ * @apiParam (Request body) {String="Bio", "Vegan"} label Label of the item
+ * @apiParam (Request body) {Schema.Types.ObjectId} userId The ID of the creator of the item
  */
 
 /**
  * @apiDefine ItemInResponseBody
  * @apiSuccess (Response body) {String} id The unique identifier of the Item
- * @apiSuccess (Response body) {String{3..30}} name The name of the item (must be unique)
- * @apiSuccess (Response body) {String{'Fruit', 'Viande', 'Légumes', 'Céréales', 'Boissons', 'Autre'}} type Type of the item
+ * @apiSuccess (Response body) {String} name The name of the item (must be unique)
+ * @apiSuccess (Response body) {String} type Type of the item
  * @apiSuccess (Response body) {String} picture URL of the item's picture
  * @apiSuccess (Response body) {String} price Price of the item
- * @apiSuccess (Response body) {String{max 300}} description Description of the item
- * @apiSuccess (Response body) {String{'Fruit', 'Viande', 'Légumes'}} label Label of the item
+ * @apiSuccess (Response body) {String} description Description of the item
+ * @apiSuccess (Response body) {String} label Label of the item
+ * @apiSuccess (Response body) {Schema.Types.ObjectId} userId The ID of the creator of the item
+ * @apiSuccess (Response body) {Date} creationDate The creation's date of the item
+ * @apiSuccess (Response body) {Date} lastModified The date of the last modification of the item
  */
 
 /**
