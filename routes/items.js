@@ -37,7 +37,7 @@ const { broadcastMessage } = require('../messaging');
  * @apiSuccessExample 201 Created
  *     HTTP/1.1 201 Created
  *     Content-Type: application/json
- *     Location: https://localsearch-ch.herokuapp.com/item/58b2926f5e1def0123e97bc0
+ *     Location: https://localsearch-ch.herokuapp.com/items/58b2926f5e1def0123e97bc0
  *
  *     {
  *       "name": "Melon",

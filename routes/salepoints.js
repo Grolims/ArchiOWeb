@@ -43,7 +43,7 @@ const { broadcastMessage } = require('../messaging');
  *
  *{
  *   "address": "ruedespres",
- *   "picture": "/img/ruedespres.jpg"
+ *   "picture": "/img/ruedespres.jpg",
  *   "paymentMethod": "Card",
  *   "geolocation": {
  *       "location": "Point",
@@ -286,6 +286,7 @@ router.patch('/:id', authenticate, loadSalepointFromParamsMiddleware, checkOwner
         return res.status(400).send(`Item with id ${itemId} doesn't exist`)
       }
     }
+    req.salepoint.items = req.body.items;
   }
 
   await req.salepoint.save();
