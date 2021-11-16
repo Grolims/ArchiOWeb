@@ -1,7 +1,7 @@
 define({ "api": [
   {
     "type": "post",
-    "url": "/api/items",
+    "url": "/items",
     "title": "Create a item",
     "name": "CreateItem",
     "group": "Item",
@@ -93,7 +93,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "POST /api/items HTTP/1.1\nContent-Type: application/json\n\n{\n  \"name\": \"Melon\",\n  \"type\": \"Fruit\",\n  \"picture\": \"/img/melon.jpg\",\n  \"price\": 3,\n  \"description\": \"Melon de Cavaillon\",\n  \"label\":\"Bio\",\n  \"userId\": \"61938a9304230581f9fc2844\"\n}",
+        "content": "POST /items HTTP/1.1\nContent-Type: application/json\n\n{\n  \"name\": \"Melon\",\n  \"type\": \"Fruit\",\n  \"picture\": \"/img/melon.jpg\",\n  \"price\": 3,\n  \"description\": \"Melon de Cavaillon\",\n  \"label\":\"Bio\",\n  \"userId\": \"61938a9304230581f9fc2844\"\n}",
         "type": "json"
       }
     ],
@@ -191,7 +191,7 @@ define({ "api": [
   },
   {
     "type": "delete",
-    "url": "/api/items/:id",
+    "url": "/items/:id",
     "title": "Delete a item",
     "name": "DeleteItem",
     "group": "Item",
@@ -200,7 +200,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "DELETE /api/items/6193aed08f93c92068be1a31 HTTP/1.1",
+        "content": "DELETE /items/6193aed08f93c92068be1a31 HTTP/1.1",
         "type": "json"
       }
     ],
@@ -218,7 +218,7 @@ define({ "api": [
   },
   {
     "type": "patch",
-    "url": "/api/items/:id",
+    "url": "/items/:id",
     "title": "Partially update a item",
     "name": "PartiallyUpdateItem",
     "group": "Item",
@@ -227,7 +227,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "PATCH /api/items/619126a15f69d38480a2a49f HTTP/1.1\nContent-Type: application/json\n\n{\n  \"price\": 2\n}",
+        "content": "PATCH /items/619126a15f69d38480a2a49f HTTP/1.1\nContent-Type: application/json\n\n{\n  \"price\": 2\n}",
         "type": "json"
       }
     ],
@@ -429,7 +429,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/api/items",
+    "url": "/items",
     "title": "List item",
     "name": "RetrieveItem",
     "group": "Item",
@@ -543,7 +543,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/api/items/:id",
+    "url": "/items/:id",
     "title": "GET itme by id and associated user",
     "name": "RetrieveItem",
     "group": "Item",
@@ -552,7 +552,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "GET /api/items/6193aed08f93c92068be1a31 HTTP/1.1",
+        "content": "GET /items/6193aed08f93c92068be1a31 HTTP/1.1",
         "type": "json"
       }
     ],
@@ -677,7 +677,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/api/salepoints",
+    "url": "/salepoints",
     "title": "Create a salepoint",
     "name": "CreateSalepoint",
     "group": "Salepoint",
@@ -779,7 +779,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "    POST /api/salepoints HTTP/1.1\n    Content-Type: application/json\n\n{\n    \"address\": \"ruedespres\",\n    \"picture\": \"/img/ruedespres.jpg\"\n     \"paymentMethod\": \"Card\",\n     \"geolocation\": {\n         \"location\":\"Point\",\n         \"coordinates\": [ -73.856077, 40.848447 ]\n     },\n     \"userId\":\"61938a9304230581f9fc2844\"\n\n }",
+        "content": "    POST /salepoints HTTP/1.1\n    Content-Type: application/json\n\n{\n    \"address\": \"ruedespres\",\n    \"picture\": \"/img/ruedespres.jpg\"\n     \"paymentMethod\": \"Card\",\n     \"geolocation\": {\n         \"location\":\"Point\",\n         \"coordinates\": [ -73.856077, 40.848447 ]\n     },\n     \"userId\":\"61938a9304230581f9fc2844\"\n\n }",
         "type": "json"
       }
     ],
@@ -872,7 +872,7 @@ define({ "api": [
   },
   {
     "type": "delete",
-    "url": "/api/salepoints/:id",
+    "url": "/salepoints/:id",
     "title": "Delete a salepoint",
     "name": "DeleteSalepoint",
     "group": "Salepoint",
@@ -881,7 +881,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "DELETE /api/salepoints/6193a08355073cd45269ecfa HTTP/1.1",
+        "content": "DELETE /salepoints/6193a08355073cd45269ecfa HTTP/1.1",
         "type": "json"
       }
     ],
@@ -899,7 +899,7 @@ define({ "api": [
   },
   {
     "type": "patch",
-    "url": "/api/salepoints/:id",
+    "url": "/salepoints/:id",
     "title": "Partially update a salepoint",
     "name": "PartiallyUpdateSalepoint",
     "group": "Salepoint",
@@ -908,7 +908,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "PATCH /api/salepoints/6193a08355073cd45269ecfa HTTP/1.1\nContent-Type: application/json\n\n{\n  \"address\": \"Rue des pres 31\"\n}",
+        "content": "PATCH /salepoints/6193a08355073cd45269ecfa HTTP/1.1\nContent-Type: application/json\n\n{\n  \"address\": \"Rue des pres 31\"\n}",
         "type": "json"
       }
     ],
@@ -1115,7 +1115,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/api/salepoints",
+    "url": "/salepoints",
     "title": "List salepoint",
     "name": "RetrieveSalepoint",
     "group": "Salepoint",
@@ -1124,7 +1124,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "GET /api/salepoints?page=1&pageSize=100 HTTP/1.1",
+        "content": "GET /salepoints?page=1&pageSize=100 HTTP/1.1",
         "type": "json"
       }
     ],
@@ -1226,7 +1226,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/api/salepoints/:id",
+    "url": "/salepoints/:id",
     "title": "GET salepoint by id and associated users & items",
     "name": "RetrieveSalepoint",
     "group": "Salepoint",
@@ -1235,7 +1235,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "GET /api/salepoints/6193a08355073cd45269ecfa HTTP/1.1",
+        "content": "GET /salepoints/6193a08355073cd45269ecfa HTTP/1.1",
         "type": "json"
       }
     ],
@@ -1370,7 +1370,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/api/users",
+    "url": "/users",
     "title": "Create a user",
     "name": "CreateUser",
     "group": "User",
@@ -1427,7 +1427,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "POST /api/users HTTP/1.1\nContent-Type: application/json\n\n{\n  \"username\": \"Kestar\",\n  \"admin\": true,\n  \"password\": \"1234test\"\n}",
+        "content": "POST /users HTTP/1.1\nContent-Type: application/json\n\n{\n  \"username\": \"Kestar\",\n  \"admin\": true,\n  \"password\": \"1234test\"\n}",
         "type": "json"
       }
     ],
@@ -1465,7 +1465,7 @@ define({ "api": [
   },
   {
     "type": "delete",
-    "url": "/api/users/:id",
+    "url": "/users/:id",
     "title": "Delete a user",
     "name": "DeleteUser",
     "group": "User",
@@ -1474,7 +1474,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "DELETE /api/users/619126a15f69d38480a2a49f HTTP/1.1",
+        "content": "DELETE /users/619126a15f69d38480a2a49f HTTP/1.1",
         "type": "json"
       }
     ],
@@ -1492,7 +1492,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/api/login",
+    "url": "/login",
     "title": "Login",
     "name": "Login",
     "group": "User",
@@ -1523,7 +1523,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "POST /api/login HTTP/1.1\nContent-Type: application/json\n\n{\n  \"username\": \"Kestar\",\n  \"password\": \"1234test\"\n}",
+        "content": "POST /login HTTP/1.1\nContent-Type: application/json\n\n{\n  \"username\": \"Kestar\",\n  \"password\": \"1234test\"\n}",
         "type": "json"
       }
     ],
@@ -1573,7 +1573,7 @@ define({ "api": [
   },
   {
     "type": "patch",
-    "url": "/api/users/:id",
+    "url": "/users/:id",
     "title": "Partially update a user",
     "name": "PartiallyUpdateUser",
     "group": "User",
@@ -1582,7 +1582,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "PATCH /api/users/619126a15f69d38480a2a49f HTTP/1.1\nContent-Type: application/json\n\n{\n  \"username\": \"Mikvester22\",\n  \"admin\": true\n}",
+        "content": "PATCH /users/619126a15f69d38480a2a49f HTTP/1.1\nContent-Type: application/json\n\n{\n  \"username\": \"Mikvester22\",\n  \"admin\": true\n}",
         "type": "json"
       }
     ],
@@ -1697,7 +1697,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/api/users",
+    "url": "/users",
     "title": "List user",
     "name": "RetrieveUser",
     "group": "User",
@@ -1706,7 +1706,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "GET /api/users?page=1&pageSize=100 HTTP/1.1",
+        "content": "GET /users?page=1&pageSize=100 HTTP/1.1",
         "type": "json"
       }
     ],
@@ -1763,7 +1763,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/api/users/:id",
+    "url": "/users/:id",
     "title": "GET user by id",
     "name": "RetrieveUser",
     "group": "User",
@@ -1772,7 +1772,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "GET /api/users/61912511d1f3e541d9a2177c HTTP/1.1",
+        "content": "GET /users/61912511d1f3e541d9a2177c HTTP/1.1",
         "type": "json"
       }
     ],

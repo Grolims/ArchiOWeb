@@ -3,5 +3,5 @@
     "version": "1.0.0",
     "description": "API allowing to manage the salepoints and their items of the users",
     "title": "Local Search",
-    "url" : "https://localsearch-ch.herokuapp.com/"
+    "url" : "https://localsearch-ch.herokuapp.com"
   }
