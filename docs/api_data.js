@@ -727,7 +727,7 @@ define({ "api": [
       "examples": [
         {
           "title": "201 Created",
-          "content": "    HTTP/1.1 201 Created\n    Content-Type: application/json\n    Location: https://comem-rest-demo.herokuapp.com/api/salepoints/58b2926f5e1def0123e97bc0\n\n{\n  \"address\": \"ruedespres\",\n  \"picture\": \"/img/ruedespres.jpg\"\n  \"paymentMethod\": \"Card\",\n  \"geolocation\": {\n      \"location\": \"Point\",\n      \"coordinates\": [\n          -73.856077,\n          40.848447\n      ]\n  },\n  \"userId\": \"61938a9304230581f9fc2844\",\n  \"items\": [],\n  \"_id\": \"6193a08355073cd45269ecfa\",\n  \"creationDate\": \"2021-11-16T12:13:55.124Z\",\n  \"lastModified\": \"2021-11-16T12:13:55.124Z\",\n  \"__v\": 0\n}",
+          "content": "    HTTP/1.1 201 Created\n    Content-Type: application/json\n    Location: https://comem-rest-demo.herokuapp.com/api/salepoints/61938a9304230581f9fc2844\n\n{\n  \"address\": \"ruedespres\",\n  \"picture\": \"/img/ruedespres.jpg\"\n  \"paymentMethod\": \"Card\",\n  \"geolocation\": {\n      \"location\": \"Point\",\n      \"coordinates\": [\n          -73.856077,\n          40.848447\n      ]\n  },\n  \"userId\": \"61938a9304230581f9fc2844\",\n  \"items\": [],\n  \"_id\": \"6193a08355073cd45269ecfa\",\n  \"creationDate\": \"2021-11-16T12:13:55.124Z\",\n  \"lastModified\": \"2021-11-16T12:13:55.124Z\",\n  \"__v\": 0\n}",
           "type": "json"
         }
       ]
@@ -1000,7 +1000,7 @@ define({ "api": [
       "examples": [
         {
           "title": "404 Not Found",
-          "content": "HTTP/1.1 404 Not Found\nContent-Type: text/plain\n\nNo Salepoint found with ID 58b2926f5e1def0123e97bc0",
+          "content": "HTTP/1.1 404 Not Found\nContent-Type: text/plain\n\nNo Salepoint found with ID 61938a9304230581f9fc2844",
           "type": "json"
         },
         {
@@ -1225,7 +1225,7 @@ define({ "api": [
       "examples": [
         {
           "title": "404 Not Found",
-          "content": "HTTP/1.1 404 Not Found\nContent-Type: text/plain\n\nNo Salepoint found with ID 58b2926f5e1def0123e97bc0",
+          "content": "HTTP/1.1 404 Not Found\nContent-Type: text/plain\n\nNo Salepoint found with ID 61938a9304230581f9fc2844",
           "type": "json"
         }
       ]

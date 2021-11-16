@@ -40,7 +40,7 @@ const { broadcastMessage } = require('../messaging');
  * @apiSuccessExample 201 Created
  *     HTTP/1.1 201 Created
  *     Content-Type: application/json
- *     Location: https://comem-rest-demo.herokuapp.com/api/salepoints/58b2926f5e1def0123e97bc0
+ *     Location: https://comem-rest-demo.herokuapp.com/api/salepoints/61938a9304230581f9fc2844
  *
  *{
  *   "address": "ruedespres",
@@ -404,7 +404,7 @@ function checkOwnerOrAdmin(req, res, next) {
  *     HTTP/1.1 404 Not Found
  *     Content-Type: text/plain
  *
- *     No Salepoint found with ID 58b2926f5e1def0123e97bc0
+ *     No Salepoint found with ID 61938a9304230581f9fc2844
  */
 
 /**
