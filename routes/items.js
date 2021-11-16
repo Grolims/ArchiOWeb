@@ -285,7 +285,7 @@ router.patch('/:id', authenticate, loadItemFromParamsMiddleware, checkOwnerOrAdm
  * @apiDescription Permanently deletes a item
  * 
  * @apiExample Example
- *     DELETE /api/items/58b2926f5e1def0123e97bc0 HTTP/1.1
+ *     DELETE /api/items/6193aed08f93c92068be1a31 HTTP/1.1
  * 
  * @apiSuccessExample 204 No Content
  *     HTTP/1.1 204 No Content
