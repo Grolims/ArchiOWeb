@@ -39,7 +39,7 @@ const { broadcastMessage } = require('../messaging');
  * @apiSuccessExample 201 Created
  *     HTTP/1.1 201 Created
  *     Content-Type: application/json
- *     Location: https://comem-rest-demo.herokuapp.com/api/salepoints/61938a9304230581f9fc2844
+ *     Location: https://localsearch-ch.herokuapp.com/salepoints/61938a9304230581f9fc2844
  *
  *{
  *   "address": "ruedespres",
@@ -98,7 +98,7 @@ router.post('/', authenticate, asyncHandler(async (req, res, next) => {
  * @apiSuccessExample 200 OK
  *     HTTP/1.1 200 OK
  *     Content-Type: application/json
- *     Link: &lt;https://comem-rest-demo.herokuapp.com/api/salepoints?page=1&pageSize=100&gt;; rel="first prev"
+ *     Link: https://localsearch-ch.herokuapp.com/salepoints?page=1&pageSize=100
  *
  * {
  *  "page": 1,

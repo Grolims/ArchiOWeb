@@ -37,7 +37,7 @@ const { broadcastMessage } = require('../messaging');
  * @apiSuccessExample 201 Created
  *     HTTP/1.1 201 Created
  *     Content-Type: application/json
- *     Location: https://comem-rest-demo.herokuapp.com/api/item/58b2926f5e1def0123e97bc0
+ *     Location: https://localsearch-ch.herokuapp.com/item/58b2926f5e1def0123e97bc0
  *
  *     {
  *       "name": "Melon",
@@ -84,7 +84,7 @@ router.post('/', authenticate, asyncHandler(async (req, res, next) => {
  * @apiSuccessExample 200 OK
  *     HTTP/1.1 200 OK
  *     Content-Type: application/json
- *     Link: &lt;https://comem-rest-demo.herokuapp.com/api/items?priceLow=4&page=1&pageSize=100&gt;; rel="first prev"
+ *     Link: https://localsearch-ch.herokuapp.com/items?priceLow=4&page=1&pageSize=100"
  *
  * {
  *  "page": 1,

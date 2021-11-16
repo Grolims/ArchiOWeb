@@ -1,7 +1,7 @@
 {
-    "name": "LocalSearch",
+    "name": "Local Search CH",
     "version": "1.0.0",
     "description": "API allowing to manage the salepoints and their items of the users",
     "title": "Local Search",
-    "url" : "https://apple.com"
+    "url" : "https://localsearch-ch.herokuapp.com/"
   }
