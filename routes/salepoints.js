@@ -25,24 +25,41 @@ const { broadcastMessage } = require('../messaging');
  *     POST /api/salepoints HTTP/1.1
  *     Content-Type: application/json
  *
- *     {
- *       "username": "Kestar",
- *       "admin": true,
- *       "password": "1234test"
- *     }
+ * {
+ *     "address": "ruedespres",
+ *     "picture": "/img/ruedespres.jpg"
+ *      "paymentMethod": "Card",
+ *      "geolocation": {
+ *          "location":"Point",
+ *          "coordinates": [ -73.856077, 40.848447 ]
+ *      },
+ *      "userId":"61938a9304230581f9fc2844"
+ *
+ *  }
  *
  * @apiSuccessExample 201 Created
  *     HTTP/1.1 201 Created
  *     Content-Type: application/json
  *     Location: https://comem-rest-demo.herokuapp.com/api/salepoints/58b2926f5e1def0123e97bc0
  *
- *     {
- *       "username": "Kestar",
- *       "admin": true,
- *       "_id": "61912511d1f3e541d9a2177c",
- *       "registrationdate": "2021-11-14T15:02:41.974Z",
- *       "__v": 0
- *     }
+ *{
+ *   "address": "ruedespres",
+ *   "picture": "/img/ruedespres.jpg"
+ *   "paymentMethod": "Card",
+ *   "geolocation": {
+ *       "location": "Point",
+ *       "coordinates": [
+ *           -73.856077,
+ *           40.848447
+ *       ]
+ *   },
+ *   "userId": "61938a9304230581f9fc2844",
+ *   "items": [],
+ *   "_id": "6193a08355073cd45269ecfa",
+ *   "creationDate": "2021-11-16T12:13:55.124Z",
+ *   "lastModified": "2021-11-16T12:13:55.124Z",
+ *   "__v": 0
+ *}
  */
 router.post('/', authenticate, asyncHandler(async (req, res, next) => {
 
@@ -78,33 +95,55 @@ router.post('/', authenticate, asyncHandler(async (req, res, next) => {
  * @apiParam (URL query parameters) {String} [gender] Select only Salepoint of the specified gender
  *
  * @apiExample Example
- *     GET /api/salepoints?gender=male&page=2&pageSize=50 HTTP/1.1
+ *     GET /api/salepoints?page=1&pageSize=100 HTTP/1.1
  *
  * @apiSuccessExample 200 OK
  *     HTTP/1.1 200 OK
  *     Content-Type: application/json
- *     Link: &lt;https://comem-rest-demo.herokuapp.com/api/salepoints?page=1&pageSize=50&gt;; rel="first prev"
+ *     Link: &lt;https://comem-rest-demo.herokuapp.com/api/salepoints?page=1&pageSize=100&gt;; rel="first prev"
  *
  * {
  *  "page": 1,
  *  "pageSize": 100,
  *  "total": 2,
  *  "data": [
- *      {
- *          "_id": "61912511d1f3e541d9a2177c",
- *          "username": "Kestar",
- *          "admin": true,
- *          "registrationdate": "2021-11-14T15:02:41.974Z",
- *          "__v": 0
- *      },
- *      {
- *          "_id": "619126a15f69d38480a2a49f",
- *          "username": "Mikvester",
- *          "admin": false,
- *          "registrationdate": "2021-11-14T15:09:21.935Z",
- *          "__v": 0
- *      }
- *   ]
+ * {
+ *    "address": "ruedespres",
+ *    "picture": "/img/ruedespres.jpg"
+ *    "paymentMethod": "Card",
+ *    "geolocation": {
+ *        "location": "Point",
+ *        "coordinates": [
+ *            -73.856077,
+ *            40.848447
+ *        ]
+ *    },
+ *    "userId": "61938a9304230581f9fc2844",
+ *    "items": [],
+ *    "_id": "6193a08355073cd45269ecfa",
+ *    "creationDate": "2021-11-16T12:13:55.124Z",
+ *    "lastModified": "2021-11-16T12:13:55.124Z",
+ *    "__v": 0
+ * },
+  * {
+ *    "address": "Avenue des champs",
+ *    "picture": "/img/AvenueDesChamps.jpg"
+ *    "paymentMethod": "Twint",
+ *    "geolocation": {
+ *        "location": "Point",
+ *        "coordinates": [
+ *            -53.856077,
+ *            30.848447
+ *        ]
+ *    },
+ *    "userId": "61938a9304230581f9fc2844",
+ *    "items": [],
+ *    "_id": "4673a08355073cd45269ebts",
+ *    "creationDate": "2021-11-16T12:13:55.124Z",
+ *    "lastModified": "2021-11-16T12:13:55.124Z",
+ *    "__v": 0
+ * }
+ *    ]
  * }
  */
 router.get('/', asyncHandler(async (req, res, next) => {
@@ -147,18 +186,30 @@ router.get('/', asyncHandler(async (req, res, next) => {
  * @apiUse SalepointNotFoundError
  *
  * @apiExample Example
- *     GET /api/salepoints/58b2926f5e1def0123e97bc0 HTTP/1.1
+ *     GET /api/salepoints/6193a08355073cd45269ecfa HTTP/1.1
  *
  * @apiSuccessExample 200 OK
  *     HTTP/1.1 200 OK
  *     Content-Type: application/json
  *
- *     {
- *       "_id": "61912511d1f3e541d9a2177c",
- *       "username": "Kestar",
- *       "admin": true,
- *       "registrationdate": "2021-11-14T15:02:41.974Z",
- *     }
+ * {
+ *    "address": "ruedespres",
+ *    "picture": "/img/ruedespres.jpg"
+ *    "paymentMethod": "Card",
+ *    "geolocation": {
+ *        "location": "Point",
+ *        "coordinates": [
+ *            -73.856077,
+ *            40.848447
+ *        ]
+ *    },
+ *    "userId": "61938a9304230581f9fc2844",
+ *    "items": [],
+ *    "_id": "6193a08355073cd45269ecfa",
+ *    "creationDate": "2021-11-16T12:13:55.124Z",
+ *    "lastModified": "2021-11-16T12:13:55.124Z",
+ *    "__v": 0
+ * }
  */
 router.get('/:id', loadSalepointFromParamsMiddleware, async function (req, res, next) {
   res.send(req.salepoint);
@@ -180,7 +231,7 @@ router.get('/:id', loadSalepointFromParamsMiddleware, async function (req, res, 
  * @apiUse SalepointValidationError
  *
  * @apiExample Example
- *     PATCH /api/salepoints/619126a15f69d38480a2a49f HTTP/1.1
+ *     PATCH /api/salepoints/6193a08355073cd45269ecfa HTTP/1.1
  *     Content-Type: application/json
  *
  *     {
@@ -191,18 +242,24 @@ router.get('/:id', loadSalepointFromParamsMiddleware, async function (req, res, 
  *     HTTP/1.1 200 OK
  *     Content-Type: application/json
  *
- *     {
- *       "_id": "619126a15f69d38480a2a49f",
- *       "name": "Drink new Gen",
- *       "type": "Boissons",
- *       "picture": "URLAMETTRE",
- *       "price": 2, 
- *       "description": "A new generation of drinks",
- *       "label": "Vegan", 
- *       "userId": "619126a15f69d38480a2a49f",
- *       "creationdate": "2021-10-14T15:09:21.935Z",
- *       "lastModified": "2021-11-14T15:14:21.935Z",
- *     }
+ * {
+ *    "address": "ruedespres",
+ *    "picture": "/img/ruedespres.jpg"
+ *    "paymentMethod": "Card",
+ *    "geolocation": {
+ *        "location": "Point",
+ *        "coordinates": [
+ *            -73.856077,
+ *            40.848447
+ *        ]
+ *    },
+ *    "userId": "61938a9304230581f9fc2844",
+ *    "items": [],
+ *    "_id": "6193a08355073cd45269ecfa",
+ *    "creationDate": "2021-11-16T12:13:55.124Z",
+ *    "lastModified": "2021-11-16T12:13:55.124Z",
+ *    "__v": 0
+ * }
  */
 router.patch('/:id', authenticate, loadSalepointFromParamsMiddleware, checkOwnerOrAdmin, asyncHandler(async (req, res, next) => {
 
@@ -247,7 +304,7 @@ router.patch('/:id', authenticate, loadSalepointFromParamsMiddleware, checkOwner
  * @apiDescription Permanently deletes a salepoint
  * 
  * @apiExample Example
- *     DELETE /api/salepoints/58b2926f5e1def0123e97bc0 HTTP/1.1
+ *     DELETE /api/salepoints/6193a08355073cd45269ecfa HTTP/1.1
  * 
  * @apiSuccessExample 204 No Content
  *     HTTP/1.1 204 No Content

@@ -727,7 +727,7 @@ define({ "api": [
       "examples": [
         {
           "title": "201 Created",
-          "content": "HTTP/1.1 201 Created\nContent-Type: application/json\nLocation: https://comem-rest-demo.herokuapp.com/api/salepoints/58b2926f5e1def0123e97bc0\n\n{\n  \"username\": \"Kestar\",\n  \"admin\": true,\n  \"_id\": \"61912511d1f3e541d9a2177c\",\n  \"registrationdate\": \"2021-11-14T15:02:41.974Z\",\n  \"__v\": 0\n}",
+          "content": "    HTTP/1.1 201 Created\n    Content-Type: application/json\n    Location: https://comem-rest-demo.herokuapp.com/api/salepoints/58b2926f5e1def0123e97bc0\n\n{\n  \"address\": \"ruedespres\",\n  \"picture\": \"/img/ruedespres.jpg\"\n  \"paymentMethod\": \"Card\",\n  \"geolocation\": {\n      \"location\": \"Point\",\n      \"coordinates\": [\n          -73.856077,\n          40.848447\n      ]\n  },\n  \"userId\": \"61938a9304230581f9fc2844\",\n  \"items\": [],\n  \"_id\": \"6193a08355073cd45269ecfa\",\n  \"creationDate\": \"2021-11-16T12:13:55.124Z\",\n  \"lastModified\": \"2021-11-16T12:13:55.124Z\",\n  \"__v\": 0\n}",
           "type": "json"
         }
       ]
@@ -735,7 +735,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "POST /api/salepoints HTTP/1.1\nContent-Type: application/json\n\n{\n  \"username\": \"Kestar\",\n  \"admin\": true,\n  \"password\": \"1234test\"\n}",
+        "content": "    POST /api/salepoints HTTP/1.1\n    Content-Type: application/json\n\n{\n    \"address\": \"ruedespres\",\n    \"picture\": \"/img/ruedespres.jpg\"\n     \"paymentMethod\": \"Card\",\n     \"geolocation\": {\n         \"location\":\"Point\",\n         \"coordinates\": [ -73.856077, 40.848447 ]\n     },\n     \"userId\":\"61938a9304230581f9fc2844\"\n\n }",
         "type": "json"
       }
     ],
@@ -820,7 +820,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "DELETE /api/salepoints/58b2926f5e1def0123e97bc0 HTTP/1.1",
+        "content": "DELETE /api/salepoints/6193a08355073cd45269ecfa HTTP/1.1",
         "type": "json"
       }
     ],
@@ -847,7 +847,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "PATCH /api/salepoints/619126a15f69d38480a2a49f HTTP/1.1\nContent-Type: application/json\n\n{\n  \"price\": 2\n}",
+        "content": "PATCH /api/salepoints/6193a08355073cd45269ecfa HTTP/1.1\nContent-Type: application/json\n\n{\n  \"price\": 2\n}",
         "type": "json"
       }
     ],
@@ -855,7 +855,7 @@ define({ "api": [
       "examples": [
         {
           "title": "200 OK",
-          "content": "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n  \"_id\": \"619126a15f69d38480a2a49f\",\n  \"name\": \"Drink new Gen\",\n  \"type\": \"Boissons\",\n  \"picture\": \"URLAMETTRE\",\n  \"price\": 2, \n  \"description\": \"A new generation of drinks\",\n  \"label\": \"Vegan\", \n  \"userId\": \"619126a15f69d38480a2a49f\",\n  \"creationdate\": \"2021-10-14T15:09:21.935Z\",\n  \"lastModified\": \"2021-11-14T15:14:21.935Z\",\n}",
+          "content": "    HTTP/1.1 200 OK\n    Content-Type: application/json\n\n{\n   \"address\": \"ruedespres\",\n   \"picture\": \"/img/ruedespres.jpg\"\n   \"paymentMethod\": \"Card\",\n   \"geolocation\": {\n       \"location\": \"Point\",\n       \"coordinates\": [\n           -73.856077,\n           40.848447\n       ]\n   },\n   \"userId\": \"61938a9304230581f9fc2844\",\n   \"items\": [],\n   \"_id\": \"6193a08355073cd45269ecfa\",\n   \"creationDate\": \"2021-11-16T12:13:55.124Z\",\n   \"lastModified\": \"2021-11-16T12:13:55.124Z\",\n   \"__v\": 0\n}",
           "type": "json"
         }
       ],
@@ -1035,7 +1035,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "GET /api/salepoints?gender=male&page=2&pageSize=50 HTTP/1.1",
+        "content": "GET /api/salepoints?page=1&pageSize=100 HTTP/1.1",
         "type": "json"
       }
     ],
@@ -1043,7 +1043,7 @@ define({ "api": [
       "examples": [
         {
           "title": "200 OK",
-          "content": "    HTTP/1.1 200 OK\n    Content-Type: application/json\n    Link: &lt;https://comem-rest-demo.herokuapp.com/api/salepoints?page=1&pageSize=50&gt;; rel=\"first prev\"\n\n{\n \"page\": 1,\n \"pageSize\": 100,\n \"total\": 2,\n \"data\": [\n     {\n         \"_id\": \"61912511d1f3e541d9a2177c\",\n         \"username\": \"Kestar\",\n         \"admin\": true,\n         \"registrationdate\": \"2021-11-14T15:02:41.974Z\",\n         \"__v\": 0\n     },\n     {\n         \"_id\": \"619126a15f69d38480a2a49f\",\n         \"username\": \"Mikvester\",\n         \"admin\": false,\n         \"registrationdate\": \"2021-11-14T15:09:21.935Z\",\n         \"__v\": 0\n     }\n  ]\n}",
+          "content": "    HTTP/1.1 200 OK\n    Content-Type: application/json\n    Link: &lt;https://comem-rest-demo.herokuapp.com/api/salepoints?page=1&pageSize=100&gt;; rel=\"first prev\"\n\n{\n \"page\": 1,\n \"pageSize\": 100,\n \"total\": 2,\n \"data\": [\n{\n   \"address\": \"ruedespres\",\n   \"picture\": \"/img/ruedespres.jpg\"\n   \"paymentMethod\": \"Card\",\n   \"geolocation\": {\n       \"location\": \"Point\",\n       \"coordinates\": [\n           -73.856077,\n           40.848447\n       ]\n   },\n   \"userId\": \"61938a9304230581f9fc2844\",\n   \"items\": [],\n   \"_id\": \"6193a08355073cd45269ecfa\",\n   \"creationDate\": \"2021-11-16T12:13:55.124Z\",\n   \"lastModified\": \"2021-11-16T12:13:55.124Z\",\n   \"__v\": 0\n},\n{\n   \"address\": \"Avenue des champs\",\n   \"picture\": \"/img/AvenueDesChamps.jpg\"\n   \"paymentMethod\": \"Twint\",\n   \"geolocation\": {\n       \"location\": \"Point\",\n       \"coordinates\": [\n           -53.856077,\n           30.848447\n       ]\n   },\n   \"userId\": \"61938a9304230581f9fc2844\",\n   \"items\": [],\n   \"_id\": \"4673a08355073cd45269ebts\",\n   \"creationDate\": \"2021-11-16T12:13:55.124Z\",\n   \"lastModified\": \"2021-11-16T12:13:55.124Z\",\n   \"__v\": 0\n}\n   ]\n}",
           "type": "json"
         }
       ],
@@ -1122,7 +1122,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "GET /api/salepoints/58b2926f5e1def0123e97bc0 HTTP/1.1",
+        "content": "GET /api/salepoints/6193a08355073cd45269ecfa HTTP/1.1",
         "type": "json"
       }
     ],
@@ -1130,7 +1130,7 @@ define({ "api": [
       "examples": [
         {
           "title": "200 OK",
-          "content": "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n  \"_id\": \"61912511d1f3e541d9a2177c\",\n  \"username\": \"Kestar\",\n  \"admin\": true,\n  \"registrationdate\": \"2021-11-14T15:02:41.974Z\",\n}",
+          "content": "    HTTP/1.1 200 OK\n    Content-Type: application/json\n\n{\n   \"address\": \"ruedespres\",\n   \"picture\": \"/img/ruedespres.jpg\"\n   \"paymentMethod\": \"Card\",\n   \"geolocation\": {\n       \"location\": \"Point\",\n       \"coordinates\": [\n           -73.856077,\n           40.848447\n       ]\n   },\n   \"userId\": \"61938a9304230581f9fc2844\",\n   \"items\": [],\n   \"_id\": \"6193a08355073cd45269ecfa\",\n   \"creationDate\": \"2021-11-16T12:13:55.124Z\",\n   \"lastModified\": \"2021-11-16T12:13:55.124Z\",\n   \"__v\": 0\n}",
           "type": "json"
         }
       ],
