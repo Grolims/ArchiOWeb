@@ -6,6 +6,7 @@ const Salepoint = require('../models/salepoint');
 const User = require('../models/user');
 const Item = require('../models/item');
 const { authenticate } = require('./auth');
+const { broadcastMessage } = require('../messaging');
 
 /* POST new salepoint */
 /**
@@ -60,6 +61,7 @@ router.post('/', authenticate, asyncHandler(async (req, res, next) => {
   const newSalepoint = new Salepoint(req.body);
   await newSalepoint.save();
   res.status(201).send(newSalepoint);
+  broadcastMessage({ salepoint: newSalepoint });
 
 }));
 
