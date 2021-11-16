@@ -85,7 +85,7 @@ define({ "api": [
       "examples": [
         {
           "title": "201 Created",
-          "content": "HTTP/1.1 201 Created\nContent-Type: application/json\nLocation: https://comem-rest-demo.herokuapp.com/api/item/58b2926f5e1def0123e97bc0\n\n{\n  \"username\": \"Kestar\",\n  \"admin\": true,\n  \"_id\": \"61912511d1f3e541d9a2177c\",\n  \"registrationdate\": \"2021-11-14T15:02:41.974Z\",\n  \"__v\": 0\n}",
+          "content": "HTTP/1.1 201 Created\nContent-Type: application/json\nLocation: https://comem-rest-demo.herokuapp.com/api/item/58b2926f5e1def0123e97bc0\n\n{\n  \"name\": \"Melon\",\n  \"type\": \"Fruit\",\n  \"picture\": \"/img/melon.jpg\",\n  \"price\": 3,\n  \"description\": \"Melon de Cavaillon\",\n  \"label\":\"Bio\",\n  \"userId\": \"61938a9304230581f9fc2844\"\n  \"_id\": \"6193aed08f93c92068be1a31\",\n  \"creationDate\": \"2021-11-16T13:14:56.773Z\",\n  \"lastModified\": \"2021-11-16T13:14:56.773Z\",\n  \"__v\": 0\n}",
           "type": "json"
         }
       ]
@@ -93,7 +93,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "POST /api/items HTTP/1.1\nContent-Type: application/json\n\n{\n  \"username\": \"Kestar\",\n  \"admin\": true,\n  \"password\": \"1234test\"\n}",
+        "content": "POST /api/items HTTP/1.1\nContent-Type: application/json\n\n{\n  \"name\": \"Melon\",\n  \"type\": \"Fruit\",\n  \"picture\": \"/img/melon.jpg\",\n  \"price\": 3,\n  \"description\": \"Melon de Cavaillon\",\n  \"label\":\"Bio\",\n  \"userId\": \"61938a9304230581f9fc2844\"\n}",
         "type": "json"
       }
     ],
@@ -235,7 +235,7 @@ define({ "api": [
       "examples": [
         {
           "title": "200 OK",
-          "content": "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n  \"_id\": \"619126a15f69d38480a2a49f\",\n  \"name\": \"Drink new Gen\",\n  \"type\": \"Boissons\",\n  \"picture\": \"URLAMETTRE\",\n  \"price\": 2, \n  \"description\": \"A new generation of drinks\",\n  \"label\": \"Vegan\", \n  \"userId\": \"619126a15f69d38480a2a49f\",\n  \"creationdate\": \"2021-10-14T15:09:21.935Z\",\n  \"lastModified\": \"2021-11-14T15:14:21.935Z\",\n}",
+          "content": "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n  \"name\": \"Melon\",\n  \"type\": \"Fruit\",\n  \"picture\": \"/img/melon.jpg\",\n  \"price\": 2,\n  \"description\": \"Melon de Cavaillon\",\n  \"label\":\"Bio\",\n  \"userId\": \"61938a9304230581f9fc2844\"\n  \"_id\": \"6193aed08f93c92068be1a31\",\n  \"creationDate\": \"2021-11-16T13:14:56.773Z\",\n  \"lastModified\": \"2021-11-16T13:14:56.773Z\",\n  \"__v\": 0\n}",
           "type": "json"
         }
       ],
@@ -435,11 +435,31 @@ define({ "api": [
     "group": "Item",
     "version": "1.0.0",
     "description": "<p>Retrieves a paginated list of item sorted by name (in alphabetical order).</p>",
+    "parameter": {
+      "fields": {
+        "URL query parameters": [
+          {
+            "group": "URL query parameters",
+            "type": "Number",
+            "optional": true,
+            "field": "priceLow",
+            "description": "<p>Select only item under this price</p>"
+          },
+          {
+            "group": "URL query parameters",
+            "type": "Number",
+            "optional": true,
+            "field": "priceHigh",
+            "description": "<p>Select only item over this price</p>"
+          }
+        ]
+      }
+    },
     "success": {
       "examples": [
         {
           "title": "200 OK",
-          "content": "    HTTP/1.1 200 OK\n    Content-Type: application/json\n    Link: &lt;https://comem-rest-demo.herokuapp.com/api/items?page=1&pageSize=50&gt;; rel=\"first prev\"\n\n{\n \"page\": 1,\n \"pageSize\": 100,\n \"total\": 2,\n \"data\": [\n     {\n         \"_id\": \"61912511d1f3e541d9a2177c\",\n         \"username\": \"Kestar\",\n         \"admin\": true,\n         \"registrationdate\": \"2021-11-14T15:02:41.974Z\",\n         \"__v\": 0\n     },\n     {\n         \"_id\": \"619126a15f69d38480a2a49f\",\n         \"username\": \"Mikvester\",\n         \"admin\": false,\n         \"registrationdate\": \"2021-11-14T15:09:21.935Z\",\n         \"__v\": 0\n     }\n  ]\n}",
+          "content": "    HTTP/1.1 200 OK\n    Content-Type: application/json\n    Link: &lt;https://comem-rest-demo.herokuapp.com/api/items?priceLow=4&page=1&pageSize=100&gt;; rel=\"first prev\"\n\n{\n \"page\": 1,\n \"pageSize\": 100,\n \"total\": 2,\n \"data\": [\n     {\n      \"name\": \"Melon\",\n      \"type\": \"Fruit\",\n      \"picture\": \"/img/melon.jpg\",\n      \"price\": 3,\n      \"description\": \"Melon de Cavaillon\",\n      \"label\":\"Bio\",\n      \"userId\": \"61938a9304230581f9fc2844\"\n      \"_id\": \"6193aed08f93c92068be1a31\",\n      \"creationDate\": \"2021-11-16T13:14:56.773Z\",\n      \"lastModified\": \"2021-11-16T13:14:56.773Z\",\n      \"__v\": 0\n    },\n     {\n      \"name\": \"Banane\",\n      \"type\": \"Fruit\",\n      \"picture\": \"/img/banane.jpg\",\n      \"price\": 3,\n      \"description\": \"banane jaune\",\n      \"label\":\"Bio\",\n      \"userId\": \"61938a9304230581f9fc2844\"\n      \"_id\": \"4567aed08f93c92068be1a31\",\n      \"creationDate\": \"2021-11-16T13:14:56.773Z\",\n      \"lastModified\": \"2021-11-16T13:14:56.773Z\",\n      \"__v\": 0\n    }\n  ]\n}",
           "type": "json"
         }
       ],
@@ -532,7 +552,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "GET /api/items/58b2926f5e1def0123e97bc0 HTTP/1.1",
+        "content": "GET /api/items/6193aed08f93c92068be1a31 HTTP/1.1",
         "type": "json"
       }
     ],
@@ -540,7 +560,7 @@ define({ "api": [
       "examples": [
         {
           "title": "200 OK",
-          "content": "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n  \"_id\": \"61912511d1f3e541d9a2177c\",\n  \"username\": \"Kestar\",\n  \"admin\": true,\n  \"registrationdate\": \"2021-11-14T15:02:41.974Z\",\n}",
+          "content": "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n  \"name\": \"Melon\",\n  \"type\": \"Fruit\",\n  \"picture\": \"/img/melon.jpg\",\n  \"price\": 3,\n  \"description\": \"Melon de Cavaillon\",\n  \"label\":\"Bio\",\n  \"userId\": \"61938a9304230581f9fc2844\"\n  \"_id\": \"6193aed08f93c92068be1a31\",\n  \"creationDate\": \"2021-11-16T13:14:56.773Z\",\n  \"lastModified\": \"2021-11-16T13:14:56.773Z\",\n  \"__v\": 0\n}",
           "type": "json"
         }
       ],

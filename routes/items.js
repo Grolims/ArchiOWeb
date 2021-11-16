@@ -25,9 +25,13 @@ const { broadcastMessage } = require('../messaging');
  *     Content-Type: application/json
  *
  *     {
- *       "username": "Kestar",
- *       "admin": true,
- *       "password": "1234test"
+ *       "name": "Melon",
+ *       "type": "Fruit",
+ *       "picture": "/img/melon.jpg",
+ *       "price": 3,
+ *       "description": "Melon de Cavaillon",
+ *       "label":"Bio",
+ *       "userId": "61938a9304230581f9fc2844"
  *     }
  *
  * @apiSuccessExample 201 Created
@@ -36,10 +40,16 @@ const { broadcastMessage } = require('../messaging');
  *     Location: https://comem-rest-demo.herokuapp.com/api/item/58b2926f5e1def0123e97bc0
  *
  *     {
- *       "username": "Kestar",
- *       "admin": true,
- *       "_id": "61912511d1f3e541d9a2177c",
- *       "registrationdate": "2021-11-14T15:02:41.974Z",
+ *       "name": "Melon",
+ *       "type": "Fruit",
+ *       "picture": "/img/melon.jpg",
+ *       "price": 3,
+ *       "description": "Melon de Cavaillon",
+ *       "label":"Bio",
+ *       "userId": "61938a9304230581f9fc2844"
+ *       "_id": "6193aed08f93c92068be1a31",
+ *       "creationDate": "2021-11-16T13:14:56.773Z",
+ *       "lastModified": "2021-11-16T13:14:56.773Z",
  *       "__v": 0
  *     }
  */
@@ -68,11 +78,13 @@ router.post('/', authenticate, asyncHandler(async (req, res, next) => {
  *
  * @apiUse ItemInResponseBody
  *
- *
+ * @apiParam (URL query parameters) {Number} [priceLow] Select only item under this price
+ * @apiParam (URL query parameters) {Number} [priceHigh] Select only item over this price
+ * 
  * @apiSuccessExample 200 OK
  *     HTTP/1.1 200 OK
  *     Content-Type: application/json
- *     Link: &lt;https://comem-rest-demo.herokuapp.com/api/items?page=1&pageSize=50&gt;; rel="first prev"
+ *     Link: &lt;https://comem-rest-demo.herokuapp.com/api/items?priceLow=4&page=1&pageSize=100&gt;; rel="first prev"
  *
  * {
  *  "page": 1,
@@ -80,19 +92,31 @@ router.post('/', authenticate, asyncHandler(async (req, res, next) => {
  *  "total": 2,
  *  "data": [
  *      {
- *          "_id": "61912511d1f3e541d9a2177c",
- *          "username": "Kestar",
- *          "admin": true,
- *          "registrationdate": "2021-11-14T15:02:41.974Z",
- *          "__v": 0
- *      },
+ *       "name": "Melon",
+ *       "type": "Fruit",
+ *       "picture": "/img/melon.jpg",
+ *       "price": 3,
+ *       "description": "Melon de Cavaillon",
+ *       "label":"Bio",
+ *       "userId": "61938a9304230581f9fc2844"
+ *       "_id": "6193aed08f93c92068be1a31",
+ *       "creationDate": "2021-11-16T13:14:56.773Z",
+ *       "lastModified": "2021-11-16T13:14:56.773Z",
+ *       "__v": 0
+ *     },
  *      {
- *          "_id": "619126a15f69d38480a2a49f",
- *          "username": "Mikvester",
- *          "admin": false,
- *          "registrationdate": "2021-11-14T15:09:21.935Z",
- *          "__v": 0
- *      }
+ *       "name": "Banane",
+ *       "type": "Fruit",
+ *       "picture": "/img/banane.jpg",
+ *       "price": 3,
+ *       "description": "banane jaune",
+ *       "label":"Bio",
+ *       "userId": "61938a9304230581f9fc2844"
+ *       "_id": "4567aed08f93c92068be1a31",
+ *       "creationDate": "2021-11-16T13:14:56.773Z",
+ *       "lastModified": "2021-11-16T13:14:56.773Z",
+ *       "__v": 0
+ *     }
  *   ]
  * }
  */
@@ -158,17 +182,24 @@ router.get('/', asyncHandler(async (req, res, next) => {
  * @apiUse ItemNotFoundError
  *
  * @apiExample Example
- *     GET /api/items/58b2926f5e1def0123e97bc0 HTTP/1.1
+ *     GET /api/items/6193aed08f93c92068be1a31 HTTP/1.1
  *
  * @apiSuccessExample 200 OK
  *     HTTP/1.1 200 OK
  *     Content-Type: application/json
  *
  *     {
- *       "_id": "61912511d1f3e541d9a2177c",
- *       "username": "Kestar",
- *       "admin": true,
- *       "registrationdate": "2021-11-14T15:02:41.974Z",
+ *       "name": "Melon",
+ *       "type": "Fruit",
+ *       "picture": "/img/melon.jpg",
+ *       "price": 3,
+ *       "description": "Melon de Cavaillon",
+ *       "label":"Bio",
+ *       "userId": "61938a9304230581f9fc2844"
+ *       "_id": "6193aed08f93c92068be1a31",
+ *       "creationDate": "2021-11-16T13:14:56.773Z",
+ *       "lastModified": "2021-11-16T13:14:56.773Z",
+ *       "__v": 0
  *     }
  */
 router.get('/:id', loadItemFromParamsMiddleware, asyncHandler(async (req, res, next) => {
@@ -203,16 +234,17 @@ router.get('/:id', loadItemFromParamsMiddleware, asyncHandler(async (req, res, n
  *     Content-Type: application/json
  *
  *     {
- *       "_id": "619126a15f69d38480a2a49f",
- *       "name": "Drink new Gen",
- *       "type": "Boissons",
- *       "picture": "URLAMETTRE",
- *       "price": 2, 
- *       "description": "A new generation of drinks",
- *       "label": "Vegan", 
- *       "userId": "619126a15f69d38480a2a49f",
- *       "creationdate": "2021-10-14T15:09:21.935Z",
- *       "lastModified": "2021-11-14T15:14:21.935Z",
+ *       "name": "Melon",
+ *       "type": "Fruit",
+ *       "picture": "/img/melon.jpg",
+ *       "price": 2,
+ *       "description": "Melon de Cavaillon",
+ *       "label":"Bio",
+ *       "userId": "61938a9304230581f9fc2844"
+ *       "_id": "6193aed08f93c92068be1a31",
+ *       "creationDate": "2021-11-16T13:14:56.773Z",
+ *       "lastModified": "2021-11-16T13:14:56.773Z",
+ *       "__v": 0
  *     }
  */
 router.patch('/:id', authenticate, loadItemFromParamsMiddleware, checkOwnerOrAdmin, asyncHandler(async (req, res, next) => {
