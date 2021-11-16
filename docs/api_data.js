@@ -888,7 +888,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example",
-        "content": "PATCH /api/salepoints/6193a08355073cd45269ecfa HTTP/1.1\nContent-Type: application/json\n\n{\n  \"price\": 2\n}",
+        "content": "PATCH /api/salepoints/6193a08355073cd45269ecfa HTTP/1.1\nContent-Type: application/json\n\n{\n  \"address\": \"Rue des pres 31\"\n}",
         "type": "json"
       }
     ],
@@ -896,7 +896,7 @@ define({ "api": [
       "examples": [
         {
           "title": "200 OK",
-          "content": "    HTTP/1.1 200 OK\n    Content-Type: application/json\n\n{\n   \"address\": \"ruedespres\",\n   \"picture\": \"/img/ruedespres.jpg\"\n   \"paymentMethod\": \"Card\",\n   \"geolocation\": {\n       \"location\": \"Point\",\n       \"coordinates\": [\n           -73.856077,\n           40.848447\n       ]\n   },\n   \"userId\": \"61938a9304230581f9fc2844\",\n   \"items\": [],\n   \"_id\": \"6193a08355073cd45269ecfa\",\n   \"creationDate\": \"2021-11-16T12:13:55.124Z\",\n   \"lastModified\": \"2021-11-16T12:13:55.124Z\",\n   \"__v\": 0\n}",
+          "content": "    HTTP/1.1 200 OK\n    Content-Type: application/json\n\n{\n   \"address\": \"Rue des pres 31\",\n   \"picture\": \"/img/ruedespres.jpg\"\n   \"paymentMethod\": \"Card\",\n   \"geolocation\": {\n       \"location\": \"Point\",\n       \"coordinates\": [\n           -73.856077,\n           40.848447\n       ]\n   },\n   \"userId\": \"61938a9304230581f9fc2844\",\n   \"items\": [],\n   \"_id\": \"6193a08355073cd45269ecfa\",\n   \"creationDate\": \"2021-11-16T12:13:55.124Z\",\n   \"lastModified\": \"2021-11-16T12:13:55.124Z\",\n   \"__v\": 0\n}",
           "type": "json"
         }
       ],
@@ -1375,6 +1375,13 @@ define({ "api": [
           },
           {
             "group": "Response body",
+            "type": "String",
+            "optional": false,
+            "field": "itemAdd",
+            "description": "<p>The number of items add by the User</p>"
+          },
+          {
+            "group": "Response body",
             "type": "Boolean",
             "optional": false,
             "field": "admin",
@@ -1514,6 +1521,13 @@ define({ "api": [
           },
           {
             "group": "Response body",
+            "type": "String",
+            "optional": false,
+            "field": "itemAdd",
+            "description": "<p>The number of items add by the User</p>"
+          },
+          {
+            "group": "Response body",
             "type": "Boolean",
             "optional": false,
             "field": "admin",
@@ -1568,6 +1582,13 @@ define({ "api": [
             "optional": false,
             "field": "username",
             "description": "<p>The username of the User</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "String",
+            "optional": false,
+            "field": "itemAdd",
+            "description": "<p>The number of items add by the User</p>"
           },
           {
             "group": "Response body",
@@ -1688,6 +1709,13 @@ define({ "api": [
           },
           {
             "group": "Response body",
+            "type": "String",
+            "optional": false,
+            "field": "itemAdd",
+            "description": "<p>The number of items add by the User</p>"
+          },
+          {
+            "group": "Response body",
             "type": "Boolean",
             "optional": false,
             "field": "admin",
@@ -1744,6 +1772,13 @@ define({ "api": [
             "optional": false,
             "field": "username",
             "description": "<p>The username of the User</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "String",
+            "optional": false,
+            "field": "itemAdd",
+            "description": "<p>The number of items add by the User</p>"
           },
           {
             "group": "Response body",

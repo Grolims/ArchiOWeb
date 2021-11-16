@@ -233,7 +233,7 @@ router.get('/:id', loadSalepointFromParamsMiddleware, async function (req, res, 
  *     Content-Type: application/json
  *
  *     {
- *       "price": 2
+ *       "address": "Rue des pres 31"
  *     }
  *
  * @apiSuccessExample 200 OK
@@ -241,7 +241,7 @@ router.get('/:id', loadSalepointFromParamsMiddleware, async function (req, res, 
  *     Content-Type: application/json
  *
  * {
- *    "address": "ruedespres",
+ *    "address": "Rue des pres 31",
  *    "picture": "/img/ruedespres.jpg"
  *    "paymentMethod": "Card",
  *    "geolocation": {
