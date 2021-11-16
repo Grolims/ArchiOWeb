@@ -803,7 +803,7 @@ define({ "api": [
       "examples": [
         {
           "title": "422 Unprocessable Entity",
-          "content": "HTTP/1.1 422 Unprocessable Entity\nContent-Type: application/json\n\n{\n  \"message\": \"Salepoint validation failed\",\n  \"errors\": {\n    \"label\": {\n      \"kind\": \"enum\",\n      \"message\": \"`test` is not a valid enum value for path `label`.\",\n      \"name\": \"ValidatorError\",\n      \"path\": \"label\",\n      \"properties\": {\n        \"enumValues\": [\n          \"Bio\",\n          \"Vegan\"\n        ],\n        \"message\": \"`{VALUE}` is not a valid enum value for path `{PATH}`.\",\n        \"path\": \"label\",\n        \"type\": \"enum\",\n        \"value\": \"test\"\n      },\n      \"value\": \"test\"\n    }\n  }\n}",
+          "content": "HTTP/1.1 422 Unprocessable Entity\nContent-Type: application/json\n\n{\n  \"message\": \"Salepoint validation failed\",\n  \"errors\": {\n    \"paymentMethod\": {\n      \"kind\": \"enum\",\n      \"message\": \"`test` is not a valid enum value for path `paymentMethod`.\",\n      \"name\": \"ValidatorError\",\n      \"path\": \"paymentMethod\",\n      \"properties\": {\n        \"enumValues\": [\n          \"Card\",\n          \"Cash\",\n          \"Twint\"\n        ],\n        \"message\": \"`{VALUE}` is not a valid enum value for path `{PATH}`.\",\n        \"path\": \"paymentMethod\",\n        \"type\": \"enum\",\n        \"value\": \"test\"\n      },\n      \"value\": \"test\"\n    }\n  }\n}",
           "type": "json"
         }
       ]
@@ -1005,7 +1005,7 @@ define({ "api": [
         },
         {
           "title": "422 Unprocessable Entity",
-          "content": "HTTP/1.1 422 Unprocessable Entity\nContent-Type: application/json\n\n{\n  \"message\": \"Salepoint validation failed\",\n  \"errors\": {\n    \"label\": {\n      \"kind\": \"enum\",\n      \"message\": \"`test` is not a valid enum value for path `label`.\",\n      \"name\": \"ValidatorError\",\n      \"path\": \"label\",\n      \"properties\": {\n        \"enumValues\": [\n          \"Bio\",\n          \"Vegan\"\n        ],\n        \"message\": \"`{VALUE}` is not a valid enum value for path `{PATH}`.\",\n        \"path\": \"label\",\n        \"type\": \"enum\",\n        \"value\": \"test\"\n      },\n      \"value\": \"test\"\n    }\n  }\n}",
+          "content": "HTTP/1.1 422 Unprocessable Entity\nContent-Type: application/json\n\n{\n  \"message\": \"Salepoint validation failed\",\n  \"errors\": {\n    \"paymentMethod\": {\n      \"kind\": \"enum\",\n      \"message\": \"`test` is not a valid enum value for path `paymentMethod`.\",\n      \"name\": \"ValidatorError\",\n      \"path\": \"paymentMethod\",\n      \"properties\": {\n        \"enumValues\": [\n          \"Card\",\n          \"Cash\",\n          \"Twint\"\n        ],\n        \"message\": \"`{VALUE}` is not a valid enum value for path `{PATH}`.\",\n        \"path\": \"paymentMethod\",\n        \"type\": \"enum\",\n        \"value\": \"test\"\n      },\n      \"value\": \"test\"\n    }\n  }\n}",
           "type": "json"
         }
       ]
@@ -1019,19 +1019,6 @@ define({ "api": [
     "group": "Salepoint",
     "version": "1.0.0",
     "description": "<p>Retrieves a paginated list of Salepoint sorted by name (in alphabetical order).</p>",
-    "parameter": {
-      "fields": {
-        "URL query parameters": [
-          {
-            "group": "URL query parameters",
-            "type": "String",
-            "optional": true,
-            "field": "gender",
-            "description": "<p>Select only Salepoint of the specified gender</p>"
-          }
-        ]
-      }
-    },
     "examples": [
       {
         "title": "Example",

@@ -8,7 +8,6 @@ const Item = require('../models/item');
 const { authenticate } = require('./auth');
 const { broadcastMessage } = require('../messaging');
 
-/* POST new salepoint */
 /**
  * @api {post} /api/salepoints Create a salepoint
  * @apiName CreateSalepoint
@@ -82,7 +81,7 @@ router.post('/', authenticate, asyncHandler(async (req, res, next) => {
 
 }));
 
-/* GET paginated salepoints listing */
+
 /**
  * @api {get} /api/salepoints List salepoint
  * @apiName RetrieveSalepoint
@@ -92,7 +91,6 @@ router.post('/', authenticate, asyncHandler(async (req, res, next) => {
  *
  * @apiUse SalepointInResponseBody
  *
- * @apiParam (URL query parameters) {String} [gender] Select only Salepoint of the specified gender
  *
  * @apiExample Example
  *     GET /api/salepoints?page=1&pageSize=100 HTTP/1.1
@@ -173,7 +171,7 @@ router.get('/', asyncHandler(async (req, res, next) => {
 
 }));
 
-/* GET salepoint by id and associated user & items */
+
 /**
  * @api {get} /api/salepoints/:id GET salepoint by id and associated users & items
  * @apiName RetrieveSalepoint
@@ -215,7 +213,7 @@ router.get('/:id', loadSalepointFromParamsMiddleware, async function (req, res, 
   res.send(req.salepoint);
 });
 
-/* PATCH salepoint by id */
+
 /**
  * @api {patch} /api/salepoints/:id Partially update a salepoint
  * @apiName PartiallyUpdateSalepoint
@@ -419,18 +417,19 @@ function checkOwnerOrAdmin(req, res, next) {
  *     {
  *       "message": "Salepoint validation failed",
  *       "errors": {
- *         "label": {
+ *         "paymentMethod": {
  *           "kind": "enum",
- *           "message": "`test` is not a valid enum value for path `label`.",
+ *           "message": "`test` is not a valid enum value for path `paymentMethod`.",
  *           "name": "ValidatorError",
- *           "path": "label",
+ *           "path": "paymentMethod",
  *           "properties": {
  *             "enumValues": [
- *               "Bio",
- *               "Vegan"
+ *               "Card",
+ *               "Cash",
+ *               "Twint"
  *             ],
  *             "message": "`{VALUE}` is not a valid enum value for path `{PATH}`.",
- *             "path": "label",
+ *             "path": "paymentMethod",
  *             "type": "enum",
  *             "value": "test"
  *           },
