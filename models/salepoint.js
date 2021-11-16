@@ -10,32 +10,7 @@ const salepointSchema = new Schema({
     minlength: 3,
     maxlength: 300,
   },
-  // location: {
-  //   type: {
-  //     type: String,
-  //     required: true,
-  //     enum: ['Point']
-  //   },
-  //   name: {
-  //     type: String,
-  //     required: true,
-  //     minlength: 3,
-  //     maxlength: 30,
-  //   },
-  //   rating: {
-  //     type: Number,
-  //     min: 0,
-  //     max: 10
-  //   },
-  //   coordinates: {
-  //     type: [Number],
-  //     required: true,
-  //     validate: {
-  //       validator: validateGeoJsonCoordinates,
-  //       message: '{VALUE} is not a valid longitude/latitude(/altitude) coordinates array'
-  //     }
-  //   }
-  // },
+
   picture: {
     type: String,
     required: false
@@ -43,6 +18,21 @@ const salepointSchema = new Schema({
   paymentMethod: {
     type: String,
     enum: ['Card', 'Cash', 'Twint']
+  },
+  geolocation: {
+  location: {
+      type: String,
+      required: true,
+      enum: [ 'Point' ]
+  },
+    coordinates: {
+      type: [ Number ],
+      required: true,
+      validate: {
+        validator: validateGeoJsonCoordinates,
+        message: '{VALUE} is not a valid longitude/latitude(/altitude) coordinates array'
+      }
+    }
   },
   userId: {
     type: Schema.Types.ObjectId,
@@ -108,11 +98,18 @@ function validateItem(value) {
     }
   }
 }
-
+// Validate a GeoJSON coordinates array (longitude, latitude and optional altitude).
 function validateGeoJsonCoordinates(value) {
   return Array.isArray(value) && value.length >= 2 && value.length <= 3 && isLongitude(value[0]) && isLatitude(value[1]);
 }
 
+function isLatitude(value) {
+  return value >= -90 && value <= 90;
+}
+
+function isLongitude(value) {
+  return value >= -180 && value <= 180;
+}
 
 
 // Export model
