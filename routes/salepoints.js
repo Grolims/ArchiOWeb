@@ -377,8 +377,10 @@ function checkOwnerOrAdmin(req, res, next) {
  * @apiParam (Request body) {String{3..300}} address The address of the Salepoint 
  * @apiParam (Request body) {String} picture Picture of the Salepoint
  * @apiParam (Request body) {String="Card", "Cash", "Twint"} paymentMethod Payment method of the salepoint
+ * @apiParam (Request body) {object} geolocation The geolocation of the Salepoint
+ * @apiParam (Request body) {String="Point"} location the point of the location 
+ * @apiParam (Request body) {[Number]} coordinate The coordinate of the salepoint
  * @apiParam (Request body) {Schema.Types.ObjectId} userId The ID of the owner of the Salepoint
- * @apiParam (Request body) {[Schema.Types.ObjectId]} items List of items in the Salepoint
  */
 
 /**
@@ -387,6 +389,9 @@ function checkOwnerOrAdmin(req, res, next) {
  * @apiSuccess (Response body) {String} address The address of the Salepoint 
  * @apiSuccess (Response body) {String} picture Picture of the Salepoint
  * @apiSuccess (Response body) {String} paymentMethod Payment method of the salepoint
+ * @apiSuccess (Response body) {object} geolocation The geolocation of the Salepoint
+ * @apiSuccess (Response body) {String="Point"} location the point of the location 
+ * @apiSuccess (Response body) {[Number]} coordinate The coordinate of the salepoint
  * @apiSuccess (Response body) {Schema.Types.ObjectId} userId The ID of the owner of the Salepoint
  * @apiSuccess (Response body) {[Schema.Types.ObjectId]} items List of items in the Salepoint
  * @apiSuccess (Response body) {Date} creationDate The creation's date of the salepoint

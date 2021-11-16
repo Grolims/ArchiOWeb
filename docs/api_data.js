@@ -696,6 +696,30 @@ define({ "api": [
           },
           {
             "group": "Response body",
+            "type": "object",
+            "optional": false,
+            "field": "geolocation",
+            "description": "<p>The geolocation of the Salepoint</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "String",
+            "allowedValues": [
+              "\"Point\""
+            ],
+            "optional": false,
+            "field": "location",
+            "description": "<p>the point of the location</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "[Number]",
+            "optional": false,
+            "field": "coordinate",
+            "description": "<p>The coordinate of the salepoint</p>"
+          },
+          {
+            "group": "Response body",
             "type": "Schema.Types.ObjectId",
             "optional": false,
             "field": "userId",
@@ -773,17 +797,34 @@ define({ "api": [
           },
           {
             "group": "Request body",
+            "type": "object",
+            "optional": false,
+            "field": "geolocation",
+            "description": "<p>The geolocation of the Salepoint</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "String",
+            "allowedValues": [
+              "\"Point\""
+            ],
+            "optional": false,
+            "field": "location",
+            "description": "<p>the point of the location</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "[Number]",
+            "optional": false,
+            "field": "coordinate",
+            "description": "<p>The coordinate of the salepoint</p>"
+          },
+          {
+            "group": "Request body",
             "type": "Schema.Types.ObjectId",
             "optional": false,
             "field": "userId",
             "description": "<p>The ID of the owner of the Salepoint</p>"
-          },
-          {
-            "group": "Request body",
-            "type": "[Schema.Types.ObjectId]",
-            "optional": false,
-            "field": "items",
-            "description": "<p>List of items in the Salepoint</p>"
           }
         ]
       }
@@ -891,6 +932,30 @@ define({ "api": [
           },
           {
             "group": "Response body",
+            "type": "object",
+            "optional": false,
+            "field": "geolocation",
+            "description": "<p>The geolocation of the Salepoint</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "String",
+            "allowedValues": [
+              "\"Point\""
+            ],
+            "optional": false,
+            "field": "location",
+            "description": "<p>the point of the location</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "[Number]",
+            "optional": false,
+            "field": "coordinate",
+            "description": "<p>The coordinate of the salepoint</p>"
+          },
+          {
+            "group": "Response body",
             "type": "Schema.Types.ObjectId",
             "optional": false,
             "field": "userId",
@@ -963,17 +1028,34 @@ define({ "api": [
           },
           {
             "group": "Request body",
+            "type": "object",
+            "optional": false,
+            "field": "geolocation",
+            "description": "<p>The geolocation of the Salepoint</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "String",
+            "allowedValues": [
+              "\"Point\""
+            ],
+            "optional": false,
+            "field": "location",
+            "description": "<p>the point of the location</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "[Number]",
+            "optional": false,
+            "field": "coordinate",
+            "description": "<p>The coordinate of the salepoint</p>"
+          },
+          {
+            "group": "Request body",
             "type": "Schema.Types.ObjectId",
             "optional": false,
             "field": "userId",
             "description": "<p>The ID of the owner of the Salepoint</p>"
-          },
-          {
-            "group": "Request body",
-            "type": "[Schema.Types.ObjectId]",
-            "optional": false,
-            "field": "items",
-            "description": "<p>List of items in the Salepoint</p>"
           }
         ]
       }
@@ -1066,6 +1148,30 @@ define({ "api": [
           },
           {
             "group": "Response body",
+            "type": "object",
+            "optional": false,
+            "field": "geolocation",
+            "description": "<p>The geolocation of the Salepoint</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "String",
+            "allowedValues": [
+              "\"Point\""
+            ],
+            "optional": false,
+            "field": "location",
+            "description": "<p>the point of the location</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "[Number]",
+            "optional": false,
+            "field": "coordinate",
+            "description": "<p>The coordinate of the salepoint</p>"
+          },
+          {
+            "group": "Response body",
             "type": "Schema.Types.ObjectId",
             "optional": false,
             "field": "userId",
@@ -1150,6 +1256,30 @@ define({ "api": [
             "optional": false,
             "field": "paymentMethod",
             "description": "<p>Payment method of the salepoint</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "object",
+            "optional": false,
+            "field": "geolocation",
+            "description": "<p>The geolocation of the Salepoint</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "String",
+            "allowedValues": [
+              "\"Point\""
+            ],
+            "optional": false,
+            "field": "location",
+            "description": "<p>the point of the location</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "[Number]",
+            "optional": false,
+            "field": "coordinate",
+            "description": "<p>The coordinate of the salepoint</p>"
           },
           {
             "group": "Response body",
