@@ -200,7 +200,7 @@
     "examples": [
       {
         "title": "Example",
-        "content": "DELETE /api/items/58b2926f5e1def0123e97bc0 HTTP/1.1",
+        "content": "DELETE /api/items/6193aed08f93c92068be1a31 HTTP/1.1",
         "type": "json"
       }
     ],
@@ -416,7 +416,7 @@
       "examples": [
         {
           "title": "404 Not Found",
-          "content": "HTTP/1.1 404 Not Found\nContent-Type: text/plain\n\nNo Item found with ID 58b2926f5e1def0123e97bc0",
+          "content": "HTTP/1.1 404 Not Found\nContent-Type: text/plain\n\nNo Item found with ID 6193aed08f93c92068be1a31",
           "type": "json"
         },
         {
@@ -669,7 +669,7 @@
       "examples": [
         {
           "title": "404 Not Found",
-          "content": "HTTP/1.1 404 Not Found\nContent-Type: text/plain\n\nNo Item found with ID 58b2926f5e1def0123e97bc0",
+          "content": "HTTP/1.1 404 Not Found\nContent-Type: text/plain\n\nNo Item found with ID 6193aed08f93c92068be1a31",
           "type": "json"
         }
       ]

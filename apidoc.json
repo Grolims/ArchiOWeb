@@ -1,7 +1,7 @@
 {
     "name": "LocalSearch",
     "version": "1.0.0",
-    "description": "Il faudra trouver un nom et une bonne description",
+    "description": "API allowing to manage the salepoints and their items of the users",
     "title": "Local Search",
     "url" : "https://apple.com"
   }
