@@ -16,7 +16,7 @@ try {
  exports.bcryptCostFactor = 10;
 
  // JWT signing key
- exports.secretKey = process.env.SECRET_KEY ||'MikkelBoss';
+ exports.secretKey = process.env.SECRET_KEY;
 
  // Validate port is positive integer
  if (process.env.PORT) {
