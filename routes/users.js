@@ -73,10 +73,9 @@ router.post('/', asyncHandler(async (req, res, next) => {
  *
  * @apiUse UserInResponseBody
  *
- * @apiParam (URL query parameters) {String} [gender] Select only user of the specified gender
  *
  * @apiExample Example
- *     GET /api/users?gender=male&page=2&pageSize=50 HTTP/1.1
+ *     GET /api/users?page=1&pageSize=100 HTTP/1.1
  *
  * @apiSuccessExample 200 OK
  *     HTTP/1.1 200 OK
@@ -135,16 +134,6 @@ router.get('/', asyncHandler(async (req, res, next) => {
 
 })
 );
-/**
- * test websocket msg
- */
-
- router.post('/websocket', function(req, res, next) {
-  // Do stuff...
-  broadcastMessage({ hello: 'world' });
-});
-
-
 
 
 /**
@@ -159,7 +148,7 @@ router.get('/', asyncHandler(async (req, res, next) => {
  * @apiUse UserNotFoundError
  *
  * @apiExample Example
- *     GET /api/users/58b2926f5e1def0123e97bc0 HTTP/1.1
+ *     GET /api/users/61912511d1f3e541d9a2177c HTTP/1.1
  *
  * @apiSuccessExample 200 OK
  *     HTTP/1.1 200 OK
@@ -309,6 +298,27 @@ router.delete('/:id', authenticate, loadUserFromParamsMiddleware, checkOwnerOrAd
 
 /**
  * Login route
+ */
+/**
+ * @api {post} /api/login login
+ * @apiName Login
+ * @apiGroup User
+ * @apiVersion 1.0.0
+ * @apiDescription Connect to an account
+ *
+ * @apiUse UserInRequestBody
+ * @apiUse UserInResponseBody
+ * @apiUse UserValidationError
+ *
+ * @apiExample Example
+ *     POST /api/login HTTP/1.1
+ *     Content-Type: application/json
+ *
+ *     {
+ *       "username": "Kestar",
+ *       "password": "1234test"
+ *     }
+ *
  */
 router.post('/login', asyncHandler(async (req, res, next) => {
 

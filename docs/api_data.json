@@ -435,26 +435,6 @@
     "group": "Item",
     "version": "1.0.0",
     "description": "<p>Retrieves a paginated list of item sorted by name (in alphabetical order).</p>",
-    "parameter": {
-      "fields": {
-        "URL query parameters": [
-          {
-            "group": "URL query parameters",
-            "type": "String",
-            "optional": true,
-            "field": "gender",
-            "description": "<p>Select only item of the specified gender</p>"
-          }
-        ]
-      }
-    },
-    "examples": [
-      {
-        "title": "Example",
-        "content": "GET /api/items?gender=male&page=2&pageSize=50 HTTP/1.1",
-        "type": "json"
-      }
-    ],
     "success": {
       "examples": [
         {
@@ -1387,6 +1367,107 @@
     "groupTitle": "User"
   },
   {
+    "type": "post",
+    "url": "/api/login",
+    "title": "login",
+    "name": "Login",
+    "group": "User",
+    "version": "1.0.0",
+    "description": "<p>Connect to an account</p>",
+    "examples": [
+      {
+        "title": "Example",
+        "content": "POST /api/login HTTP/1.1\nContent-Type: application/json\n\n{\n  \"username\": \"Kestar\",\n  \"password\": \"1234test\"\n}",
+        "type": "json"
+      }
+    ],
+    "filename": "routes/users.js",
+    "groupTitle": "User",
+    "parameter": {
+      "fields": {
+        "Request body": [
+          {
+            "group": "Request body",
+            "type": "String",
+            "size": "3..30",
+            "optional": false,
+            "field": "username",
+            "description": "<p>The username of the User (must be unique)</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Boolean",
+            "optional": false,
+            "field": "admin",
+            "description": "<p>Is an admin account or not</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "String",
+            "size": "min 8",
+            "optional": false,
+            "field": "password",
+            "description": "<p>Password of the account</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Response body": [
+          {
+            "group": "Response body",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>The username of the User</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Boolean",
+            "optional": false,
+            "field": "admin",
+            "description": "<p>Is an admin account or not</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "String",
+            "optional": false,
+            "field": "id",
+            "description": "<p>The unique identifier of the User</p>"
+          },
+          {
+            "group": "Response body",
+            "type": "Date",
+            "optional": false,
+            "field": "registrationdate",
+            "description": "<p>The registration date of the User</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "type": "Object",
+            "optional": false,
+            "field": "422/UnprocessableEntity",
+            "description": "<p>Some of the User's properties are invalid</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "422 Unprocessable Entity",
+          "content": "HTTP/1.1 422 Unprocessable Entity\nContent-Type: application/json\n\n{\n  \"message\": \"User validation failed\",\n  \"errors\": {\n    \"gender\": {\n      \"kind\": \"enum\",\n      \"message\": \"`foo` is not a valid enum value for path `gender`.\",\n      \"name\": \"ValidatorError\",\n      \"path\": \"gender\",\n      \"properties\": {\n        \"enumValues\": [\n          \"male\",\n          \"female\",\n          \"other\"\n        ],\n        \"message\": \"`{VALUE}` is not a valid enum value for path `{PATH}`.\",\n        \"path\": \"gender\",\n        \"type\": \"enum\",\n        \"value\": \"foo\"\n      },\n      \"value\": \"foo\"\n    }\n  }\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
     "type": "patch",
     "url": "/api/users/:id",
     "title": "Partially update a user",
@@ -1523,23 +1604,10 @@
     "group": "User",
     "version": "1.0.0",
     "description": "<p>Retrieves a paginated list of user sorted by name (in alphabetical order).</p>",
-    "parameter": {
-      "fields": {
-        "URL query parameters": [
-          {
-            "group": "URL query parameters",
-            "type": "String",
-            "optional": true,
-            "field": "gender",
-            "description": "<p>Select only user of the specified gender</p>"
-          }
-        ]
-      }
-    },
     "examples": [
       {
         "title": "Example",
-        "content": "GET /api/users?gender=male&page=2&pageSize=50 HTTP/1.1",
+        "content": "GET /api/users?page=1&pageSize=100 HTTP/1.1",
         "type": "json"
       }
     ],
@@ -1594,11 +1662,11 @@
     "name": "RetrieveUser",
     "group": "User",
     "version": "1.0.0",
-    "description": "<p>Retrieves one user.</p>",
+    "description": "<p>Retrieves one user with item add.</p>",
     "examples": [
       {
         "title": "Example",
-        "content": "GET /api/users/58b2926f5e1def0123e97bc0 HTTP/1.1",
+        "content": "GET /api/users/61912511d1f3e541d9a2177c HTTP/1.1",
         "type": "json"
       }
     ],
@@ -1606,7 +1674,7 @@
       "examples": [
         {
           "title": "200 OK",
-          "content": "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n  \"_id\": \"61912511d1f3e541d9a2177c\",\n  \"username\": \"Kestar\",\n  \"admin\": true,\n  \"registrationdate\": \"2021-11-14T15:02:41.974Z\",\n}",
+          "content": "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n  \"_id\": \"61912511d1f3e541d9a2177c\",\n  \"username\": \"Kestar\",\n  \"itemAdd\": 1\n}",
           "type": "json"
         }
       ],

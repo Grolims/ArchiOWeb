@@ -68,10 +68,6 @@ router.post('/', authenticate, asyncHandler(async (req, res, next) => {
  *
  * @apiUse ItemInResponseBody
  *
- * @apiParam (URL query parameters) {String} [gender] Select only item of the specified gender
- *
- * @apiExample Example
- *     GET /api/items?gender=male&page=2&pageSize=50 HTTP/1.1
  *
  * @apiSuccessExample 200 OK
  *     HTTP/1.1 200 OK
