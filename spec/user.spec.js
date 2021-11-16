@@ -115,7 +115,7 @@ describe('POST /users', function() {
       user = users[0];
     });
 
-    it('should  modifie a user', async function() {
+    it('should patch a user', async function() {
      
       const token = await generateValidJwt(user)
       const res = await supertest(app)
@@ -152,7 +152,7 @@ describe('POST /users', function() {
       user = users[0];
     });
 
-    it('should  modifie a user', async function() {
+    it('should delete a user', async function() {
       const token = await generateValidJwt(user)
       const res = await supertest(app)
      
