@@ -152,7 +152,7 @@ router.get('/', asyncHandler(async (req, res, next) => {
  * @apiName RetrieveUser
  * @apiGroup User
  * @apiVersion 1.0.0
- * @apiDescription Retrieves one user.
+ * @apiDescription Retrieves one user with item add.
  *
  * @apiUse UserIdInUrlPath
  * @apiUse UserInResponseBody
@@ -168,12 +168,10 @@ router.get('/', asyncHandler(async (req, res, next) => {
  *     {
  *       "_id": "61912511d1f3e541d9a2177c",
  *       "username": "Kestar",
- *       "admin": true,
- *       "registrationdate": "2021-11-14T15:02:41.974Z",
+ *       "itemAdd": 1
  *     }
  */
 router.get('/:id', loadUserFromParamsMiddleware, asyncHandler(async (req, res, next) => {
-  console.log('aggregate')
   User.aggregate([
     {
     $match:{
@@ -218,13 +216,7 @@ router.get('/:id', loadUserFromParamsMiddleware, asyncHandler(async (req, res, n
       return next(err);
     }
     
-    const aggregatedDocu = results.map(result => {
-      const user = new User(result);
-      const json = user.toJSON();
-      json.itemAdd = result.itemAdd;
-      return json;
-    });
-    res.send(aggregatedDocu);
+    res.send(results[0]);
   });
 
 }));
