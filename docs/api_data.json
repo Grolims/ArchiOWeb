@@ -1317,26 +1317,6 @@
           }
         ]
       }
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "type": "Object",
-            "optional": false,
-            "field": "422/UnprocessableEntity",
-            "description": "<p>Some of the User's properties are invalid</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "422 Unprocessable Entity",
-          "content": "HTTP/1.1 422 Unprocessable Entity\nContent-Type: application/json\n\n{\n  \"message\": \"User validation failed\",\n  \"errors\": {\n    \"gender\": {\n      \"kind\": \"enum\",\n      \"message\": \"`foo` is not a valid enum value for path `gender`.\",\n      \"name\": \"ValidatorError\",\n      \"path\": \"gender\",\n      \"properties\": {\n        \"enumValues\": [\n          \"male\",\n          \"female\",\n          \"other\"\n        ],\n        \"message\": \"`{VALUE}` is not a valid enum value for path `{PATH}`.\",\n        \"path\": \"gender\",\n        \"type\": \"enum\",\n        \"value\": \"foo\"\n      },\n      \"value\": \"foo\"\n    }\n  }\n}",
-          "type": "json"
-        }
-      ]
     }
   },
   {
@@ -1350,7 +1330,7 @@
     "examples": [
       {
         "title": "Example",
-        "content": "DELETE /api/users/58b2926f5e1def0123e97bc0 HTTP/1.1",
+        "content": "DELETE /api/users/619126a15f69d38480a2a49f HTTP/1.1",
         "type": "json"
       }
     ],
@@ -1369,20 +1349,11 @@
   {
     "type": "post",
     "url": "/api/login",
-    "title": "login",
+    "title": "Login",
     "name": "Login",
     "group": "User",
     "version": "1.0.0",
     "description": "<p>Connect to an account</p>",
-    "examples": [
-      {
-        "title": "Example",
-        "content": "POST /api/login HTTP/1.1\nContent-Type: application/json\n\n{\n  \"username\": \"Kestar\",\n  \"password\": \"1234test\"\n}",
-        "type": "json"
-      }
-    ],
-    "filename": "routes/users.js",
-    "groupTitle": "User",
     "parameter": {
       "fields": {
         "Request body": [
@@ -1396,13 +1367,6 @@
           },
           {
             "group": "Request body",
-            "type": "Boolean",
-            "optional": false,
-            "field": "admin",
-            "description": "<p>Is an admin account or not</p>"
-          },
-          {
-            "group": "Request body",
             "type": "String",
             "size": "min 8",
             "optional": false,
@@ -1412,6 +1376,15 @@
         ]
       }
     },
+    "examples": [
+      {
+        "title": "Example",
+        "content": "POST /api/login HTTP/1.1\nContent-Type: application/json\n\n{\n  \"username\": \"Kestar\",\n  \"password\": \"1234test\"\n}",
+        "type": "json"
+      }
+    ],
+    "filename": "routes/users.js",
+    "groupTitle": "User",
     "success": {
       "fields": {
         "Response body": [
@@ -1445,26 +1418,6 @@
           }
         ]
       }
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "type": "Object",
-            "optional": false,
-            "field": "422/UnprocessableEntity",
-            "description": "<p>Some of the User's properties are invalid</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "422 Unprocessable Entity",
-          "content": "HTTP/1.1 422 Unprocessable Entity\nContent-Type: application/json\n\n{\n  \"message\": \"User validation failed\",\n  \"errors\": {\n    \"gender\": {\n      \"kind\": \"enum\",\n      \"message\": \"`foo` is not a valid enum value for path `gender`.\",\n      \"name\": \"ValidatorError\",\n      \"path\": \"gender\",\n      \"properties\": {\n        \"enumValues\": [\n          \"male\",\n          \"female\",\n          \"other\"\n        ],\n        \"message\": \"`{VALUE}` is not a valid enum value for path `{PATH}`.\",\n        \"path\": \"gender\",\n        \"type\": \"enum\",\n        \"value\": \"foo\"\n      },\n      \"value\": \"foo\"\n    }\n  }\n}",
-          "type": "json"
-        }
-      ]
     }
   },
   {
@@ -1478,7 +1431,7 @@
     "examples": [
       {
         "title": "Example",
-        "content": "PATCH /api/users/58b2926f5e1def0123e97bc0 HTTP/1.1\nContent-Type: application/json\n\n{\n  \"username\": \"Mikvester22\"\n}",
+        "content": "PATCH /api/users/619126a15f69d38480a2a49f HTTP/1.1\nContent-Type: application/json\n\n{\n  \"username\": \"Mikvester22\",\n  \"admin\": true\n}",
         "type": "json"
       }
     ],
@@ -1572,13 +1525,6 @@
             "optional": false,
             "field": "404/NotFound",
             "description": "<p>No User was found corresponding to the ID in the URL path</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "type": "Object",
-            "optional": false,
-            "field": "422/UnprocessableEntity",
-            "description": "<p>Some of the User's properties are invalid</p>"
           }
         ]
       },
@@ -1586,11 +1532,6 @@
         {
           "title": "404 Not Found",
           "content": "HTTP/1.1 404 Not Found\nContent-Type: text/plain\n\nNo User found with ID 58b2926f5e1def0123e97bc0",
-          "type": "json"
-        },
-        {
-          "title": "422 Unprocessable Entity",
-          "content": "HTTP/1.1 422 Unprocessable Entity\nContent-Type: application/json\n\n{\n  \"message\": \"User validation failed\",\n  \"errors\": {\n    \"gender\": {\n      \"kind\": \"enum\",\n      \"message\": \"`foo` is not a valid enum value for path `gender`.\",\n      \"name\": \"ValidatorError\",\n      \"path\": \"gender\",\n      \"properties\": {\n        \"enumValues\": [\n          \"male\",\n          \"female\",\n          \"other\"\n        ],\n        \"message\": \"`{VALUE}` is not a valid enum value for path `{PATH}`.\",\n        \"path\": \"gender\",\n        \"type\": \"enum\",\n        \"value\": \"foo\"\n      },\n      \"value\": \"foo\"\n    }\n  }\n}",
           "type": "json"
         }
       ]
