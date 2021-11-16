@@ -396,6 +396,7 @@ function checkOwnerOrAdmin(req, res, next) {
 /**
  * @apiDefine UserInResponseBody
  * @apiSuccess (Response body) {String} username The username of the User
+ * @apiSuccess (Response body) {String} itemAdd The number of items add by the User
  * @apiSuccess (Response body) {Boolean} admin Is an admin account or not
  * @apiSuccess (Response body) {String} id The unique identifier of the User
  * @apiSuccess (Response body) {Date} registrationdate The registration date of the User
