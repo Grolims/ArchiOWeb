@@ -336,7 +336,7 @@ router.post('/login', asyncHandler(async (req, res, next) => {
   };
 
   const token = jwt.sign(payload, secretKey);
-  res.send({ token: token, user });
+  res.send({ token: token, user: user });
 })
 );
 
