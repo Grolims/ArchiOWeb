@@ -146,7 +146,7 @@ router.post('/', authenticate, asyncHandler(async (req, res, next) => {
  */
 router.get('/', asyncHandler(async (req, res, next) => {
   const total = await Salepoint.count();
-  let query = Salepoint.find();
+  let query = querySalepoints(req);
 
   let page = parseInt(req.query.page, 10);
   if (isNaN(page) || page < 1) {
@@ -332,8 +332,20 @@ function querySalepoints(req) {
     query = query.where('items').equals(req.query.items);
   }
 
-  if (!isNaN(req.query.paymentMethod)) {
+  if (req.query.paymentMethod !== undefined) {
     query = query.where('paymentMethod').equals(req.query.paymentMethod);
+    console.log(`Filtered using ${req.query.paymentMethod}`)
+  }
+
+
+  if(!isNaN(req.query.lat) && !isNaN(req.query.lon)) {
+    console.log('Finding point')
+    query.where('location').near({
+      center: {
+        type: 'Point',
+        coordinates: [req.query.lat, req.query.lon]
+      },
+    })
   }
 
   return query;

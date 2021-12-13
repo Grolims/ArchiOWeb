@@ -23,6 +23,7 @@ const { broadcastMessage } = require('../messaging');
  * @apiExample Example
  *     POST /items HTTP/1.1
  *     Content-Type: application/json
+
  *
  *     {
  *       "name": "Melon",

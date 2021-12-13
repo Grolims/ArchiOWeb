@@ -20,17 +20,19 @@ const salepointSchema = new Schema({
     enum: ['Card', 'Cash', 'Twint']
   },
   geolocation: {
-  location: {
-      type: String,
-      required: true,
-      enum: [ 'Point' ]
-  },
-    coordinates: {
-      type: [ Number ],
-      required: true,
-      validate: {
-        validator: validateGeoJsonCoordinates,
-        message: '{VALUE} is not a valid longitude/latitude(/altitude) coordinates array'
+    location: {
+      type: {
+        type: String,
+        required: true,
+        enum: ['Point']
+      },
+      coordinates: {
+        type: [Number],
+        required: true,
+        validate: {
+          validator: validateGeoJsonCoordinates,
+          message: '{VALUE} is not a valid longitude/latitude(/altitude) coordinates array'
+        }
       }
     }
   },
@@ -71,6 +73,9 @@ const salepointSchema = new Schema({
   }
 });
 
+// Create a geospatial index on the location property
+salepointSchema.index({ location: '2dsphere'});
+
 /**
  * Given a user ID, ensures that it references an existing user.
  *
@@ -90,7 +95,7 @@ function validateUser(value) {
  * the "itemId" property is invalidated.
  */
 function validateItem(value) {
-  if (Array.isArray(value)){
+  if (Array.isArray(value)) {
     for (let item of value) {
       if (!ObjectId.isValid(item)) {
         throw new Error(`Item with id ${item} is invalid`)
@@ -98,6 +103,8 @@ function validateItem(value) {
     }
   }
 }
+
+
 // Validate a GeoJSON coordinates array (longitude, latitude and optional altitude).
 function validateGeoJsonCoordinates(value) {
   return Array.isArray(value) && value.length >= 2 && value.length <= 3 && isLongitude(value[0]) && isLatitude(value[1]);
@@ -110,7 +117,6 @@ function isLatitude(value) {
 function isLongitude(value) {
   return value >= -180 && value <= 180;
 }
-
 
 // Export model
 module.exports = mongoose.model('Salepoint', salepointSchema);

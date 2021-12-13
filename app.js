@@ -1,5 +1,6 @@
 const createError = require('http-errors');
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -15,6 +16,7 @@ const salepointsRouter = require('./routes/salepoints');
 mongoose.connect(config.databaseUrl);
 
 const app = express();
+app.use(cors());
 
 // Serve the apiDoc documentation.
 app.use('/apidoc', express.static(path.join(__dirname, 'docs')));
