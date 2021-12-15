@@ -47,6 +47,18 @@ const itemSchema = new Schema({
       message: props => props.reason.message
     }
   },
+  salepointId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Salepoint',
+    default: null,
+    required: true,
+    validate: {
+      // Validate that the directorId is a valid ObjectId
+      // and references an existing user
+      validator: validateSalepoint,
+      message: props => props.reason.message
+    }
+  },
   creationDate: {
     type: Date,
     default: Date.now
@@ -61,7 +73,7 @@ const itemSchema = new Schema({
  * Given a user ID, ensures that it references an existing user.
  *
  * If it's not the case or the ID is missing or not a valid object ID,
- * the "directorId" property is invalidated.
+ * the "userId" property is invalidated.
  */
 function validateUser(value) {
   if (!ObjectId.isValid(value)) {
@@ -73,6 +85,28 @@ function validateUser(value) {
   }).exec().then(user => {
     if (!user) {
       throw new Error('User not found');
+    }
+
+    return true;
+  });
+}
+
+/**
+ * Given a salepoint ID, ensures that it references an existing salepoint.
+ *
+ * If it's not the case or the ID is missing or not a valid object ID,
+ * the "salepointId" property is invalidated.
+ */
+function validateSalepoint(value) {
+  if (!ObjectId.isValid(value)) {
+    throw new Error('Salepoint not found');
+  }
+
+  return mongoose.model('Salepoint').findOne({
+    _id: ObjectId(value)
+  }).exec().then(salepoint => {
+    if (!salepoint) {
+      throw new Error('Salepoint not found');
     }
 
     return true;

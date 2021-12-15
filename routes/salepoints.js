@@ -4,7 +4,6 @@ var router = express.Router();
 const { ObjectId } = require('bson');
 const Salepoint = require('../models/salepoint');
 const User = require('../models/user');
-const Item = require('../models/item');
 const { authenticate } = require('./auth');
 const { broadcastMessage } = require('../messaging');
 
@@ -68,10 +67,6 @@ router.post('/', authenticate, asyncHandler(async (req, res, next) => {
 
   if (!exists) {
     return res.status(400).send('User ID missing or invalid')
-  }
-
-  if (req.body.items !== undefined) {
-    return res.status(400).send('Items can only be added after salepoint creation')
   }
 
   const newSalepoint = new Salepoint(req.body);
@@ -273,22 +268,6 @@ router.patch('/:id', authenticate, loadSalepointFromParamsMiddleware, checkOwner
     req.salepoint.picture = req.body.picture;
   }
 
-  if (req.body.items !== undefined) {
-    if (!Array.isArray(req.body.items)) {
-      return res.status(400).send('Invalid items structure')
-    }
-    for (let itemId of req.body.items) {
-      if (!ObjectId.isValid(itemId)) { 
-        return res.status(400).send('Invalid itemId')
-      }
-      const exists = await Item.countDocuments({ _id: itemId});
-      if (!exists) {
-        return res.status(400).send(`Item with id ${itemId} doesn't exist`)
-      }
-    }
-    req.salepoint.items = req.body.items;
-  }
-
   await req.salepoint.save();
   res.status(200).send(`Salepoint ${req.salepoint.address} has been succesfully updated!`)
 
@@ -323,13 +302,6 @@ function querySalepoints(req) {
 
   if (ObjectId.isValid(req.query.userId)) {
     query = query.where('userId').equals(req.query.userId);
-  }
-
-  if (Array.isArray(req.query.items)) {
-    const items = req.query.items(filter(ObjectId.isValid));
-    query = query.where('items').in(items);
-  } else if (ObjectId.isValid(req.query.items)) {
-    query = query.where('items').equals(req.query.items);
   }
 
   if (req.query.paymentMethod !== undefined) {

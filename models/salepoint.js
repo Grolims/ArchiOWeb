@@ -48,21 +48,6 @@ const salepointSchema = new Schema({
       message: props => props.reason.message
     }
   },
-  items: {
-    type: [Schema.Types.ObjectId],
-    ref: 'Item',
-    default: null,
-    required: false,
-    strict: false,
-    // Tries to validate non existent items
-    validate: {
-      // Validate that the itemsId is a valid ObjectId
-      // and references an existing item
-      validator: validateItem,
-      message: props => props.reason.message
-    }
-
-  },
   creationDate: {
     type: Date,
     default: Date.now

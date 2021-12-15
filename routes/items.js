@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { ObjectId } = require('bson');
 const User = require('../models/user');
+const Salepoint = require('../models/salepoint');
 const Item = require('../models/item');
 const { authenticate } = require('./auth');
 const asyncHandler = require('express-async-handler');
@@ -56,10 +57,15 @@ const { broadcastMessage } = require('../messaging');
  */
 router.post('/', authenticate, asyncHandler(async (req, res, next) => {
 
-  const exists = await User.countDocuments({ _id: req.body.userId });
+  const existsUser = await User.countDocuments({ _id: req.body.userId });
+  const existsSalepoint = await Salepoint.countDocuments({ _id: req.body.salepointId });
 
-  if (!exists) {
+  if (!existsUser) {
       return res.status(400).send('User ID missing or invalid')
+    }
+
+  if (!existsSalepoint) {
+      return res.status(400).send('Salepoint ID missing or invalid')
     }
 
     const newItem = new Item(req.body);
@@ -131,6 +137,13 @@ router.get('/', asyncHandler(async (req, res, next) => {
       query = query.where('userId').in(users);
     } else if (ObjectId.isValid(req.query.userId)) {
       query = query.where('userId').equals(req.query.userId);
+    }
+
+    if (Array.isArray(req.query.salepointId)) {
+      const salepoint = req.query.salepointId.filter(ObjectId.isValid);
+      query = query.where('salepointId').in(salepoints);
+    } else if (ObjectId.isValid(req.query.salepointId)) {
+      query = query.where('salepointId').equals(req.query.salepointId);
     }
   
     if (!isNaN(req.query.price)) {
@@ -250,27 +263,27 @@ router.get('/:id', loadItemFromParamsMiddleware, asyncHandler(async (req, res, n
  */
 router.patch('/:id', authenticate, loadItemFromParamsMiddleware, checkOwnerOrAdmin, asyncHandler(async (req, res, next) => {
 
-    if (!req.body.name !== undefined) {
+    if (req.body.name !== undefined) {
       req.item.name = req.body.name;
     }
 
-    if (!req.body.type !== undefined) {
+    if (req.body.type !== undefined) {
       req.item.type = req.body.type;
     }
 
-    if (!req.body.picture !== undefined) {
+    if (req.body.picture !== undefined) {
       req.item.picture = req.body.picture;
     }
 
-    if (!req.body.price !== undefined) {
+    if (req.body.price !== undefined) {
       req.item.price = req.body.price;
     }
 
-    if (!req.body.description !== undefined) {
+    if (req.body.description !== undefined) {
       req.item.description = req.body.description;
     }
 
-    if (!req.body.label !== undefined) {
+    if (req.body.label !== undefined) {
       req.item.label = req.body.label;
     }
 
