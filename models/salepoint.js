@@ -19,20 +19,18 @@ const salepointSchema = new Schema({
     type: String,
     enum: ['Card', 'Cash', 'Twint']
   },
-  geolocation: {
-    location: {
-      type: {
-        type: String,
-        required: true,
-        enum: ['Point']
-      },
-      coordinates: {
-        type: [Number],
-        required: true,
-        validate: {
-          validator: validateGeoJsonCoordinates,
-          message: '{VALUE} is not a valid longitude/latitude(/altitude) coordinates array'
-        }
+  location: {
+    type: {
+      type: String,
+      required: true,
+      enum: ['Point']
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
+      validate: {
+        validator: validateGeoJsonCoordinates,
+        message: '{VALUE} is not a valid longitude/latitude(/altitude) coordinates array'
       }
     }
   },
@@ -59,7 +57,9 @@ const salepointSchema = new Schema({
 });
 
 // Create a geospatial index on the location property
-salepointSchema.index({ location: '2dsphere'});
+salepointSchema.index({
+  location: '2dsphere'
+});
 
 /**
  * Given a user ID, ensures that it references an existing user.

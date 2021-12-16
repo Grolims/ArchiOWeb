@@ -315,7 +315,7 @@ function querySalepoints(req) {
     query.where('location').near({
       center: {
         type: 'Point',
-        coordinates: [req.query.lat, req.query.lon]
+        coordinates: [req.query.lon, req.query.lat]
       },
     })
   }
