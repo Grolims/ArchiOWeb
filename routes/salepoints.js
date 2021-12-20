@@ -311,7 +311,6 @@ function querySalepoints(req) {
 
 
   if(!isNaN(req.query.lat) && !isNaN(req.query.lon)) {
-    console.log('Finding point')
     query.where('location').near({
       center: {
         type: 'Point',
